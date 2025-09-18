@@ -11,28 +11,23 @@
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # theme                  : "minimal-mistakes-jekyll"
-# remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
-rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Site Title"
+title                    : "Hogwai"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Your Name"
-description              : "An amazing website."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+subtitle                 : "The Art of Software Engineering"
+name                     : "Hogwai"
+description              : "Just a seasoned java developer sharing his thoughts"
+url                      : "https://hogwai.github.io/"
+baseurl                  : "/"
+repository               : "https://github.com/Hogwai/hogwai.github.io"
+teaser                   : "/assets/images/page_icon.png" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
-breadcrumbs              : # true, false (default)
+# breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
-enable_copy_code_button  : # true, false (default)
-copyright                : # "copyright" name, defaults to site.title
-copyright_url            : # "copyright" URL, defaults to site.url
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
@@ -54,11 +49,6 @@ comments:
     discussion_term      : # "pathname" (default), "url", "title", "og:title"
     reactions_enabled    : # '1' for enabled (default), '0' for disabled
     theme                : # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
-    strict               : # 1 for enabled, 0 for disabled (default)
-    input_position       : # "top", "bottom" # The comment input box will be placed above or below the comments
-    emit_metadata        : # 1 for enabled, 0 for disabled (default) # https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#imetadatamessage
-    lang                 : # "en" (default)
-    lazy                 : # true, false # Loading of the comments will be deferred until the user scrolls near the comments container.
   staticman:
     branch               : # "master"
     endpoint             : # "https://{your Staticman v3 API}/v3/entry/github/"
@@ -68,11 +58,11 @@ reCaptcha:
 atom_feed:
   path                   : # blank (default) uses feed.xml
   hide                   : # true, false (default)
-search                   : # true, false (default)
+search                   : true # true, false (default)
 search_full_content      : # true, false (default)
-search_provider          : # lunr (default), algolia, google
+search_provider          : lunr # lunr (default), algolia, google
 lunr:
-  search_within_pages    : # true, false (default)
+  search_within_pages    : true # true, false (default)
 algolia:
   application_id         : # YOUR_APPLICATION_ID
   index_name             : # YOUR_INDEX_NAME
@@ -82,8 +72,8 @@ google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
   instant_search         : # false (default), true
 # SEO Related
-google_site_verification :
-bing_site_verification   :
+google_site_verification : 
+bing_site_verification   : 
 naver_site_verification  :
 yandex_site_verification :
 baidu_site_verification  :
@@ -105,61 +95,41 @@ social:
 
 # Analytics
 analytics:
-  provider               : # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : "google-gtag" # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          :
-    anonymize_ip         : # true, false (default)
+    tracking_id          : "G-VDPE1ENM1N"
+    anonymize_ip         : false
 
 
 # Site Author
 author:
-  name             : "Your Name"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  name             : "Hogwai"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Just a seasoned java developer sharing his thoughts"
+  location         : "France"
+  email            : "github@lw.mozmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "github@lw.mozmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      # url: "https://twitter.com/"
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url: "https://facebook.com/"
+      url: "https://hogwai.github.io"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
-
+      url: https://github.com/Hogwai/
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/lilian-wernert/"
 # Site Footer
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      # url:
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/lilian-wernert/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
-    - label: "GitLab"
-      icon: "fab fa-fw fa-gitlab"
-      # url:
-    - label: "Bitbucket"
-      icon: "fab fa-fw fa-bitbucket"
-      # url:
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url:
-  since: "2013"
+      url: https://github.com/Hogwai/
 
 
 # Reading Files
@@ -185,7 +155,6 @@ exclude:
   - gulpfile.js
   - LICENSE
   - log
-  - minimal-mistakes-jekyll.gemspec
   - node_modules
   - package.json
   - package-lock.json
@@ -229,42 +198,23 @@ sass:
 
 # Outputting
 permalink: /:categories/:title/
+paginate: 5 # amount of posts to show
+paginate_path: /page:num/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
-# Pagination with jekyll-paginate
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
-
-# Pagination with jekyll-paginate-v2
-# See https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#site-configuration
-#   for configuration details
-pagination:
-  # Set enabled to true to use paginate v2
-  # enabled: true
-  debug: false
-  collection: 'posts'
-  per_page: 10
-  permalink: '/page/:num/'
-  title: ':title - page :num'
-  limit: 0
-  sort_field: 'date'
-  sort_reverse: true
-  category: 'posts'
-  tag: ''
-  locale: ''
-  trail:
-    before: 2
-    after: 2
-
-
 # Plugins (previously gems:)
+# plugins:
+#   - jekyll-paginate
+#   - jekyll-sitemap
+#   - jekyll-gist
+#   - jekyll-feed
+#   - jekyll-include-cache
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
+  - jekyll-paginate
+  - jekyll-remote-theme
 
 # mimic GitHub Pages with --safe
 whitelist:
@@ -322,6 +272,10 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: # true
-      share: true
+      comments: false
+      share: false
       related: true
+      show_date: true
+      date_format: "%Y-%m-%d"
+      toc: true
+      toc_sticky: true
