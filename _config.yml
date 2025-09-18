@@ -17,17 +17,18 @@ minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "Hogwai"
 title_separator          : "-"
-subtitle                 : ""
+subtitle                 : "Thoughts of a java developer"
 name                     : "Hogwai"
 description              : "Just a seasoned java developer sharing his thoughts"
 url                      : "https://hogwai.github.io/"
-baseurl                  : "/"
+baseurl                  : "/blog"
 repository               : "https://github.com/Hogwai/hogwai.github.io"
 teaser                   : "/assets/images/page_icon.png" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
+enable_copy_code_button: true
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
