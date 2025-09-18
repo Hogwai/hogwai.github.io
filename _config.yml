@@ -104,13 +104,10 @@ analytics:
 # Site Author
 author:
   name             : "Hogwai"
-  avatar           : "/assets/images/avatar.png"
   bio              : "Just a seasoned java developer sharing his thoughts"
   location         : "France"
+  email            : "github@lw.mozmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "github@lw.mozmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "https://hogwai.github.io"
@@ -120,6 +117,7 @@ author:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/lilian-wernert/"
+
 # Site Footer
 footer:
   links:
@@ -271,10 +269,6 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: false
-      share: false
+      comments: true
+      share: true
       related: true
-      show_date: true
-      date_format: "%Y-%m-%d"
-      toc: true
-      toc_sticky: true
