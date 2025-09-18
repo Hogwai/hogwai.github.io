@@ -17,7 +17,7 @@ minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "Hogwai"
 title_separator          : "-"
-subtitle                 : "The Art of Software Engineering"
+subtitle                 : ""
 name                     : "Hogwai"
 description              : "Just a seasoned java developer sharing his thoughts"
 url                      : "https://hogwai.github.io/"
@@ -97,7 +97,7 @@ social:
 analytics:
   provider               : "google-gtag" # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          : "G-VDPE1ENM1N"
+    tracking_id          : ""
     anonymize_ip         : false
 
 
@@ -107,7 +107,6 @@ author:
   avatar           : "/assets/images/avatar.png"
   bio              : "Just a seasoned java developer sharing his thoughts"
   location         : "France"
-  email            : "github@lw.mozmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
