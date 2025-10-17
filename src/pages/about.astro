@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+---
+
+<BaseLayout title="À propos">
+  <Header client:load />
+  
+  <main class="flex-grow">
+    <div class="container-custom py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8">À propos</h1>
+      
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p class="text-xl text-gray-300 mb-6">
+          Bienvenue sur mon blog technique dédié au développement Java et aux technologies modernes.
+        </p>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4">Qui suis-je ?</h2>
+        <p class="text-gray-300">
+          Développeur passionné par Java, TypeScript et l'architecture logicielle.
+        </p>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4">Thématiques</h2>
+        <ul class="text-gray-300 space-y-2">
+          <li>Java et Spring Boot</li>
+          <li>Architecture et Design Patterns</li>
+          <li>TypeScript et frameworks modernes</li>
+          <li>DevOps et bonnes pratiques</li>
+        </ul>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4">Contact</h2>
+        <p class="text-gray-300">
+          N'hésitez pas à me contacter via les réseaux sociaux en bas de page.
+        </p>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</BaseLayout>

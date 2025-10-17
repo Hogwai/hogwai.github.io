@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import SearchAndFilter from '../../components/SearchAndFilter';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Posts - Tous les articles">
+  <Header client:load />
+  
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+    <div class="container-custom py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">Tous les articles</h1>
+      
+      <SearchAndFilter posts={posts} client:load />
+    </div>
+  </main>
+  
+  <Footer />
+</BaseLayout>
