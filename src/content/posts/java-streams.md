@@ -1,5 +1,5 @@
 ---
-title: 'Introduction aux Streams Java'
+title: 'Publishing test - Introduction aux Streams Java'
 description: 'Découvrez la puissance des Streams pour manipuler des collections en Java'
 pubDate: 2025-10-17
 tags: ['java', 'streams', 'functional-programming']

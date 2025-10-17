@@ -6,14 +6,16 @@ export default function Footer() {
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 dark:text-gray-400">
-            © {currentYear} Dev Blog. Tous droits réservés.
+            © {currentYear} <a href="https://github.com/Hogwai">Hogwai</a>.{' '}
+            Code licensed under <a href="/LICENSE">MIT</a>.{' '}
+            Content licensed under <a href="/CONTENT_LICENSE.md">CC BY 4.0</a>.
           </p>
           <div className="flex gap-6">
-            <a href="https://github.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/Hogwai" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
-            <a href="https://twitter.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
-              Twitter
+            <a href="https://www.linkedin.com/in/lilian-wernert/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
+              Linkedin
             </a>
             <a href="/rss.xml" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
               RSS

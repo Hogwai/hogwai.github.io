@@ -9,7 +9,7 @@ export default function Header() {
       <nav className="container-custom py-4">
         <div className="flex justify-between items-center">
           <a href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition">
-            Dev Blog
+            Hogwai Tech Blog
           </a>
           
           <div className="flex items-center gap-4">

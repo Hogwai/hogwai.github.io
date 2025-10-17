@@ -64,7 +64,7 @@ export default function SearchAndFilter({ posts }: Props) {
         <div className="relative">
           <input
             type="text"
-            placeholder="Rechercher un article..."
+            placeholder="Search a post..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
@@ -84,14 +84,14 @@ export default function SearchAndFilter({ posts }: Props) {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Filtrer par tags
+            Filter by tag
           </h3>
           {(searchQuery || selectedTags.length > 0) && (
             <button
               onClick={clearFilters}
               className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
             >
-              Réinitialiser
+              Reset
             </button>
           )}
         </div>
@@ -144,10 +144,10 @@ export default function SearchAndFilter({ posts }: Props) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Aucun article trouvé
+            No posts found
           </p>
           <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
-            Essayez de modifier vos critères de recherche
+            Try changing your search criteria
           </p>
         </div>
       )}
