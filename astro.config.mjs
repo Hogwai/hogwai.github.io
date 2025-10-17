@@ -3,7 +3,7 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://hogwai.github.io',
+  site: 'https://hogwai.github.io/tech-blog',
   base: '/tech-blog',
   integrations: [
     react(),
