@@ -15,7 +15,7 @@ export default function Footer() {
             <a href="https://twitter.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
               Twitter
             </a>
-            <a href="/tech-blog/rss.xml" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
+            <a href="/rss.xml" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
               RSS
             </a>
           </div>

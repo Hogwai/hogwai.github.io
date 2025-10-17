@@ -9,7 +9,7 @@ interface Props {
 export default function BlogCard({ title, description, pubDate, slug, tags }: Props) {
   return (
     <article className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:border-blue-500 dark:hover:border-blue-500 transition group">
-      <a href={`/tech-blog/posts/${slug}`} className="block">
+      <a href={`/posts/${slug}`} className="block">
         <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
           {title}
         </h2>

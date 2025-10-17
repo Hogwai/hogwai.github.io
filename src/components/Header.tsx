@@ -8,15 +8,15 @@ export default function Header() {
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <nav className="container-custom py-4">
         <div className="flex justify-between items-center">
-          <a href="/tech-blog/" className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition">
+          <a href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition">
             Dev Blog
           </a>
           
           <div className="flex items-center gap-4">
             <ul className="hidden md:flex gap-6">
-              <li><a href="/tech-blog/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
-              <li><a href="/tech-blog/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
-              <li><a href="/tech-blog/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
+              <li><a href="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
+              <li><a href="/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
+              <li><a href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
             </ul>
             
             <ThemeToggle />
@@ -39,9 +39,9 @@ export default function Header() {
         
         {/* Menu mobile */}
         <ul className={`${isMenuOpen ? 'flex' : 'hidden'} md:hidden flex-col gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800`}>
-          <li><a href="/tech-blog/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
-          <li><a href="/tech-blog/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
-          <li><a href="/tech-blog/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
+          <li><a href="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
+          <li><a href="/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
+          <li><a href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
         </ul>
       </nav>
     </header>
