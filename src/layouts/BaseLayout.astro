@@ -6,7 +6,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Blog technique sur Java et le développement' } = Astro.props;
+const { title, description = 'Technical blog about Java' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
