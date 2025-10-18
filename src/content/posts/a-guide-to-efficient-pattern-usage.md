@@ -97,7 +97,13 @@ By moving the compilation out of the loop, you get a massive performance improve
 
 ## Beware of Convenience: The `String` Regex Trap
 
-The Java `String` class provides several convenient methods that accept a regex: `matches()`, `split()`, `replaceAll()`, and `replaceFirst()`.
+The Java `String` class provides several convenient methods that accept a regex as a string parameter:
+
+- `matches(String regex)`
+- `split(String regex)`
+- `split(String regex, int limit)`
+- `replaceAll(String regex, String replacement)`
+- `replaceFirst(String regex, String replacement)`.
 
 While they are tempting for their simplicity, they hide a dirty secret: **every single one of these methods recompiles the regex pattern internally.**
 
@@ -121,14 +127,14 @@ If you call `"12345".matches("\\d+")` in a loop, you are recompiling the `\\d+` 
 
 ### Rule of Thumb
 
-* **For one-off, non-performance-critical operations**, using `String.matches()` is perfectly fine.
-* **For any code in a hot path, a loop, or a frequently called method (like a web request handler), you MUST use a pre-compiled `static final Pattern`.**
+- **For one-off, non-performance-critical operations**, using `String.matches()` is perfectly fine.
+- **For any code in a hot path, a loop, or a frequently called method (like a web request handler), you MUST use a pre-compiled `static final Pattern`.**
 
 ### Comparison
 
 ```java
 // Inefficient: Compiles the regex on every call
-public boolean isEmail_Inefficient(String email) {
+public boolean isEmailValid(String email) {
     return email.matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$");
 }
 
@@ -136,11 +142,17 @@ public boolean isEmail_Inefficient(String email) {
 public class EmailValidator {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    public boolean isEmail_Efficient(String email) {
+    public boolean isEmailValid(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 }
 ```
+
+### Apache Commons Lang
+
+The issue is also present in the Apache Commons Lang package:
+
+- `RegExUtils.java`<sup><a href="#ref2">[2]</a></sup>: Utility class providing methods like `replaceFirst` or `replaceAll`
 
 ## Advanced Tip
 
@@ -186,10 +198,10 @@ This approach ensures that each unique regex string is compiled only once, no ma
 
 Mastering the `java.util.regex.Pattern` class is a simple yet effective way to improve the performance and robustness of your Java applications. By following these guidelines, you can avoid common traps and write code that is both clean and fast.
 
-* **Compile Once:** Always use `Pattern.compile()` to create a reusable `Pattern` object.
-* **Store as `static final`:** For frequently used, static regex patterns, store them in a `private static final` field.
-* **Beware of `String` Methods:** Avoid `String.matches()`, `String.split()`, etc., in performance-critical code. They recompile the regex on every call.
-* **Cache Dynamic Patterns:** For regexes that are not known at compile time, use a cache (like `ConcurrentHashMap`) to store compiled patterns.
+- **Compile Once:** Always use `Pattern.compile()` to create a reusable `Pattern` object.
+- **Store as `static final`:** For frequently used, static regex patterns, store them in a `private static final` field.
+- **Beware of `String` Methods:** Avoid `String.matches()`, `String.split()`, etc., in performance-critical code. They recompile the regex on every call.
+- **Cache Dynamic Patterns:** For regexes that are not known at compile time, use a cache (like `ConcurrentHashMap`) to store compiled patterns.
 
 By making these small changes, you ensure your regular expressions are not only powerful but also performant and ready for production.
 
@@ -198,3 +210,4 @@ By making these small changes, you ensure your regular expressions are not only 
 ## References
 
 1. <a id="ref1"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
+2. <a id="ref2"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
