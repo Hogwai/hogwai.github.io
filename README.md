@@ -1,7 +1,7 @@
 # Hogwai Tech Blog
 
 ## Purpose
-The purpose of this blog is to organize my ideas, thoughts and tips on Java in a standard, readable format.
+The purpose of this blog is to gather my ideas, thoughts and tips in a standard, readable format, mainly on Java.
 
 ## Content
 - **Tutorials**: Step-by-step guides on various topics. 
