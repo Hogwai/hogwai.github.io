@@ -59,7 +59,7 @@ export default function SearchAndFilter({ posts }: Props) {
 
   return (
     <div>
-      {/* Barre de recherche */}
+      {/* Search bar */}
       <div className="mb-6">
         <div className="relative">
           <input
@@ -80,7 +80,7 @@ export default function SearchAndFilter({ posts }: Props) {
         </div>
       </div>
 
-      {/* Filtres par tags */}
+      {/* Filter by tag */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -112,14 +112,14 @@ export default function SearchAndFilter({ posts }: Props) {
         </div>
       </div>
 
-      {/* Résultats */}
+      {/* Results */}
       <div className="mb-4">
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} trouvé{filteredPosts.length !== 1 ? 's' : ''}
+          {filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''} found
         </p>
       </div>
 
-      {/* Liste des posts filtrés */}
+      {/* Filtered results */}
       {filteredPosts.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-6">
           {filteredPosts.map((post) => (
