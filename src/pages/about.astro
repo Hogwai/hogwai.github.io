@@ -4,34 +4,26 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 ---
 
-<BaseLayout title="À propos">
+<BaseLayout title="About">
   <Header client:load />
   
-  <main class="flex-grow">
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8">À propos</h1>
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">About</h1>
       
-      <div class="prose prose-invert prose-lg max-w-none">
-        <p class="text-xl text-gray-300 mb-6">
-          Bienvenue sur mon blog technique dédié au développement Java et aux technologies modernes.
+      <div class="prose prose-gray dark:prose-invert prose-lg max-w-none">
+        <p class="text-xl text-gray-700 dark:text-gray-300 mb-6">
+           Welcome to my technical blog
         </p>
         
-        <h2 class="text-2xl font-bold mt-8 mb-4">Qui suis-je ?</h2>
-        <p class="text-gray-300">
-          Développeur passionné par Java, TypeScript et l'architecture logicielle.
+        <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">Who I am ?</h2>
+        <p class="text-gray-700 dark:text-gray-300">
+          I am a seasoned developer with a passion for the java ecosystem.
         </p>
-        
-        <h2 class="text-2xl font-bold mt-8 mb-4">Thématiques</h2>
-        <ul class="text-gray-300 space-y-2">
-          <li>Java et Spring Boot</li>
-          <li>Architecture et Design Patterns</li>
-          <li>TypeScript et frameworks modernes</li>
-          <li>DevOps et bonnes pratiques</li>
-        </ul>
-        
-        <h2 class="text-2xl font-bold mt-8 mb-4">Contact</h2>
-        <p class="text-gray-300">
-          N'hésitez pas à me contacter via les réseaux sociaux en bas de page.
+      
+        <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">Contact</h2>
+        <p class="text-gray-700 dark:text-gray-300">
+          You can reach me via the social media links at the bottom of the page.
         </p>
       </div>
     </div>

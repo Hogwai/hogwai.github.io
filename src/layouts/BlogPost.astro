@@ -30,7 +30,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
         
         <div class="flex items-center gap-4 text-gray-600 dark:text-gray-400 text-sm mb-4">
           <time datetime={pubDate.toISOString()}>
-            {pubDate.toLocaleDateString('fr-FR', {
+            {pubDate.toLocaleDateString('en-GB', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -40,7 +40,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
             <>
               <span>•</span>
               <time datetime={updatedDate.toISOString()}>
-                Mis à jour le {updatedDate.toLocaleDateString('fr-FR', {
+                Mis à jour le {updatedDate.toLocaleDateString('en-GB', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'

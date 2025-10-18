@@ -7,8 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 dark:text-gray-400">
             © {currentYear} <a href="https://github.com/Hogwai">Hogwai</a>.{' '}
-            Code licensed under <a href="/LICENSE">MIT</a>.{' '}
-            Content licensed under <a href="/CONTENT_LICENSE">CC BY 4.0</a>.
+            Content licensed under the <a href="/LICENSE">MIT license</a>.{' '}
           </p>
           <div className="flex gap-6">
             <a href="https://github.com/Hogwai" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">

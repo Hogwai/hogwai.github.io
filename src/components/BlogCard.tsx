@@ -14,7 +14,7 @@ export default function BlogCard({ title, description, pubDate, slug, tags }: Pr
           {title}
         </h2>
         <time className="text-sm text-gray-600 dark:text-gray-400 mb-3 block">
-          {pubDate.toLocaleDateString('fr-FR', {
+          {pubDate.toLocaleDateString('en-GB', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
