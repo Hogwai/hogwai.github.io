@@ -55,6 +55,12 @@ public class RegexExample {
 
 The most common mistake is putting `Pattern.compile()` inside a loop or a frequently called method. This forces the JVM to recompile the same regex over and over again, leading to a significant performance hit.
 
+Calling `Pattern.compile()` has a multi-dimensional performance cost:
+
+- CPU: Compiling a regular expression (e.g. translating a textual regular expression into an internal bytecode structure) is computationally expensive and may consume significant CPU resources, especially if the regex is complex.
+- Memory: A compiled Pattern is one of the most memory-intensive Java objects<sup><a href="#ref1">[1]</a></sup>.
+- Garbage Collection: Frequently creating and discarding Pattern instances increases pressure on the garbage collector, as these heavy objects must be reclaimed, potentially triggering more frequent or longer GC cycles.
+
 ### The Wrong Way (Inefficient)
 
 ```java
@@ -107,7 +113,7 @@ The Java `String` class provides several convenient methods that accept a regex 
 
 While they are tempting for their simplicity, they hide a dirty secret: **every single one of these methods recompiles the regex pattern internally.**
 
-As stated in the javadoc<sup><a href="#ref1">[1]</a></sup>:
+As stated in the javadoc<sup><a href="#ref2">[2]</a></sup>:
 > An invocation of this method of the form str.matches(regex) yields exactly the same result as the expression
 Pattern.matches(regex, str)
 
@@ -152,7 +158,7 @@ public class EmailValidator {
 
 The issue is also present in the Apache Commons Lang package:
 
-- `RegExUtils.java`<sup><a href="#ref2">[2]</a></sup>: Utility class providing methods like `replaceFirst` or `replaceAll`
+- `RegExUtils.java`<sup><a href="#ref3">[3]</a></sup>: Utility class providing methods like `replaceFirst` or `replaceAll`
 
 ## Advanced Tip
 
@@ -209,5 +215,6 @@ By making these small changes, you ensure your regular expressions are not only 
 
 ## References
 
-1. <a id="ref1"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
-2. <a id="ref2"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+1. <a id="ref2"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
+2. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
