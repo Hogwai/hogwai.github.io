@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -21,21 +21,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <title>{title}</title>
     <meta name="description" content={description} />
-
+    
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
-
+    
+    <link rel="alternate" type="application/rss+xml" title="Hogwai Tech Blog RSS Feed" href="/rss.xml" />
+    
     <script is:inline>
-      const theme =
-        localStorage.getItem("theme") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
-      document.documentElement.classList.toggle("dark", theme === "dark");
+      const theme = localStorage.getItem('theme') || 
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', theme === 'dark');
     </script>
-
+    
     <style is:global>
       html {
         scroll-padding-top: 5rem;
