@@ -16,6 +16,7 @@ export default function Header() {
             <ul className="hidden md:flex gap-6">
               <li><a href="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
               <li><a href="/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
+              <li><a href="/projects" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Projects</a></li>
               <li><a href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
             </ul>
             
@@ -41,6 +42,7 @@ export default function Header() {
         <ul className={`${isMenuOpen ? 'flex' : 'hidden'} md:hidden flex-col gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800`}>
           <li><a href="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Home</a></li>
           <li><a href="/posts" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Posts</a></li>
+          <li><a href="/projects" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Projects</a></li>
           <li><a href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">About</a></li>
         </ul>
       </nav>

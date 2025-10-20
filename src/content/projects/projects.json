@@ -1,0 +1,64 @@
+[
+    {
+        "title": "Linkedin Sponsor Block",
+        "description":"Userscript that hides promoted content on Linkedin. Also available as browser extension",
+        "technologies": ["JavaScript", "HTML"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/LinkedinSponsorBlock",
+                "type": "github"
+            },
+            {
+                "label": "Userscript",
+                "url": "https://greasyfork.org/fr/scripts/546877-linkedin-sponsor-block",
+                "type": "userscript"
+            },
+
+            {
+                "label": "Firefox",
+                "url": "https://addons.mozilla.org/fr/firefox/addon/linkedin-sponsor-block/",
+                "type": "firefox"
+            },
+            {
+                "label": "Chrome",
+                "url": "https://chromewebstore.google.com/detail/linkedin-sponsor-block/dmgglmnbmokkdocpamjkcgjfjceoocbh",
+                "type": "chrome"
+            }
+        ]
+    },
+    {
+        "title": "Snippet Manager",
+        "description": "Web app that lets you save snippets of text, code etc...",
+        "technologies": ["TypeScript", "Next.js", "React", "Tailwind CSS"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/snippet-manager",
+                "type": "github"
+            },
+            {
+                "label": "Web",
+                "url": "https://hogwai.github.io/snippet-manager/",
+                "type": "web"
+            }
+        ]
+    },
+    {
+        "title": "Sismo Graph",
+        "description": "A reactJS app allowing to visualize sismic events that happened all over the world",
+        "technologies": ["React", "TypeScript", "Leaflet.js", "Zustand", "reactstrap", "USGS API"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/sismo-graph",
+                "type": "github"
+            },
+            {
+                "label": "Web",
+                "url": "https://hogwai.github.io/sismo-graph/",
+                "type": "web"
+            }
+        ]
+    }
+]
