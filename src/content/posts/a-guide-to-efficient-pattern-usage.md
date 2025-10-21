@@ -218,3 +218,7 @@ By making these small changes, you ensure your regular expressions are not only 
 1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 1. <a id="ref2"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
 2. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+
+## Demo
+
+A showcase of the concepts illustrated in this post is available here: [regex-performance-benchmark](https://github.com/Hogwai/hogwai.github.io-content/tree/main/regex-performance-benchmark)
