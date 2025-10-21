@@ -1,0 +1,70 @@
+---
+title: 'Maven goals cheat sheet'
+description: 'Finding a Maven goal has never been easier'
+pubDate: 2025-10-22
+tags: ['java', 'maven', 'cheat-sheet']
+draft: false
+---
+import MavenGoalsSearch from '../../components/MavenGoalsSearch.tsx'
+
+<MavenGoalsSearch client:load />
+
+---
+
+## Understanding Goal Chains
+
+When you run a Maven command like `mvn package`, Maven doesn't only execute that goal, it runs every phase leading up to it, in sequence.
+
+| Command       | Implicit Phases (executed in order)                 |
+| -------------- | --------------------------------------------------- |
+| `mvn compile`  | `validate → compile`                                |
+| `mvn test`     | `validate → compile → test`                         |
+| `mvn package`  | `validate → compile → test → package`               |
+| `mvn install`  | `validate → compile → test → package → install`     |
+| `mvn deploy`   | `validate → compile → test → package → install → deploy` |
+| `mvn verify`   | `validate → compile → test → verify`                |
+
+Each phase is bound by default to one or more plugin goals.  
+Example:  
+`compile` → `compiler:compile`  
+`package` → `jar:jar` or `war:war` (depending on packaging type).
+
+---
+
+## Diagnostic & Helper Commands
+
+| Command | Description | Example Output |
+| -------- | ------------ | -------------- |
+| `mvn help:effective-pom` | Displays the full merged POM (parent + profiles + defaults). | Useful to debug inheritance issues |
+| `mvn help:describe -Dcmd=compile` | Shows which plugin and goal are bound to `compile`. | Reveals `compiler:compile` mapping |
+| `mvn help:describe -Dplugin=compiler` | Lists all available goals for a given plugin. | `compiler:compile`, `compiler:testCompile` |
+| `mvn dependency:tree` | Displays dependency hierarchy and conflicts. | `A:1.0 → B:2.0 → C:3.1` |
+| `mvn -X` | Runs in debug mode, showing plugin binding and lifecycle execution. | Great for build troubleshooting |
+
+---
+
+## Custom Goal Bindings
+
+You can attach plugin goals to different phases in your `pom.xml`:
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-antrun-plugin</artifactId>
+  <executions>
+    <execution>
+      <phase>generate-sources</phase>
+      <goals>
+        <goal>run</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+```
+
+## References
+
+* [Introduction to the Build Lifecycle](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+* [Default Lifecycle Bindings Reference](https://maven.apache.org/ref/current/maven-core/lifecycles.html)
+* [Help Plugin](https://maven.apache.org/plugins/maven-help-plugin/)
+* [Apache Maven Plugins Index](https://maven.apache.org/plugins/index.html)

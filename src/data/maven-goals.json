@@ -1,0 +1,142 @@
+[
+  {
+    "goal": "clean:clean",
+    "phase": "clean",
+    "description": "Deletes the target directory and all generated build artifacts.",
+    "example": "mvn clean",
+    "link": "https://maven.apache.org/plugins/maven-clean-plugin/"
+  },
+  {
+    "goal": "compiler:compile",
+    "phase": "compile",
+    "description": "Compiles the main Java source files.",
+    "example": "mvn compile",
+    "link": "https://maven.apache.org/plugins/maven-compiler-plugin/"
+  },
+  {
+    "goal": "resources:resources",
+    "phase": "resources",
+    "description": "Copies main resources to the output directory.",
+    "example": "mvn resources:resources",
+    "link": "https://maven.apache.org/plugins/maven-resources-plugin/"
+  },
+  {
+    "goal": "compiler:testCompile",
+    "phase": "test-compile",
+    "description": "Compiles the test Java source files.",
+    "example": "mvn test-compile",
+    "link": "https://maven.apache.org/plugins/maven-compiler-plugin/"
+  },
+  {
+    "goal": "surefire:test",
+    "phase": "test",
+    "description": "Runs unit tests using JUnit or TestNG.",
+    "example": "mvn test",
+    "link": "https://maven.apache.org/surefire/maven-surefire-plugin/"
+  },
+  {
+    "goal": "jar:jar",
+    "phase": "package",
+    "description": "Packages the compiled code into a JAR file.",
+    "example": "mvn package",
+    "link": "https://maven.apache.org/plugins/maven-jar-plugin/"
+  },
+  {
+    "goal": "install:install",
+    "phase": "install",
+    "description": "Installs the package into the local repository.",
+    "example": "mvn install",
+    "link": "https://maven.apache.org/plugins/maven-install-plugin/"
+  },
+  {
+    "goal": "deploy:deploy",
+    "phase": "deploy",
+    "description": "Deploys the package to a remote repository.",
+    "example": "mvn deploy",
+    "link": "https://maven.apache.org/plugins/maven-deploy-plugin/"
+  },
+  {
+    "goal": "site:site",
+    "phase": "site",
+    "description": "Generates a project site documentation.",
+    "example": "mvn site",
+    "link": "https://maven.apache.org/plugins/maven-site-plugin/"
+  },
+  {
+    "goal": "failsafe:integration-test",
+    "phase": "integration-test",
+    "description": "Runs integration tests using JUnit or TestNG.",
+    "example": "mvn verify",
+    "link": "https://maven.apache.org/surefire/maven-failsafe-plugin/"
+  },
+  {
+    "goal": "exec:java",
+    "phase": "none",
+    "description": "Executes a Java class in the current project.",
+    "example": "mvn exec:java -Dexec.mainClass=\"com.example.Main\"",
+    "link": "https://www.mojohaus.org/exec-maven-plugin/"
+  },
+  {
+    "goal": "dependency:resolve",
+    "phase": "none",
+    "description": "Resolves all dependencies in the project.",
+    "example": "mvn dependency:resolve",
+    "link": "https://maven.apache.org/plugins/maven-dependency-plugin/"
+  },
+  {
+    "goal": "dependency:tree",
+    "phase": "none",
+    "description": "Displays the dependency tree for the project.",
+    "example": "mvn dependency:tree",
+    "link": "https://maven.apache.org/plugins/maven-dependency-plugin/"
+  },
+  {
+    "goal": "release:prepare",
+    "phase": "none",
+    "description": "Prepares a project release.",
+    "example": "mvn release:prepare",
+    "link": "https://maven.apache.org/maven-release/maven-release-plugin/"
+  },
+  {
+    "goal": "release:perform",
+    "phase": "none",
+    "description": "Performs a project release.",
+    "example": "mvn release:perform",
+    "link": "https://maven.apache.org/maven-release/maven-release-plugin/"
+  },
+  {
+    "goal": "spring-boot:run",
+    "phase": "validate",
+    "description": "Runs your Spring Boot application in place.",
+    "example": "mvn spring-boot:run",
+    "link": "https://docs.spring.io/spring-boot/maven-plugin/run.html#run"
+  },
+  {
+    "goal": "spring-boot:repackage",
+    "phase": "package",
+    "description": "Repackages the JAR/WAR archive to make it executable by embedding a Spring Boot loader.",
+    "example": "mvn package",
+    "link": "https://docs.spring.io/spring-boot/maven-plugin/packaging.html#packaging.repackage-goal"
+  },
+  {
+    "goal": "spring-boot:build-image",
+    "phase": "package",
+    "description": "Packages the application into an OCI image using Buildpacks.",
+    "example": "mvn spring-boot:build-image",
+    "link": "https://docs.spring.io/spring-boot/maven-plugin/build-image.html#build-image"
+  },
+  {
+    "goal": "spring-boot:process-aot",
+    "phase": "process-classes",
+    "description": "Performs Ahead-of-Time (AOT) processing on the application code to optimize startup and memory usage.",
+    "example": "mvn spring-boot:process-aot",
+    "link": "https://docs.spring.io/spring-boot/maven-plugin/aot.html#aot.process-aot-goal"
+  },
+  {
+    "goal": "spring-boot:process-test-aot",
+    "phase": "process-test-classes",
+    "description": "Performs Ahead-of-Time (AOT) processing on test code.",
+    "example": "mvn spring-boot:process-test-aot",
+    "link": "https://docs.spring.io/spring-boot/maven-plugin/aot.html#aot.process-test-aot-goal"
+  }
+]
