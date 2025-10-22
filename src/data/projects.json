@@ -30,7 +30,7 @@
     {
         "title": "Snippet Manager",
         "description": "Web app that lets you save snippets of text, code etc...",
-        "technologies": ["TypeScript", "Next.js", "React", "Tailwind CSS"],
+        "technologies": ["TypeScript", "Next.js", "React", "Tailwind CSS", "Tauri", "Rust"],
         "links": [
             {
                 "label": "Source",
@@ -41,6 +41,11 @@
                 "label": "Web",
                 "url": "https://hogwai.github.io/snippet-manager/",
                 "type": "web"
+            },
+            {
+                "label": "Windows",
+                "url": "https://github.com/Hogwai/snippet-manager/releases/",
+                "type": "windows"
             }
         ]
     },
