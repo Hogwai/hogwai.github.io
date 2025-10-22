@@ -19,7 +19,7 @@ export default function SearchAndFilter({ posts }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Extraire tous les tags uniques
+
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     posts.forEach(post => {
@@ -28,15 +28,15 @@ export default function SearchAndFilter({ posts }: Props) {
     return Array.from(tagSet).sort();
   }, [posts]);
 
-  // Filtrer les posts
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
-      // Filtre par recherche
-      const matchesSearch = searchQuery === '' || 
-        post.data.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.data.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const normalizedSearch = searchQuery.trim().toLowerCase();
 
-      // Filtre par tags
+      const matchesSearch = searchQuery === '' || 
+        post.data.title.toLowerCase().includes(normalizedSearch) ||
+        post.data.description.toLowerCase().includes(normalizedSearch) || 
+        post.data.tags.some(tag => tag.toLowerCase().includes(normalizedSearch));
+
       const matchesTags = selectedTags.length === 0 || 
         selectedTags.every(tag => post.data.tags.includes(tag));
 
