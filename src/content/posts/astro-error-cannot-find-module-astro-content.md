@@ -1,7 +1,7 @@
 ---
 title: | 
   Astro: Solving the error "Cannot find module 'astro:content' or its corresponding type declarations.ts(2307)"
-description: 'Steps to solve the error "Cannot find module astro:content or its corresponding type declarations.ts(2307)" when using Astro and Typscript'
+description: 'Steps to solve the error "Cannot find module astro:content or its corresponding type declarations.ts(2307)" when using Astro and Typescript'
 pubDate: 2025-10-18
 tags: ['astro', 'setup', 'error', 'typescript']
 draft: false
