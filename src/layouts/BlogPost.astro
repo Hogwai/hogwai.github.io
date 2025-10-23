@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TableOfContents from '../components/TableOfContents';
+import BackToTop from '../components/BackToTop';
 import { type CollectionEntry } from 'astro:content';
 
 type Props = CollectionEntry<'posts'>['data'] & {
@@ -75,5 +76,6 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
     </article>
   </main>
   
+  <BackToTop client:load />
   <Footer />
 </BaseLayout>

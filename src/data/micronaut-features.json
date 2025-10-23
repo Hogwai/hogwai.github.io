@@ -1,0 +1,1904 @@
+[
+  {
+    "feature": "jdbc-ucp",
+    "type": "Database (JDBC)",
+    "description": "Adds Oracle's Universal Connection Pool (UCP).",
+    "details": "Optimized for Oracle databases."
+  },
+  {
+    "feature": "jdbc-dbcp",
+    "type": "Database (JDBC)",
+    "description": "Adds Apache Commons DBCP as a JDBC connection pool.",
+    "details": "A legacy but stable connection pool option."
+  },
+  {
+    "feature": "jdbc-hikari",
+    "type": "Database (JDBC)",
+    "description": "Adds HikariCP, a high-performance JDBC connection pool.",
+    "details": "Recommended and default connection pool."
+  },
+  {
+    "feature": "jdbc-tomcat",
+    "type": "Database (JDBC)",
+    "description": "Adds the Tomcat JDBC connection pool.",
+    "details": "Solid choice, especially if you are familiar with Tomcat."
+  },
+  {
+    "feature": "data-r2dbc",
+    "type": "Database (Reactive)",
+    "description": "Adds a repository abstraction on top of R2DBC.",
+    "details": "Similar to Spring Data R2DBC."
+  },
+  {
+    "feature": "data-azure-cosmos",
+    "type": "Database (NoSQL)",
+    "description": "Adds repository support for Azure Cosmos DB.",
+    "details": "For Microsoft's multi-model NoSQL database."
+  },
+  {
+    "feature": "spring-data-jdbc",
+    "type": "Database (JDBC)",
+    "description": "Provides compatibility with Spring Data JDBC.",
+    "details": "Helps with migrating from Spring."
+  },
+  {
+    "feature": "micrometer-influx",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with InfluxDB for metrics.",
+    "details": "For sending application metrics to an InfluxDB time-series database."
+  },
+  {
+    "feature": "tracing-opentelemetry-gcp",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces to Google Cloud Trace.",
+    "details": "For distributed tracing on Google Cloud Platform."
+  },
+  {
+    "feature": "langchain4j-store-pgvector",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with `pgvector` for vector storage using LangChain4j.",
+    "details": "For AI applications using PostgreSQL as a vector database."
+  },
+  {
+    "feature": "kubernetes",
+    "type": "Orchestration (K8s)",
+    "description": "Provides core support for Kubernetes.",
+    "details": "The base for other Kubernetes-related features."
+  },
+  {
+    "feature": "micrometer-atlas",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Netflix Atlas.",
+    "details": "For sending metrics to the Atlas metrics backend."
+  },
+  {
+    "feature": "email-javamail",
+    "type": "Email",
+    "description": "Integrates JavaMail for sending emails.",
+    "details": "The standard Java API for email."
+  },
+  {
+    "feature": "tracing-opentelemetry-jaeger",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces to Jaeger.",
+    "details": "For distributed tracing with Jaeger."
+  },
+  {
+    "feature": "kotlin-extension-functions",
+    "type": "Language (Kotlin)",
+    "description": "Adds support for Kotlin extension functions in DI.",
+    "details": "Allows injecting extension functions."
+  },
+  {
+    "feature": "liquibase",
+    "type": "Database (Migration)",
+    "description": "Integrates Liquibase for database schema management.",
+    "details": "Tracks, version, and apply database changes."
+  },
+  {
+    "feature": "guice",
+    "type": "DI",
+    "description": "Integrates Google Guice as a dependency injection container.",
+    "details": "An alternative to Micronaut's built-in DI system."
+  },
+  {
+    "feature": "graalvm",
+    "type": "Build",
+    "description": "Adds support for GraalVM native image compilation.",
+    "details": "For creating standalone executables with fast startup and low memory."
+  },
+  {
+    "feature": "microstream-cache",
+    "type": "Cache",
+    "description": "Integrates MicroStream (EclipseStore) as a caching backend.",
+    "details": "Uses a pure Java object graph persistence engine for caching."
+  },
+  {
+    "feature": "mongo-reactive",
+    "type": "Database (NoSQL)",
+    "description": "Adds the reactive driver for MongoDB.",
+    "details": "For non-blocking operations with MongoDB."
+  },
+  {
+    "feature": "azure-cosmos-db",
+    "type": "Database (NoSQL)",
+    "description": "Adds the core client for Azure Cosmos DB.",
+    "details": "Low-level integration with Azure's NoSQL service."
+  },
+  {
+    "feature": "aws-lambda-events-serde",
+    "type": "Cloud (AWS)",
+    "description": "Adds serialization/deserialization for AWS Lambda events.",
+    "details": "For handling Lambda trigger events (API Gateway, S3, etc.)."
+  },
+  {
+    "feature": "dekorate-jaeger",
+    "type": "Orchestration",
+    "description": "Generates Jaeger configuration using Dekorate.",
+    "details": "Automates tracing setup for Kubernetes deployments."
+  },
+  {
+    "feature": "micrometer-datadog",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Datadog.",
+    "details": "For sending metrics to the Datadog monitoring platform."
+  },
+  {
+    "feature": "tomcat-server",
+    "type": "Server",
+    "description": "Uses Tomcat as the embedded server.",
+    "details": "An alternative to the default Netty server."
+  },
+  {
+    "feature": "amazon-cognito",
+    "type": "Security",
+    "description": "Integrates with Amazon Cognito for user authentication.",
+    "details": "For securing applications using AWS's user pool service."
+  },
+  {
+    "feature": "redoc",
+    "type": "API (Documentation)",
+    "description": "Integrates ReDoc for API documentation.",
+    "details": "Generates a modern, interactive API documentation UI from OpenAPI specs."
+  },
+  {
+    "feature": "management",
+    "type": "Management",
+    "description": "Adds management endpoints for the application.",
+    "details": "Similar to Spring Boot Actuator, for health checks, metrics, etc."
+  },
+  {
+    "feature": "chatbots-telegram-http",
+    "type": "API (Chatbots)",
+    "description": "Adds support for building Telegram chatbots.",
+    "details": "Handles HTTP interactions with the Telegram Bot API."
+  },
+  {
+    "feature": "discovery-client",
+    "type": "Discovery",
+    "description": "Provides the core service discovery client.",
+    "details": "The base for other service discovery implementations."
+  },
+  {
+    "feature": "github-workflow-google-cloud-run-graalvm",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Google Cloud Run (GraalVM).",
+    "details": "For building and deploying native images to GCP Cloud Run."
+  },
+  {
+    "feature": "ksp",
+    "type": "Language (Kotlin)",
+    "description": "Adds support for Kotlin Symbol Processing (KSP).",
+    "details": "A faster alternative to KAPT for annotation processing."
+  },
+  {
+    "feature": "aws-lambda",
+    "type": "Serverless (AWS)",
+    "description": "Adds support for creating AWS Lambda functions.",
+    "details": "The base dependency for deploying to AWS Lambda."
+  },
+  {
+    "feature": "hamcrest",
+    "type": "Testing",
+    "description": "Integrates Hamcrest for matcher-based assertions.",
+    "details": "A library of matcher objects for writing flexible tests."
+  },
+  {
+    "feature": "cache-caffeine",
+    "type": "Cache",
+    "description": "Integrates Caffeine, a high-performance Java caching library.",
+    "details": "The recommended choice for an in-memory cache."
+  },
+  {
+    "feature": "micrometer-cloudwatch",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Amazon CloudWatch.",
+    "details": "For sending metrics to AWS CloudWatch."
+  },
+  {
+    "feature": "jobrunr-jobrunr",
+    "type": "Background Jobs",
+    "description": "Integrates JobRunr for background job processing.",
+    "details": "For scheduling and executing asynchronous tasks."
+  },
+  {
+    "feature": "cassandra",
+    "type": "Database (NoSQL)",
+    "description": "Integrates with Apache Cassandra.",
+    "details": "For a distributed, high-availability NoSQL database."
+  },
+  {
+    "feature": "multi-tenancy",
+    "type": "Architecture",
+    "description": "Provides support for multi-tenant applications.",
+    "details": "Allows a single application instance to serve multiple tenants."
+  },
+  {
+    "feature": "tracing-opentelemetry-zipkin",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces to Zipkin.",
+    "details": "For distributed tracing with Zipkin."
+  },
+  {
+    "feature": "gcp-secrets-manager",
+    "type": "Cloud (Secrets)",
+    "description": "Integrates with Google Cloud Secret Manager.",
+    "details": "For managing secrets on Google Cloud Platform."
+  },
+  {
+    "feature": "dekorate-prometheus",
+    "type": "Orchestration",
+    "description": "Generates Prometheus scraping configuration using Dekorate.",
+    "details": "Automates monitoring setup for Kubernetes deployments."
+  },
+  {
+    "feature": "gitlab-workflow-ci",
+    "type": "CI/CD",
+    "description": "Generates a GitLab CI/CD pipeline configuration.",
+    "details": "For building and deploying using GitLab CI."
+  },
+  {
+    "feature": "mqtt",
+    "type": "Messaging",
+    "description": "Provides core support for the MQTT protocol.",
+    "details": "For lightweight messaging, often in IoT scenarios."
+  },
+  {
+    "feature": "dekorate-servicecatalog",
+    "type": "Orchestration",
+    "description": "Generates Service Catalog resources using Dekorate.",
+    "details": "For provisioning cloud services via Kubernetes."
+  },
+  {
+    "feature": "jms-activemq-classic",
+    "type": "Messaging",
+    "description": "Integrates with classic ActiveMQ via JMS.",
+    "details": "A traditional and widely-used message broker."
+  },
+  {
+    "feature": "awaitility",
+    "type": "Testing",
+    "description": "Integrates Awaitility.",
+    "details": "For testing asynchronous code by waiting for conditions."
+  },
+  {
+    "feature": "cache-infinispan",
+    "type": "Cache",
+    "description": "Integrates Infinispan.",
+    "details": "A high-performance, distributed in-memory data grid."
+  },
+  {
+    "feature": "github-workflow-ci",
+    "type": "CI/CD",
+    "description": "Generates a generic GitHub Actions CI workflow.",
+    "details": "For building and testing a project on GitHub."
+  },
+  {
+    "feature": "json-schema",
+    "type": "API",
+    "description": "Adds support for JSON Schema validation.",
+    "details": "For validating API request/response payloads."
+  },
+  {
+    "feature": "graalpy",
+    "type": "Build",
+    "description": "Adds support for Python with GraalPy in native images.",
+    "details": "For embedding a Python interpreter in a native image."
+  },
+  {
+    "feature": "test-netty-leak",
+    "type": "Testing",
+    "description": "Enables Netty leak detection in tests.",
+    "details": "Helps find resource leaks during development."
+  },
+  {
+    "feature": "mcp-client-langchain4j",
+    "type": "AI (MCP)",
+    "description": "Adds a LangChain4j client for the Model Context Protocol.",
+    "details": "For connecting to LLMs that support the MCP standard."
+  },
+  {
+    "feature": "langchain4j-store-qdrant",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with Qdrant for vector storage.",
+    "details": "For AI applications using Qdrant as a vector database."
+  },
+  {
+    "feature": "dynamodb",
+    "type": "Database (NoSQL)",
+    "description": "Integrates with Amazon DynamoDB.",
+    "details": "For using AWS's NoSQL key-value and document database."
+  },
+  {
+    "feature": "oracle-cloud-logging",
+    "type": "Logging",
+    "description": "Integrates with Oracle Cloud Logging.",
+    "details": "For sending logs to Oracle Cloud Infrastructure."
+  },
+  {
+    "feature": "object-storage-gcp",
+    "type": "Cloud (Storage)",
+    "description": "Integrates with Google Cloud Storage.",
+    "details": "For storing files in Google Cloud Platform."
+  },
+  {
+    "feature": "oracle-cloud-atp",
+    "type": "Database (Cloud)",
+    "description": "Adds support for Oracle Autonomous Transaction Processing (ATP).",
+    "details": "A cloud-native, self-driving database from Oracle Cloud."
+  },
+  {
+    "feature": "r2dbc",
+    "type": "Database (Reactive)",
+    "description": "Provides core support for Reactive Relational Database Connectivity (R2DBC).",
+    "details": "Enables non-blocking database access."
+  },
+  {
+    "feature": "micronaut-aot",
+    "type": "Build",
+    "description": "Adds support for Micronaut Ahead-of-Time (AOT) optimizations.",
+    "details": "For improving startup time and memory consumption."
+  },
+  {
+    "feature": "tracing-opentelemetry-xray",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces to AWS X-Ray.",
+    "details": "For distributed tracing on AWS."
+  },
+  {
+    "feature": "netflix-ribbon",
+    "type": "Discovery",
+    "description": "Integrates Netflix Ribbon for client-side load balancing.",
+    "details": "A legacy solution; consider using service mesh or cloud LBs."
+  },
+  {
+    "feature": "langchain4j-vertexai",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Google's Vertex AI models using LangChain4j.",
+    "details": "For using various models on Google's Vertex AI platform."
+  },
+  {
+    "feature": "junit-params",
+    "type": "Testing",
+    "description": "Integrates JUnit-Params for parameterized tests.",
+    "details": "A JUnit 4 extension for running tests with different parameters."
+  },
+  {
+    "feature": "email-sendgrid",
+    "type": "Email",
+    "description": "Integrates with the SendGrid email service.",
+    "details": "For sending emails via the SendGrid API."
+  },
+  {
+    "feature": "spring-boot",
+    "type": "Interoperability",
+    "description": "Provides compatibility with Spring Boot.",
+    "details": "Helps in migrating from or running alongside Spring Boot."
+  },
+  {
+    "feature": "kafka-streams",
+    "type": "Messaging",
+    "description": "Adds support for Kafka Streams.",
+    "details": "For building real-time streaming applications."
+  },
+  {
+    "feature": "micrometer-annotation",
+    "type": "Observability (Metrics)",
+    "description": "Adds support for Micrometer's `@Timed` and `@Counted` annotations.",
+    "details": "For instrumenting methods for metrics collection."
+  },
+  {
+    "feature": "object-storage-oracle-cloud",
+    "type": "Cloud (Storage)",
+    "description": "Integrates with Oracle Cloud Object Storage.",
+    "details": "For storing files in Oracle Cloud Infrastructure (OCI)."
+  },
+  {
+    "feature": "graphql",
+    "type": "API (GraphQL)",
+    "description": "Adds support for building GraphQL APIs.",
+    "details": "An alternative to REST for flexible data queries."
+  },
+  {
+    "feature": "langchain4j-hugging-face",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Hugging Face models using LangChain4j.",
+    "details": "For using a wide range of open-source models."
+  },
+  {
+    "feature": "rxjava3",
+    "type": "Reactive",
+    "description": "Integrates RxJava 3.",
+    "details": "A popular library for composing asynchronous programs."
+  },
+  {
+    "feature": "kubernetes-informer",
+    "type": "Orchestration (K8s)",
+    "description": "Provides a Kubernetes Informer client.",
+    "details": "For efficiently watching for changes to Kubernetes resources."
+  },
+  {
+    "feature": "object-storage-azure",
+    "type": "Cloud (Storage)",
+    "description": "Integrates with Azure Blob Storage.",
+    "details": "For storing files in Microsoft Azure."
+  },
+  {
+    "feature": "coherence-data",
+    "type": "Database (NoSQL)",
+    "description": "Adds repository support for Oracle Coherence.",
+    "details": "For using Coherence as a data store."
+  },
+  {
+    "feature": "github-workflow-azure-container-instance-graalvm",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Azure Container Instances (GraalVM).",
+    "details": "For deploying native images to ACI."
+  },
+  {
+    "feature": "config-kubernetes",
+    "type": "Config",
+    "description": "Enables loading configuration from Kubernetes ConfigMaps/Secrets.",
+    "details": "For externalizing configuration in a Kubernetes environment."
+  },
+  {
+    "feature": "jakarta-data",
+    "type": "Database (Standard)",
+    "description": "Provides support for the Jakarta Data API.",
+    "details": "A new standard for repository abstractions."
+  },
+  {
+    "feature": "postgres",
+    "type": "Database (Driver)",
+    "description": "Includes the PostgreSQL JDBC driver.",
+    "details": "Required to connect to a PostgreSQL database."
+  },
+  {
+    "feature": "buildless",
+    "type": "Build",
+    "description": "Enables running the application without an explicit build step.",
+    "details": "For faster startup during development."
+  },
+  {
+    "feature": "kafka",
+    "type": "Messaging",
+    "description": "Integrates with Apache Kafka.",
+    "details": "For high-throughput, distributed event streaming."
+  },
+  {
+    "feature": "security-csrf",
+    "type": "Security",
+    "description": "Adds protection against Cross-Site Request Forgery (CSRF).",
+    "details": "Important for securing state-changing web requests."
+  },
+  {
+    "feature": "google-cloud-function",
+    "type": "Serverless (GCP)",
+    "description": "Adds support for Google Cloud Functions.",
+    "details": "For deploying serverless functions to Google Cloud."
+  },
+  {
+    "feature": "micrometer-ganglia",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Ganglia.",
+    "details": "For sending metrics to a Ganglia monitoring system."
+  },
+  {
+    "feature": "groovy-xml",
+    "type": "Language (Groovy)",
+    "description": "Enhances Groovy's XML support (Groovy's `XmlParser`).",
+    "details": "Provides a convenient way to work with XML in Groovy."
+  },
+  {
+    "feature": "rxjava2",
+    "type": "Reactive",
+    "description": "Integrates RxJava 2.",
+    "details": "An older but still widely used version of RxJava."
+  },
+  {
+    "feature": "data-spring-jdbc",
+    "type": "Database (JDBC)",
+    "description": "Provides compatibility with Spring Data JDBC abstractions.",
+    "details": "Eases migration from Spring."
+  },
+  {
+    "feature": "aws-lambda-custom-runtime",
+    "type": "Serverless (AWS)",
+    "description": "Adds support for AWS Lambda custom runtimes.",
+    "details": "For running non-Java runtimes on AWS Lambda with Micronaut."
+  },
+  {
+    "feature": "undertow-server",
+    "type": "Server",
+    "description": "Uses Undertow as the embedded server.",
+    "details": "A high-performance, flexible server from the JBoss ecosystem."
+  },
+  {
+    "feature": "aws-parameter-store",
+    "type": "Cloud (Config)",
+    "description": "Integrates with AWS Systems Manager Parameter Store.",
+    "details": "For managing configuration data on AWS."
+  },
+  {
+    "feature": "hibernate-reactive-jpa",
+    "type": "Database (ORM)",
+    "description": "Integrates Hibernate Reactive for non-blocking JPA.",
+    "details": "For reactive database access with JPA entities."
+  },
+  {
+    "feature": "micrometer-stackdriver",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Google Cloud Stackdriver (now Cloud Monitoring).",
+    "details": "For sending metrics to Google Cloud's monitoring service."
+  },
+  {
+    "feature": "rabbitmq",
+    "type": "Messaging",
+    "description": "Integrates with RabbitMQ.",
+    "details": "A popular and robust message broker."
+  },
+  {
+    "feature": "hibernate-jpamodelgen",
+    "type": "Database (JPA)",
+    "description": "Adds the Hibernate JPA Metamodel Generator.",
+    "details": "Provides type-safe criteria queries."
+  },
+  {
+    "feature": "validation",
+    "type": "Validation",
+    "description": "Provides the core validation framework.",
+    "details": "For validating bean properties using annotations."
+  },
+  {
+    "feature": "crac",
+    "type": "Build / Performance",
+    "description": "Adds support for Coordinated Restore at Checkpoint (CRaC).",
+    "details": "For achieving instant startup by restoring from a JVM checkpoint."
+  },
+  {
+    "feature": "email-amazon-ses",
+    "type": "Email",
+    "description": "Integrates with Amazon Simple Email Service (SES).",
+    "details": "For sending emails via AWS."
+  },
+  {
+    "feature": "aws-secrets-manager",
+    "type": "Cloud (Secrets)",
+    "description": "Integrates with AWS Secrets Manager.",
+    "details": "For managing secrets on AWS."
+  },
+  {
+    "feature": "langchain4j-azure",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Azure OpenAI models using LangChain4j.",
+    "details": "For using OpenAI models hosted on Microsoft Azure."
+  },
+  {
+    "feature": "dekorate-halkyon",
+    "type": "Orchestration",
+    "description": "Generates Halkyon (formerly Dekorate) resources.",
+    "details": "An older set of Dekorate generators."
+  },
+  {
+    "feature": "groovy-sql",
+    "type": "Language (Groovy)",
+    "description": "Enhances Groovy's SQL support (GSQL).",
+    "details": "Provides a concise way to write SQL queries in Groovy."
+  },
+  {
+    "feature": "azure-logging",
+    "type": "Logging",
+    "description": "Integrates with Azure Monitor logging.",
+    "details": "For sending logs to Microsoft Azure."
+  },
+  {
+    "feature": "micrometer-dynatrace",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Dynatrace.",
+    "details": "For sending metrics to the Dynatrace APM platform."
+  },
+  {
+    "feature": "opensearch-amazon",
+    "type": "Search",
+    "description": "Integrates with Amazon OpenSearch Service.",
+    "details": "AWS-managed service for search and analytics."
+  },
+  {
+    "feature": "langchain4j-googleai-gemini",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Google's Gemini models using LangChain4j.",
+    "details": "For building AI features with Google's latest models."
+  },
+  {
+    "feature": "mongo-sync",
+    "type": "Database (NoSQL)",
+    "description": "Adds the synchronous (blocking) driver for MongoDB.",
+    "details": "For traditional, blocking database operations."
+  },
+  {
+    "feature": "kubernetes-reactor-client",
+    "type": "Orchestration (K8s)",
+    "description": "Provides a Reactor-based Kubernetes client.",
+    "details": "For reactive interaction with the Kubernetes API."
+  },
+  {
+    "feature": "spring-data-jpa",
+    "type": "Database (JPA)",
+    "description": "Provides compatibility with Spring Data JPA.",
+    "details": "Eases migration from Spring Boot."
+  },
+  {
+    "feature": "micrometer-observation-http",
+    "type": "Observability (Metrics)",
+    "description": "Adds HTTP server observation with Micrometer.",
+    "details": "For automatically collecting metrics on HTTP requests."
+  },
+  {
+    "feature": "email-postmark",
+    "type": "Email",
+    "description": "Integrates with the Postmark email service.",
+    "details": "For transactional email delivery."
+  },
+  {
+    "feature": "views-react",
+    "type": "Views / Templating",
+    "description": "Adds support for React server-side rendering.",
+    "details": "For rendering React components on the server."
+  },
+  {
+    "feature": "github-workflow-azure-container-instance",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Azure Container Instances.",
+    "details": "For deploying containerized applications to ACI."
+  },
+  {
+    "feature": "develocity",
+    "type": "Build",
+    "description": "Integrates with Develocity (Gradle Enterprise).",
+    "details": "For accelerating builds and providing build insights."
+  },
+  {
+    "feature": "mcp-client-java-sdk",
+    "type": "AI (MCP)",
+    "description": "Adds a Java SDK client for the Model Context Protocol.",
+    "details": "A standard Java client for connecting to MCP servers."
+  },
+  {
+    "feature": "arm",
+    "type": "Build",
+    "description": "Specifies the ARM64 (aarch64) architecture for native builds.",
+    "details": "For native image compilation on ARM processors (e.g., Apple M1/M2)."
+  },
+  {
+    "feature": "discovery-consul",
+    "type": "Discovery",
+    "description": "Integrates with Consul for service discovery.",
+    "details": "For service registration and discovery with HashiCorp Consul."
+  },
+  {
+    "feature": "micrometer-new-relic",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with New Relic.",
+    "details": "For sending metrics to the New Relic APM platform."
+  },
+  {
+    "feature": "views-fieldset",
+    "type": "Views / Templating",
+    "description": "Adds support for the Fieldset templating engine.",
+    "details": "A simple templating engine for HTML forms."
+  },
+  {
+    "feature": "langchain4j-mistralai",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Mistral AI models using LangChain4j.",
+    "details": "For building AI features with Mistral's models."
+  },
+  {
+    "feature": "http-session",
+    "type": "Session",
+    "description": "Provides support for HTTP sessions.",
+    "details": "For storing user-specific data between requests."
+  },
+  {
+    "feature": "langchain4j-openai",
+    "type": "AI (Language Models)",
+    "description": "Integrates with OpenAI's models using LangChain4j.",
+    "details": "For building AI features with GPT-3, GPT-4, etc."
+  },
+  {
+    "feature": "data-mongodb-reactive",
+    "type": "Database (NoSQL)",
+    "description": "Adds a reactive repository abstraction for MongoDB.",
+    "details": "For non-blocking operations with MongoDB repositories."
+  },
+  {
+    "feature": "mockserver-client-java",
+    "type": "Testing",
+    "description": "Integrates the MockServer client.",
+    "details": "For mocking external APIs in tests."
+  },
+  {
+    "feature": "oracle-cloud-sdk",
+    "type": "Cloud (Oracle)",
+    "description": "Integrates the Oracle Cloud Infrastructure (OCI) SDK.",
+    "details": "For interacting with various OCI services."
+  },
+  {
+    "feature": "object-storage-aws",
+    "type": "Cloud (Storage)",
+    "description": "Integrates with Amazon S3 for object storage.",
+    "details": "The standard for object storage on AWS."
+  },
+  {
+    "feature": "oracle-cloud-vault",
+    "type": "Cloud (Secrets)",
+    "description": "Integrates with Oracle Cloud Vault.",
+    "details": "For managing secrets on Oracle Cloud."
+  },
+  {
+    "feature": "rxjava2-http-client",
+    "type": "HTTP Client",
+    "description": "Provides an RxJava 2-based HTTP client.",
+    "details": "For making non-blocking HTTP requests with RxJava 2."
+  },
+  {
+    "feature": "views-thymeleaf",
+    "type": "Views / Templating",
+    "description": "Adds support for the Thymeleaf templating engine.",
+    "details": "A modern, natural templating engine for Java."
+  },
+  {
+    "feature": "aws-v2-sdk",
+    "type": "Cloud (AWS)",
+    "description": "Integrates the AWS SDK v2.",
+    "details": "For interacting with various AWS services."
+  },
+  {
+    "feature": "acme",
+    "type": "Security",
+    "description": "Adds support for ACME protocol (e.g., Let's Encrypt).",
+    "details": "For automatically provisioning SSL/TLS certificates."
+  },
+  {
+    "feature": "log4j2",
+    "type": "Logging",
+    "description": "Integrates Log4j2 as the logging framework.",
+    "details": "An alternative to the default Logback."
+  },
+  {
+    "feature": "mqtt-hivemq",
+    "type": "Messaging",
+    "description": "Adds the HiveMQ MQTT client.",
+    "details": "A robust client for MQTT communication."
+  },
+  {
+    "feature": "mcp-stdio",
+    "type": "AI (MCP)",
+    "description": "Adds support for Model Context Protocol (MCP) over stdio.",
+    "details": "For connecting AI models via standard input/output."
+  },
+  {
+    "feature": "github-workflow-docker-registry",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for publishing to a Docker registry.",
+    "details": "For building and pushing Docker images."
+  },
+  {
+    "feature": "json-schema-validation",
+    "type": "Validation",
+    "description": "Validates JSON payloads against a JSON Schema.",
+    "details": "For ensuring incoming JSON data conforms to a contract."
+  },
+  {
+    "feature": "discovery-eureka",
+    "type": "Discovery",
+    "description": "Integrates with Netflix Eureka for service discovery.",
+    "details": "A classic service discovery solution."
+  },
+  {
+    "feature": "aws-alexa",
+    "type": "API (Chatbots)",
+    "description": "Adds support for building Amazon Alexa skills.",
+    "details": "For handling requests from Alexa devices."
+  },
+  {
+    "feature": "github-workflow-oracle-cloud-functions",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Oracle Functions.",
+    "details": "For building and deploying serverless functions on OCI."
+  },
+  {
+    "feature": "langchain4j-store-mongodb-atlas",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with MongoDB Atlas Vector Search.",
+    "details": "For AI applications using MongoDB Atlas as a vector database."
+  },
+  {
+    "feature": "github-workflow-google-cloud-run",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Google Cloud Run.",
+    "details": "For building and deploying containerized applications to GCP Cloud Run."
+  },
+  {
+    "feature": "reactor-http-client",
+    "type": "HTTP Client",
+    "description": "Provides a Project Reactor-based HTTP client.",
+    "details": "The default reactive HTTP client in Micronaut."
+  },
+  {
+    "feature": "micronaut-test-rest-assured",
+    "type": "Testing",
+    "description": "Integrates Rest-Assured for testing REST APIs.",
+    "details": "Provides a fluent DSL for API testing."
+  },
+  {
+    "feature": "views-jte",
+    "type": "Views / Templating",
+    "description": "Adds support for the jte templating engine.",
+    "details": "A fast, secure, and easy-to-use templating engine."
+  },
+  {
+    "feature": "spring",
+    "type": "Interoperability",
+    "description": "Provides general compatibility with the Spring Framework.",
+    "details": "A base dependency for other Spring features."
+  },
+  {
+    "feature": "rss-itunes-podcast",
+    "type": "API",
+    "description": "Adds support for generating iTunes-compatible RSS feeds for podcasts.",
+    "details": "For creating podcast feeds from your application data."
+  },
+  {
+    "feature": "cache-ehcache",
+    "type": "Cache",
+    "description": "Integrates Ehcache, a popular Java caching library.",
+    "details": "A robust, standards-compliant cache."
+  },
+  {
+    "feature": "security",
+    "type": "Security",
+    "description": "Provides the core security framework for Micronaut.",
+    "details": "Includes authentication and authorization mechanisms."
+  },
+  {
+    "feature": "views-pebble",
+    "type": "Views / Templating",
+    "description": "Adds support for the Pebble templating engine.",
+    "details": "A Twig-inspired templating engine for Java."
+  },
+  {
+    "feature": "jul-to-slf4j",
+    "type": "Logging",
+    "description": "Bridges `java.util.logging` (JUL) to SLF4J.",
+    "details": "Routes all JUL logs through your main SLF4J implementation."
+  },
+  {
+    "feature": "logback",
+    "type": "Logging",
+    "description": "Integrates Logback as the logging framework.",
+    "details": "The default logging implementation in Micronaut."
+  },
+  {
+    "feature": "flyway",
+    "type": "Database (Migration)",
+    "description": "Integrates Flyway for database schema management.",
+    "details": "An alternative to Liquibase for schema migrations."
+  },
+  {
+    "feature": "http-client",
+    "type": "HTTP Client",
+    "description": "Provides the core declarative HTTP client.",
+    "details": "The base for creating type-safe HTTP clients."
+  },
+  {
+    "feature": "groovy-dateutil",
+    "type": "Language (Groovy)",
+    "description": "Enhances Groovy's date and time utilities.",
+    "details": "Provides extensions for easier date manipulation."
+  },
+  {
+    "feature": "hibernate-jpa",
+    "type": "Database (ORM)",
+    "description": "Integrates Hibernate with JPA (standard blocking).",
+    "details": "The most common object-relational mapping (ORM) tool."
+  },
+  {
+    "feature": "langchain4j-bedrock",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Amazon Bedrock models using LangChain4j.",
+    "details": "For using various foundation models available on AWS."
+  },
+  {
+    "feature": "openapi",
+    "type": "API (Documentation)",
+    "description": "Generates OpenAPI (Swagger) specifications for your API.",
+    "details": "The foundation for API documentation and client generation."
+  },
+  {
+    "feature": "http-poja",
+    "type": "HTTP",
+    "description": "Adds support for binding to Plain Old Java Arrays (POJA) in HTTP controllers.",
+    "details": "A convenient way to handle request bodies that are simple JSON arrays."
+  },
+  {
+    "feature": "nats",
+    "type": "Messaging",
+    "description": "Integrates with NATS.",
+    "details": "A simple, secure, and high-performance messaging system."
+  },
+  {
+    "feature": "slf4j-simple",
+    "type": "Logging",
+    "description": "Uses the simple SLF4J binding for logging.",
+    "details": "Prints logs to the console, useful for development."
+  },
+  {
+    "feature": "netflix-hystrix",
+    "type": "Resilience",
+    "description": "Integrates Netflix Hystrix for circuit breakers.",
+    "details": "A legacy solution; consider `retry` or Resilience4j."
+  },
+  {
+    "feature": "eclipsestore",
+    "type": "Persistence",
+    "description": "Integrates EclipseStore (formerly MicroStream).",
+    "details": "For ultra-fast, pure Java object graph persistence."
+  },
+  {
+    "feature": "spring-web",
+    "type": "Interoperability",
+    "description": "Provides compatibility with Spring Web annotations.",
+    "details": "Eases migration of Spring MVC controllers."
+  },
+  {
+    "feature": "asciidoctor",
+    "type": "Documentation",
+    "description": "Integrates Asciidoctor for documentation processing.",
+    "details": "For writing documentation in a plain text format."
+  },
+  {
+    "feature": "rxjava1",
+    "type": "Reactive",
+    "description": "Integrates RxJava 1.",
+    "details": "A legacy version of the reactive library."
+  },
+  {
+    "feature": "langchain4j-vertexai-gemini",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Google's Vertex AI Gemini models.",
+    "details": "For using Gemini models via Google's Vertex AI platform."
+  },
+  {
+    "feature": "openapi-adoc",
+    "type": "API (Documentation)",
+    "description": "Generates AsciiDoc documentation from OpenAPI specs.",
+    "details": "For creating comprehensive, human-readable API docs."
+  },
+  {
+    "feature": "opensearch-restclient",
+    "type": "Search",
+    "description": "Integrates with OpenSearch using the REST client.",
+    "details": "For interacting with an OpenSearch cluster."
+  },
+  {
+    "feature": "data-hibernate-reactive",
+    "type": "Database (Reactive)",
+    "description": "Adds a repository abstraction for Hibernate Reactive.",
+    "details": "Simplifies reactive data access with Hibernate."
+  },
+  {
+    "feature": "rss",
+    "type": "API",
+    "description": "Adds support for generating RSS feeds.",
+    "details": "For creating RSS feeds from your application data."
+  },
+  {
+    "feature": "micrometer-appoptics",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with AppOptics.",
+    "details": "For sending metrics to the AppOptics APM platform."
+  },
+  {
+    "feature": "data-jdbc",
+    "type": "Database (JDBC)",
+    "description": "Adds a JDBC-based repository abstraction.",
+    "details": "A simpler alternative to JPA for database access."
+  },
+  {
+    "feature": "test-resources",
+    "type": "Testing",
+    "description": "Provides test resource implementations.",
+    "details": "Starts lightweight test servers for dependencies (e.g., Kafka, DB)."
+  },
+  {
+    "feature": "knative",
+    "type": "Orchestration",
+    "description": "Provides support for deploying to Knative.",
+    "details": "For serverless workloads on Kubernetes."
+  },
+  {
+    "feature": "views-rocker",
+    "type": "Views / Templating",
+    "description": "Adds support for the Rocker templating engine.",
+    "details": "A fast, Java 8+ templating engine."
+  },
+  {
+    "feature": "micrometer-kairos",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with KairosDB.",
+    "details": "For sending metrics to a KairosDB time-series database."
+  },
+  {
+    "feature": "opensearch-httpclient5",
+    "type": "Search",
+    "description": "Integrates with OpenSearch using the Apache HttpClient 5.",
+    "details": "An alternative HTTP client for OpenSearch."
+  },
+  {
+    "feature": "data-jpa",
+    "type": "Database (JPA)",
+    "description": "Adds a JPA-based repository abstraction.",
+    "details": "The standard way to use JPA with Micronaut."
+  },
+  {
+    "feature": "micrometer-humio",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Humio.",
+    "details": "For sending metrics to the Humio log and metrics platform."
+  },
+  {
+    "feature": "coherence",
+    "type": "Cache",
+    "description": "Integrates Oracle Coherence.",
+    "details": "An in-memory data grid solution for caching and data storage."
+  },
+  {
+    "feature": "sqlserver",
+    "type": "Database (Driver)",
+    "description": "Includes the Microsoft SQL Server JDBC driver.",
+    "details": "Required to connect to a SQL Server database."
+  },
+  {
+    "feature": "micrometer-elastic",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Elasticsearch.",
+    "details": "For sending metrics to an Elasticsearch cluster."
+  },
+  {
+    "feature": "groovy-yaml",
+    "type": "Language (Groovy)",
+    "description": "Adds support for parsing YAML in Groovy.",
+    "details": "Provides a convenient way to work with YAML files."
+  },
+  {
+    "feature": "langchain4j-store-elasticsearch",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with Elasticsearch for vector storage.",
+    "details": "For AI search and retrieval-augmented generation (RAG)."
+  },
+  {
+    "feature": "oracle-cloud-devops-build-ci",
+    "type": "CI/CD",
+    "description": "Generates a configuration for Oracle Cloud DevOps Build.",
+    "details": "For CI/CD pipelines on Oracle Cloud."
+  },
+  {
+    "feature": "discovery-core",
+    "type": "Discovery",
+    "description": "Provides the core service discovery client.",
+    "details": "The base for other service discovery implementations."
+  },
+  {
+    "feature": "gcp-cloud-trace",
+    "type": "Tracing",
+    "description": "Integrates with Google Cloud Trace.",
+    "details": "For distributed tracing on Google Cloud Platform."
+  },
+  {
+    "feature": "dekorate-knative",
+    "type": "Orchestration",
+    "description": "Generates Knative manifests using Dekorate.",
+    "details": "Automates the creation of Knative service files."
+  },
+  {
+    "feature": "problem-json",
+    "type": "API",
+    "description": "Adds support for the `application/problem+json` media type.",
+    "details": "A standard for returning structured error details from APIs."
+  },
+  {
+    "feature": "micrometer-oracle-cloud",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Oracle Cloud Monitoring.",
+    "details": "For sending metrics to Oracle Cloud Infrastructure."
+  },
+  {
+    "feature": "redis-lettuce",
+    "type": "Cache",
+    "description": "Integrates with Redis using the Lettuce client.",
+    "details": "For connecting to a Redis instance for caching or messaging."
+  },
+  {
+    "feature": "object-storage-local",
+    "type": "Storage",
+    "description": "Provides a local object storage implementation.",
+    "details": "Useful for development and testing."
+  },
+  {
+    "feature": "rxjava3-http-client",
+    "type": "HTTP Client",
+    "description": "Provides an RxJava 3-based HTTP client.",
+    "details": "For making non-blocking HTTP requests with RxJava 3."
+  },
+  {
+    "feature": "kubernetes-client",
+    "type": "Orchestration (K8s)",
+    "description": "Provides the official Kubernetes Java client.",
+    "details": "For interacting with the Kubernetes API."
+  },
+  {
+    "feature": "email-template",
+    "type": "Email",
+    "description": "Adds support for creating email templates.",
+    "details": "For generating dynamic email content."
+  },
+  {
+    "feature": "gcp-pubsub",
+    "type": "Messaging",
+    "description": "Integrates with Google Cloud Pub/Sub.",
+    "details": "A fully-managed real-time messaging service on GCP."
+  },
+  {
+    "feature": "coherence-distributed-configuration",
+    "type": "Config",
+    "description": "Uses Coherence for distributed configuration.",
+    "details": "For sharing configuration across a cluster of applications."
+  },
+  {
+    "feature": "netflix-archaius",
+    "type": "Config",
+    "description": "Integrates Netflix Archaius for configuration.",
+    "details": "A legacy configuration management library."
+  },
+  {
+    "feature": "amazon-cloudwatch-logging",
+    "type": "Logging",
+    "description": "Integrates with Amazon CloudWatch Logs.",
+    "details": "For sending logs to AWS CloudWatch."
+  },
+  {
+    "feature": "openapi-explorer",
+    "type": "API (Documentation)",
+    "description": "Integrates Swagger UI for exploring APIs.",
+    "details": "An interactive API documentation interface."
+  },
+  {
+    "feature": "langchain4j-store-neo4j",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with Neo4j for vector storage.",
+    "details": "For AI applications using a graph database as a vector store."
+  },
+  {
+    "feature": "security-jwt",
+    "type": "Security",
+    "description": "Adds support for JSON Web Token (JWT) authentication.",
+    "details": "For stateless authentication and authorization."
+  },
+  {
+    "feature": "google-cloud-workflow-ci",
+    "type": "CI/CD",
+    "description": "Generates a CI workflow for Google Cloud.",
+    "details": "For building and deploying on Google Cloud."
+  },
+  {
+    "feature": "eclipsestore-rest",
+    "type": "API",
+    "description": "Adds a REST API for EclipseStore.",
+    "details": "Exposes EclipseStore data via a REST endpoint."
+  },
+  {
+    "feature": "microstream",
+    "type": "Persistence",
+    "description": "Integrates MicroStream (EclipseStore).",
+    "details": "For ultra-fast, pure Java object graph persistence."
+  },
+  {
+    "feature": "jms-activemq-artemis",
+    "type": "Messaging",
+    "description": "Integrates with ActiveMQ Artemis via JMS.",
+    "details": "A high-performance message broker."
+  },
+  {
+    "feature": "amazon-api-gateway",
+    "type": "Serverless (AWS)",
+    "description": "Adds support for AWS API Gateway proxy integration.",
+    "details": "For deploying Micronaut functions behind an API Gateway."
+  },
+  {
+    "feature": "tracing-opentelemetry-exporter-otlp",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces using the OTLP protocol.",
+    "details": "For sending traces to any OTLP-compatible backend."
+  },
+  {
+    "feature": "dekorate-kubernetes",
+    "type": "Orchestration",
+    "description": "Generates Kubernetes manifests using Dekorate.",
+    "details": "Automates the creation of Kubernetes deployment files."
+  },
+  {
+    "feature": "groovy-toml",
+    "type": "Language (Groovy)",
+    "description": "Adds support for parsing TOML in Groovy.",
+    "details": "Provides a convenient way to work with TOML files."
+  },
+  {
+    "feature": "github-workflow-oracle-cloud-functions-graalvm",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for Oracle Functions (GraalVM).",
+    "details": "For building and deploying serverless functions on OCI."
+  },
+  {
+    "feature": "x86",
+    "type": "Build",
+    "description": "Specifies the x86_64 architecture for native builds.",
+    "details": "For native image compilation on standard Intel/AMD CPUs."
+  },
+  {
+    "feature": "micrometer-graphite",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Graphite.",
+    "details": "For sending metrics to a Graphite monitoring system."
+  },
+  {
+    "feature": "http-client-jdk",
+    "type": "HTTP Client",
+    "description": "Provides an HTTP client based on the JDK's `HttpClient`.",
+    "details": "A lightweight, built-in HTTP client option."
+  },
+  {
+    "feature": "gcp-logging",
+    "type": "Logging",
+    "description": "Integrates with Google Cloud Logging.",
+    "details": "For sending logs to Google Cloud Platform."
+  },
+  {
+    "feature": "swagger-ui",
+    "type": "API (Documentation)",
+    "description": "Integrates Swagger UI for exploring APIs.",
+    "details": "An interactive API documentation interface."
+  },
+  {
+    "feature": "coherence-session",
+    "type": "Session",
+    "description": "Uses Coherence for HTTP session storage.",
+    "details": "For clustering session data."
+  },
+  {
+    "feature": "cache-coherence",
+    "type": "Cache",
+    "description": "Integrates Coherence as a caching provider.",
+    "details": "For using Oracle Coherence as a cache."
+  },
+  {
+    "feature": "micrometer-observation",
+    "type": "Observability (Metrics)",
+    "description": "Adds core Micrometer observation support.",
+    "details": "The foundation for creating custom observations."
+  },
+  {
+    "feature": "serialization-bson",
+    "type": "Serialization",
+    "description": "Adds support for BSON serialization.",
+    "details": "Used primarily by MongoDB drivers."
+  },
+  {
+    "feature": "serialization-jackson",
+    "type": "Serialization",
+    "description": "Integrates Jackson for JSON/XML serialization.",
+    "details": "The default serialization library in Micronaut."
+  },
+  {
+    "feature": "views-soy",
+    "type": "Views / Templating",
+    "description": "Adds support for the Soy (Closure Templates) templating engine.",
+    "details": "A templating framework from Google."
+  },
+  {
+    "feature": "json-schema-generator",
+    "type": "API",
+    "description": "Generates JSON schemas from your types.",
+    "details": "Useful for documenting and validating API contracts."
+  },
+  {
+    "feature": "openrewrite",
+    "type": "Refactoring",
+    "description": "Integrates OpenRewrite for automated refactoring.",
+    "details": "For large-scale code transformations and migrations."
+  },
+  {
+    "feature": "tracing-zipkin",
+    "type": "Tracing",
+    "description": "Integrates with Zipkin for distributed tracing.",
+    "details": "A popular open-source tracing system."
+  },
+  {
+    "feature": "amazon-api-gateway-http",
+    "type": "Serverless (AWS)",
+    "description": "Adds support for AWS API Gateway HTTP API payload integration.",
+    "details": "A newer, more efficient integration model for API Gateway."
+  },
+  {
+    "feature": "chatbots-basecamp-http",
+    "type": "API (Chatbots)",
+    "description": "Adds support for building Basecamp chatbots.",
+    "details": "Handles HTTP interactions with the Basecamp API."
+  },
+  {
+    "feature": "vertx-pg-client",
+    "type": "Database (Reactive)",
+    "description": "Adds a reactive PostgreSQL client from Vert.x.",
+    "details": "An alternative to R2DBC for reactive database access."
+  },
+  {
+    "feature": "mqttv3",
+    "type": "Messaging",
+    "description": "Adds support for MQTT v3.1.1.",
+    "details": "An older version of the MQTT protocol."
+  },
+  {
+    "feature": "security-ldap",
+    "type": "Security",
+    "description": "Adds support for LDAP authentication.",
+    "details": "For authenticating users against an LDAP directory."
+  },
+  {
+    "feature": "mcp-http",
+    "type": "AI (MCP)",
+    "description": "Adds support for Model Context Protocol (MCP) over HTTP.",
+    "details": "For connecting AI models via HTTP."
+  },
+  {
+    "feature": "kubernetes-rxjava2-client",
+    "type": "Orchestration (K8s)",
+    "description": "Provides an RxJava 2-based Kubernetes client.",
+    "details": "For reactive interaction with the Kubernetes API."
+  },
+  {
+    "feature": "http-server-jdk",
+    "type": "Server",
+    "description": "Uses the JDK's built-in HTTP server.",
+    "details": "A lightweight, no-dependency server option."
+  },
+  {
+    "feature": "assertj",
+    "type": "Testing",
+    "description": "Integrates AssertJ for fluent assertions.",
+    "details": "A popular library that provides readable assertion statements."
+  },
+  {
+    "feature": "json-path",
+    "type": "API",
+    "description": "Adds support for JSONPath.",
+    "details": "For extracting parts of a JSON document."
+  },
+  {
+    "feature": "mysql",
+    "type": "Database (Driver)",
+    "description": "Includes the MySQL JDBC driver.",
+    "details": "Required to connect to a MySQL database."
+  },
+  {
+    "feature": "groovy-ginq",
+    "type": "Language (Groovy)",
+    "description": "Adds Groovy's integrated query language (Ginq).",
+    "details": "A SQL-like query DSL for collections."
+  },
+  {
+    "feature": "jib",
+    "type": "Build",
+    "description": "Integrates Google Jib for building Docker images.",
+    "details": "Builds optimized container images without a Docker daemon."
+  },
+  {
+    "feature": "vertx-mysql-client",
+    "type": "Database (Reactive)",
+    "description": "Adds a reactive MySQL client from Vert.x.",
+    "details": "An alternative to R2DBC for reactive database access."
+  },
+  {
+    "feature": "tracing-opentelemetry-exporter-logging",
+    "type": "Tracing",
+    "description": "Exports OpenTelemetry traces to the console/log.",
+    "details": "Useful for debugging tracing configurations."
+  },
+  {
+    "feature": "jackson-databind",
+    "type": "Serialization",
+    "description": "Adds the core Jackson data-binding module.",
+    "details": "Essential for JSON serialization/deserialization."
+  },
+  {
+    "feature": "hibernate-validator",
+    "type": "Validation",
+    "description": "Integrates Hibernate Validator for bean validation.",
+    "details": "Implements the Jakarta Bean Validation (JSR 380) spec."
+  },
+  {
+    "feature": "micrometer-statsd",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with StatsD.",
+    "details": "For sending metrics to a StatsD daemon."
+  },
+  {
+    "feature": "langchain4j-ollama",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Ollama models using LangChain4j.",
+    "details": "For running and interacting with local LLMs."
+  },
+  {
+    "feature": "micrometer-signalfx",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with SignalFX.",
+    "details": "For sending metrics to the SignalFX APM platform."
+  },
+  {
+    "feature": "json-smart",
+    "type": "Serialization",
+    "description": "Integrates the JSON-smart library.",
+    "details": "A fast and compact JSON parser."
+  },
+  {
+    "feature": "kapt",
+    "type": "Language (Kotlin)",
+    "description": "Adds support for Kotlin Annotation Processing Tool (KAPT).",
+    "details": "The traditional way to use annotation processors with Kotlin."
+  },
+  {
+    "feature": "lombok",
+    "type": "Language (Java)",
+    "description": "Integrates Project Lombok.",
+    "details": "Reduces boilerplate code like getters, setters, and constructors."
+  },
+  {
+    "feature": "micrometer-prometheus-pushgateway",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Prometheus Pushgateway.",
+    "details": "For pushing metrics to a Prometheus gateway for batch jobs."
+  },
+  {
+    "feature": "jmx",
+    "type": "Management",
+    "description": "Adds support for Java Management Extensions (JMX).",
+    "details": "For monitoring and managing the application via JMX."
+  },
+  {
+    "feature": "jooq",
+    "type": "Database (SQL Builder)",
+    "description": "Integrates jOOQ for type-safe SQL query building.",
+    "details": "For writing SQL in a type-safe, fluent way in Java."
+  },
+  {
+    "feature": "microstream-rest",
+    "type": "API",
+    "description": "Adds a REST API for MicroStream (EclipseStore).",
+    "details": "Exposes MicroStream data via a REST endpoint."
+  },
+  {
+    "feature": "discovery-kubernetes",
+    "type": "Discovery",
+    "description": "Enables service discovery via Kubernetes API.",
+    "details": "Allows services to find each other in a Kubernetes cluster."
+  },
+  {
+    "feature": "liquibase-slf4j",
+    "type": "Database (Migration)",
+    "description": "Redirects Liquibase logs to SLF4J.",
+    "details": "For unified logging with your application."
+  },
+  {
+    "feature": "micronaut-http-validation",
+    "type": "Validation",
+    "description": "Adds validation for HTTP requests/responses.",
+    "details": "For validating HTTP bodies and parameters."
+  },
+  {
+    "feature": "langchain4j-store-oracle",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with Oracle Database for vector storage.",
+    "details": "For AI applications using Oracle 23c AI Vector Search."
+  },
+  {
+    "feature": "websocket",
+    "type": "API",
+    "description": "Adds support for WebSocket servers and clients.",
+    "details": "For real-time, bidirectional communication."
+  },
+  {
+    "feature": "slf4j-simple-logger",
+    "type": "Logging",
+    "description": "Uses the simple SLF4J logger implementation.",
+    "details": "An alternative to `slf4j-simple`."
+  },
+  {
+    "feature": "github-workflow-graal-docker-registry",
+    "type": "CI/CD",
+    "description": "Generates a GitHub Actions workflow for GraalVM native images.",
+    "details": "For building and pushing native images to a Docker registry."
+  },
+  {
+    "feature": "netty-server",
+    "type": "Server",
+    "description": "Uses Netty as the embedded server.",
+    "details": "The default, high-performance server in Micronaut."
+  },
+  {
+    "feature": "localstack",
+    "type": "Testing",
+    "description": "Integrates LocalStack.",
+    "details": "For testing AWS interactions locally."
+  },
+  {
+    "feature": "config-consul",
+    "type": "Config",
+    "description": "Integrates with Consul for distributed configuration.",
+    "details": "For dynamic configuration management."
+  },
+  {
+    "feature": "control-panel",
+    "type": "Management",
+    "description": "Adds a web-based control panel for the application.",
+    "details": "Provides a UI for managing and monitoring the app."
+  },
+  {
+    "feature": "oracle-function",
+    "type": "Serverless (Oracle)",
+    "description": "Adds support for Oracle Functions.",
+    "details": "For deploying serverless functions to Oracle Cloud Infrastructure."
+  },
+  {
+    "feature": "micrometer-prometheus",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Prometheus.",
+    "details": "For exposing metrics in a format that Prometheus can scrape."
+  },
+  {
+    "feature": "email-mailjet",
+    "type": "Email",
+    "description": "Integrates with the Mailjet email service.",
+    "details": "For sending emails via the Mailjet API."
+  },
+  {
+    "feature": "jackson-xml",
+    "type": "Serialization",
+    "description": "Adds support for XML serialization via Jackson.",
+    "details": "For handling XML data."
+  },
+  {
+    "feature": "neo4j-bolt",
+    "type": "Database (Graph)",
+    "description": "Integrates with Neo4j using the Bolt protocol.",
+    "details": "For connecting to a Neo4j graph database."
+  },
+  {
+    "feature": "azure-tracing",
+    "type": "Tracing",
+    "description": "Integrates with Azure's distributed tracing.",
+    "details": "For tracing applications on Microsoft Azure."
+  },
+  {
+    "feature": "jax-rs",
+    "type": "API",
+    "description": "Adds support for Jakarta RESTful Web Services (JAX-RS).",
+    "details": "Allows writing REST endpoints using JAX-RS annotations."
+  },
+  {
+    "feature": "micrometer-azure-monitor",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Azure Monitor.",
+    "details": "For sending metrics to Microsoft Azure's monitoring service."
+  },
+  {
+    "feature": "mockito",
+    "type": "Testing",
+    "description": "Integrates Mockito for mocking in tests.",
+    "details": "A popular mocking framework for unit tests."
+  },
+  {
+    "feature": "azure-function",
+    "type": "Serverless (Azure)",
+    "description": "Adds support for Azure Functions.",
+    "details": "For deploying serverless functions to Microsoft Azure."
+  },
+  {
+    "feature": "elasticsearch",
+    "type": "Search",
+    "description": "Integrates with Elasticsearch.",
+    "details": "A popular search and analytics engine."
+  },
+  {
+    "feature": "tracing-jaeger",
+    "type": "Tracing",
+    "description": "Integrates with Jaeger for distributed tracing.",
+    "details": "An open-source system for monitoring and troubleshooting."
+  },
+  {
+    "feature": "sql-jdbi",
+    "type": "Database (JDBC)",
+    "description": "Integrates jDBI for convenient database access.",
+    "details": "A library that provides a pleasant SQL interface."
+  },
+  {
+    "feature": "micrometer-jmx",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with JMX.",
+    "details": "For exposing metrics via JMX."
+  },
+  {
+    "feature": "junit-platform-suite-engine",
+    "type": "Testing",
+    "description": "Adds the JUnit Platform Suite Engine.",
+    "details": "For running test suites with JUnit 5."
+  },
+  {
+    "feature": "reactor",
+    "type": "Reactive",
+    "description": "Integrates Project Reactor.",
+    "details": "The foundational reactive library used by Micronaut."
+  },
+  {
+    "feature": "retry",
+    "type": "Resilience",
+    "description": "Adds a declarative retry mechanism.",
+    "details": "For automatically retrying failed operations."
+  },
+  {
+    "feature": "h2",
+    "type": "Database (Driver)",
+    "description": "Includes the H2 database driver.",
+    "details": "An in-memory or file-based SQL database, great for testing."
+  },
+  {
+    "feature": "serialization-jsonp",
+    "type": "Serialization",
+    "description": "Adds support for JSON-P (JSON Processing).",
+    "details": "A standard Java API for parsing and generating JSON."
+  },
+  {
+    "feature": "annotation-api",
+    "type": "Language",
+    "description": "Adds the `jakarta.annotation-api` dependency.",
+    "details": "Provides common annotations like `@PostConstruct` and `@Inject`."
+  },
+  {
+    "feature": "micrometer-wavefront",
+    "type": "Observability (Metrics)",
+    "description": "Integrates Micrometer with Wavefront.",
+    "details": "For sending metrics to the Wavefront APM platform."
+  },
+  {
+    "feature": "jms-core",
+    "type": "Messaging",
+    "description": "Provides the core JMS integration.",
+    "details": "The base dependency for other JMS features."
+  },
+  {
+    "feature": "jetty-server",
+    "type": "Server",
+    "description": "Uses Jetty as the embedded server.",
+    "details": "Another popular alternative to the default Netty server."
+  },
+  {
+    "feature": "groovy-datetime",
+    "type": "Language (Groovy)",
+    "description": "Enhances Groovy's date and time support.",
+    "details": "Provides extensions for the modern `java.time` API."
+  },
+  {
+    "feature": "dekorate-openshift",
+    "type": "Orchestration",
+    "description": "Generates OpenShift manifests using Dekorate.",
+    "details": "Automates the creation of deployment files for OpenShift."
+  },
+  {
+    "feature": "mariadb",
+    "type": "Database (Driver)",
+    "description": "Includes the MariaDB JDBC driver.",
+    "details": "Required to connect to a MariaDB database."
+  },
+  {
+    "feature": "rapidoc",
+    "type": "API (Documentation)",
+    "description": "Integrates RapiDoc for API documentation.",
+    "details": "A customizable, modern API documentation viewer."
+  },
+  {
+    "feature": "jasync-sql",
+    "type": "Database (Reactive)",
+    "description": "Adds the jasync-sql reactive MySQL/PostgreSQL driver.",
+    "details": "A fast, Netty-based reactive database driver."
+  },
+  {
+    "feature": "views-freemarker",
+    "type": "Views / Templating",
+    "description": "Adds support for the Apache FreeMarker templating engine.",
+    "details": "A classic, powerful templating engine."
+  },
+  {
+    "feature": "oracle-cloud-httpclient-netty",
+    "type": "HTTP Client",
+    "description": "Provides a Netty-based HTTP client for Oracle Cloud.",
+    "details": "For interacting with Oracle Cloud services."
+  },
+  {
+    "feature": "jms-oracle-aq",
+    "type": "Messaging",
+    "description": "Integrates with Oracle Advanced Queuing (AQ) via JMS.",
+    "details": "For using Oracle's native messaging system."
+  },
+  {
+    "feature": "views-handlebars",
+    "type": "Views / Templating",
+    "description": "Adds support for the Handlebars templating engine.",
+    "details": "A popular templating engine with logic-less templates."
+  },
+  {
+    "feature": "micronaut-aop",
+    "type": "AOP",
+    "description": "Provides the core Aspect-Oriented Programming support.",
+    "details": "Enables features like `@Retry`, `@Cacheable`, etc."
+  },
+  {
+    "feature": "oracle",
+    "type": "Database (Driver)",
+    "description": "Includes the Oracle JDBC driver.",
+    "details": "Required to connect to an Oracle database."
+  },
+  {
+    "feature": "aws-codebuild-workflow-ci",
+    "type": "CI/CD",
+    "description": "Generates a CI workflow for AWS CodeBuild.",
+    "details": "For building and deploying on AWS."
+  },
+  {
+    "feature": "data-mongodb",
+    "type": "Database (NoSQL)",
+    "description": "Adds a synchronous repository abstraction for MongoDB.",
+    "details": "For standard, blocking operations with MongoDB repositories."
+  },
+  {
+    "feature": "azure-key-vault",
+    "type": "Cloud (Secrets)",
+    "description": "Integrates with Azure Key Vault.",
+    "details": "For managing secrets on Microsoft Azure."
+  },
+  {
+    "feature": "groovy-json",
+    "type": "Language (Groovy)",
+    "description": "Enhances Groovy's JSON support.",
+    "details": "Provides a convenient way to work with JSON in Groovy."
+  },
+  {
+    "feature": "views-velocity",
+    "type": "Views / Templating",
+    "description": "Adds support for the Apache Velocity templating engine.",
+    "details": "A long-standing, Java-based templating engine."
+  },
+  {
+    "feature": "langchain4j-anthropic",
+    "type": "AI (Language Models)",
+    "description": "Integrates with Anthropic's Claude models using LangChain4j.",
+    "details": "For building AI features with Claude models."
+  },
+  {
+    "feature": "jrebel",
+    "type": "Development",
+    "description": "Integrates with JRebel for hot reloading.",
+    "details": "For faster development cycles by reloading code on the fly."
+  },
+  {
+    "feature": "langchain4j-store-opensearch",
+    "type": "AI (Vector Store)",
+    "description": "Integrates with OpenSearch for vector storage.",
+    "details": "For AI search and retrieval-augmented generation (RAG)."
+  },
+  {
+    "feature": "sourcegen-generator",
+    "type": "Build",
+    "description": "Integrates the source code generator.",
+    "details": "A Micronaut-specific tool for compile-time code generation."
+  },
+  {
+    "feature": "cache-hazelcast",
+    "type": "Cache",
+    "description": "Integrates Hazelcast.",
+    "details": "A distributed in-memory data grid for caching and more."
+  },
+  {
+    "feature": "jms-sqs",
+    "type": "Messaging",
+    "description": "Integrates with Amazon SQS via a JMS bridge.",
+    "details": "For using SQS as a JMS provider."
+  },
+  {
+    "feature": "security-oauth2",
+    "type": "Security",
+    "description": "Adds support for OAuth 2.0 / OpenID Connect.",
+    "details": "For securing applications with third-party identity providers."
+  },
+  {
+    "feature": "security-session",
+    "type": "Security",
+    "description": "Adds support for session-based authentication.",
+    "details": "For traditional, stateful web application security."
+  },
+  {
+    "feature": "aws-cdk",
+    "type": "Build / IaC",
+    "description": "Integrates with the AWS Cloud Development Kit (CDK).",
+    "details": "For defining cloud infrastructure in code."
+  },
+  {
+    "feature": "ktor",
+    "type": "Interop",
+    "description": "Provides interoperability with the Ktor framework.",
+    "details": "Allows using Ktor clients or servers within a Micronaut app."
+  },
+  {
+    "feature": "shade",
+    "type": "Build",
+    "description": "Applies the Maven Shade plugin to create a fat JAR.",
+    "details": "Packages all dependencies into a single executable JAR."
+  },
+  {
+    "feature": "testcontainers",
+    "type": "Testing",
+    "description": "Integrates Testcontainers.",
+    "details": "For spinning up real dependencies (databases, brokers) in Docker for tests."
+  },
+  {
+    "feature": "config4k",
+    "type": "Config",
+    "description": "Adds support for type-safe configuration in Kotlin.",
+    "details": "A Kotlin-specific configuration library."
+  },
+  {
+    "feature": "properties",
+    "type": "Config",
+    "description": "Adds support for Java `.properties` configuration files.",
+    "details": "A standard format for configuration."
+  },
+  {
+    "feature": "toml",
+    "type": "Config",
+    "description": "Adds support for TOML configuration files.",
+    "details": "A simple, human-readable configuration format."
+  },
+  {
+    "feature": "yaml",
+    "type": "Config",
+    "description": "Adds support for YAML configuration files.",
+    "details": "The default and most common configuration format in Micronaut."
+  }
+]
