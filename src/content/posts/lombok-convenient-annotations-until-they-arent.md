@@ -4,7 +4,7 @@ title: |
 description: 'Some Lombok annotations do not have your best interests at heart. Learn how to avoid undesirable behaviors and side effects'
 pubDate: 2025-10-25
 tags: ['java', 'spring-boot', 'spring-data-jpa', 'hibernate', 'lombok', 'annotation']
-draft: false
+draft: true
 ---
 
 Lombok has been and remains a gift for Java developers.
