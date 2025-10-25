@@ -2,7 +2,7 @@
 title: |
     Lombok: Convenient annotations until they aren't (WIP)
 description: 'Some Lombok annotations do not have your best interests at heart. Learn how to avoid undesirable behaviors and side effects'
-pubDate: 2025-10-20
+pubDate: 2025-10-25
 tags: ['java', 'spring-boot', 'spring-data-jpa', 'hibernate', 'lombok', 'annotation']
 draft: false
 ---
