@@ -8,14 +8,14 @@ interface Feature {
   details: string;
 }
 
-type SortField = 'feature' | 'type' | 'description' | 'details';
-type SortDirection = 'asc' | 'desc';
+type SortField = "feature" | "type" | "description" | "details";
+type SortDirection = "asc" | "desc";
 
 export default function MicronautFeaturesTable() {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("");
-  const [sortField, setSortField] = useState<SortField>('feature');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [sortField, setSortField] = useState<SortField>("feature");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [copiedFeature, setCopiedFeature] = useState<string | null>(null);
 
   const features = featuresData as Feature[];
@@ -23,7 +23,7 @@ export default function MicronautFeaturesTable() {
   // Gather types
   const allTypes = useMemo(() => {
     const typeSet = new Set<string>();
-    features.forEach(f => typeSet.add(f.type));
+    features.forEach((f) => typeSet.add(f.type));
     return Array.from(typeSet).sort();
   }, [features]);
 
@@ -34,25 +34,26 @@ export default function MicronautFeaturesTable() {
     // Text
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(f =>
-        f.feature.toLowerCase().includes(query) ||
-        f.type.toLowerCase().includes(query) ||
-        f.description.toLowerCase().includes(query) ||
-        f.details.toLowerCase().includes(query)
+      result = result.filter(
+        (f) =>
+          f.feature.toLowerCase().includes(query) ||
+          f.type.toLowerCase().includes(query) ||
+          f.description.toLowerCase().includes(query) ||
+          f.details.toLowerCase().includes(query),
       );
     }
 
     // Type
     if (typeFilter) {
-      result = result.filter(f => f.type === typeFilter);
+      result = result.filter((f) => f.type === typeFilter);
     }
 
     // Sort
     result = [...result].sort((a, b) => {
       const aVal = a[sortField].toLowerCase();
       const bVal = b[sortField].toLowerCase();
-      
-      if (sortDirection === 'asc') {
+
+      if (sortDirection === "asc") {
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       } else {
         return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
@@ -64,10 +65,10 @@ export default function MicronautFeaturesTable() {
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -82,26 +83,56 @@ export default function MicronautFeaturesTable() {
       setCopiedFeature(text);
       setTimeout(() => setCopiedFeature(null), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) {
       return (
-        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+        <svg
+          className="w-4 h-4 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+          />
         </svg>
       );
     }
-    
-    return sortDirection === 'asc' ? (
-      <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+
+    return sortDirection === "asc" ? (
+      <svg
+        className="w-4 h-4 text-blue-600 dark:text-blue-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 15l7-7 7 7"
+        />
       </svg>
     ) : (
-      <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      <svg
+        className="w-4 h-4 text-blue-600 dark:text-blue-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 9l-7 7-7-7"
+        />
       </svg>
     );
   };
@@ -123,13 +154,18 @@ export default function MicronautFeaturesTable() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-3 py-2 pl-10 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
           />
-          <svg 
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
 
@@ -140,8 +176,10 @@ export default function MicronautFeaturesTable() {
           className="px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
         >
           <option value="">All types</option>
-          {allTypes.map(type => (
-            <option key={type} value={type}>{type}</option>
+          {allTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
           ))}
         </select>
 
@@ -159,7 +197,8 @@ export default function MicronautFeaturesTable() {
 
       {/* Counter */}
       <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-        {filteredAndSorted.length} feature{filteredAndSorted.length !== 1 ? 's' : ''}
+        {filteredAndSorted.length} feature
+        {filteredAndSorted.length !== 1 ? "s" : ""}
       </p>
 
       {/* Results */}
@@ -173,36 +212,36 @@ export default function MicronautFeaturesTable() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0">
                 <tr>
-                  <th 
+                  <th
                     className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                    onClick={() => handleSort('feature')}
+                    onClick={() => handleSort("feature")}
                   >
                     <div className="flex items-center gap-1">
                       Feature
                       <SortIcon field="feature" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                    onClick={() => handleSort('type')}
+                    onClick={() => handleSort("type")}
                   >
                     <div className="flex items-center gap-1">
                       Type
                       <SortIcon field="type" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                    onClick={() => handleSort('description')}
+                    onClick={() => handleSort("description")}
                   >
                     <div className="flex items-center gap-1">
                       Description
                       <SortIcon field="description" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                    onClick={() => handleSort('details')}
+                    onClick={() => handleSort("details")}
                   >
                     <div className="flex items-center gap-1">
                       Details
@@ -213,7 +252,7 @@ export default function MicronautFeaturesTable() {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredAndSorted.map((feature, index) => (
-                  <tr 
+                  <tr
                     key={index}
                     className="hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                   >
@@ -228,12 +267,32 @@ export default function MicronautFeaturesTable() {
                           title="Copy feature name"
                         >
                           {copiedFeature === feature.feature ? (
-                            <svg className="w-3 h-3 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            <svg
+                              className="w-3 h-3 text-green-600 dark:text-green-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M5 13l4 4L19 7"
+                              />
                             </svg>
                           ) : (
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              />
                             </svg>
                           )}
                         </button>

@@ -1,9 +1,9 @@
 ---
-title: | 
+title: |
   Astro: Solving the error "Cannot find module 'astro:content' or its corresponding type declarations.ts(2307)"
 description: 'Steps to solve the error "Cannot find module astro:content or its corresponding type declarations.ts(2307)" when using Astro and Typescript'
 pubDate: 2025-10-18
-tags: ['astro', 'setup', 'error', 'typescript']
+tags: ["astro", "setup", "error", "typescript"]
 draft: false
 ---
 
@@ -26,7 +26,7 @@ The `astro:content` module is a "virtual module." This means it doesn't exist as
 1. The actual content files in your `src/content/` directory.
 2. The schema you define for your collections in `src/content/config.ts`.
 
-The problem arises when you try to use `astro:content` in your code *before* any content files exist for Astro to analyze. It's a chicken-and-egg situation: TypeScript needs the types to validate your code, but Astro needs the content to generate the types.
+The problem arises when you try to use `astro:content` in your code _before_ any content files exist for Astro to analyze. It's a chicken-and-egg situation: TypeScript needs the types to validate your code, but Astro needs the content to generate the types.
 
 ## The Solution: A 4-Step Process
 
@@ -64,20 +64,20 @@ If it doesn't exist, create `src/content/config.ts`:
 **File: `src/content/config.ts`**
 
 ```ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z } from "astro:content";
 
 // Define a schema for our blog collection
 const blogCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),
-    description: z.string()
+    description: z.string(),
   }),
 });
 
 // Export a single `collections` object to register your collection(s)
 export const collections = {
-  'blog': blogCollection,
+  blog: blogCollection,
 };
 ```
 
@@ -101,7 +101,7 @@ Sometimes, your code editor (like VS Code) might not immediately pick up the new
 
 If the error persists, manually restart the TypeScript language server.
 
-* **In VS Code:** Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and run `TypeScript: Restart TS Server`.
+- **In VS Code:** Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and run `TypeScript: Restart TS Server`.
 
 After these steps, the `Cannot find module 'astro:content'` error should vanish, and you'll get full autocompletion when you use the Content Collections API.
 

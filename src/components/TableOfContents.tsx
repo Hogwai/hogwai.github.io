@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface Heading {
   depth: number;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function TableOfContents({ headings }: Props) {
-  const [activeId, setActiveId] = useState<string>('');
+  const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,7 +22,7 @@ export default function TableOfContents({ headings }: Props) {
           }
         });
       },
-      { rootMargin: '-100px 0px -80% 0px' }
+      { rootMargin: "-100px 0px -80% 0px" },
     );
 
     headings.forEach((heading) => {
@@ -33,16 +33,19 @@ export default function TableOfContents({ headings }: Props) {
     return () => observer.disconnect();
   }, [headings]);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    slug: string,
+  ) => {
     e.preventDefault();
     const element = document.getElementById(slug);
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+        behavior: "smooth",
+        block: "start",
       });
-      
-      history.pushState(null, '', `#${slug}`);
+
+      history.pushState(null, "", `#${slug}`);
     }
   };
 
@@ -66,9 +69,9 @@ export default function TableOfContents({ headings }: Props) {
                 href={`#${heading.slug}`}
                 onClick={(e) => handleClick(e, heading.slug)}
                 className={`hover:text-blue-600 dark:hover:text-blue-400 transition block ${
-                  activeId === heading.slug 
-                    ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                    : 'text-gray-600 dark:text-gray-400'
+                  activeId === heading.slug
+                    ? "text-blue-600 dark:text-blue-400 font-medium"
+                    : "text-gray-600 dark:text-gray-400"
                 }`}
               >
                 {heading.text}
