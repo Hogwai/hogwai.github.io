@@ -6,7 +6,13 @@ interface Props {
   tags: string[];
 }
 
-export default function BlogCard({ title, description, pubDate, slug, tags }: Props) {
+export default function BlogCard({
+  title,
+  description,
+  pubDate,
+  slug,
+  tags,
+}: Props) {
   return (
     <a
       href={`/posts/${slug}`}
@@ -17,13 +23,15 @@ export default function BlogCard({ title, description, pubDate, slug, tags }: Pr
           {title}
         </h2>
         <time className="text-sm text-gray-600 dark:text-gray-400 block">
-          {pubDate.toLocaleDateString('en-GB', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+          {pubDate.toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           })}
         </time>
-        <p className="text-gray-700 dark:text-gray-300 line-clamp-3">{description}</p>
+        <p className="text-gray-700 dark:text-gray-300 line-clamp-3">
+          {description}
+        </p>
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (

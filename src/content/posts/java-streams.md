@@ -1,8 +1,8 @@
 ---
-title: 'Publishing test - Introduction aux Streams Java'
-description: 'Découvrez la puissance des Streams pour manipuler des collections en Java'
+title: "Publishing test - Introduction aux Streams Java"
+description: "Découvrez la puissance des Streams pour manipuler des collections en Java"
 pubDate: 2025-10-17
-tags: ['java', 'streams', 'functional-programming']
+tags: ["java", "streams", "functional-programming"]
 draft: false
 ---
 
@@ -55,16 +55,16 @@ public class Employee {
     private int age;
     private double salary;
     private String department;
-    
+
     // Constructeur, getters, setters...
-    
+
     public Employee(String name, int age, double salary, String department) {
         this.name = name;
         this.age = age;
         this.salary = salary;
         this.department = department;
     }
-    
+
     // Getters...
 }
 

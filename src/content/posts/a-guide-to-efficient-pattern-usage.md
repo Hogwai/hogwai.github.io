@@ -1,8 +1,8 @@
 ---
-title: 'A guide to efficient Pattern usage'
-description: 'Tips for getting the most out of the Pattern class, while avoiding pitfalls'
+title: "A guide to efficient Pattern usage"
+description: "Tips for getting the most out of the Pattern class, while avoiding pitfalls"
 pubDate: 2025-10-18
-tags: ['java', 'pattern', 'regex', 'performance']
+tags: ["java", "pattern", "regex", "performance"]
 draft: false
 ---
 
@@ -114,8 +114,9 @@ The Java `String` class provides several convenient methods that accept a regex 
 While they are tempting for their simplicity, they hide a dirty secret: **every single one of these methods recompiles the regex pattern internally.**
 
 As stated in the javadoc<sup><a href="#ref2">[2]</a></sup>:
+
 > An invocation of this method of the form str.matches(regex) yields exactly the same result as the expression
-Pattern.matches(regex, str)
+> Pattern.matches(regex, str)
 
 For example, this line of code:
 
@@ -216,8 +217,8 @@ By making these small changes, you ensure your regular expressions are not only 
 ## References
 
 1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
-1. <a id="ref2"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
-2. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+1. <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
+1. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 
 ## Demo
 

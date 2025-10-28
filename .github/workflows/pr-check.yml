@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -36,6 +37,7 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -47,11 +49,15 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Run lint (astro check)
+      - name: Lint
+        run: npm run lint
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Astro check
         run: ${{ steps.detect-package-manager.outputs.runner }} astro check
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Build with Astro
+      - name: Build
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} astro build \
             --site "https://example.com" \

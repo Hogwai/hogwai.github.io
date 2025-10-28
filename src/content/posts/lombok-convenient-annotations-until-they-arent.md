@@ -1,9 +1,17 @@
 ---
 title: |
-    Lombok: Convenient annotations until they aren't (WIP)
-description: 'Some Lombok annotations do not have your best interests at heart. Learn how to avoid undesirable behaviors and side effects'
+  Lombok: Convenient annotations until they aren't (WIP)
+description: "Some Lombok annotations do not have your best interests at heart. Learn how to avoid undesirable behaviors and side effects"
 pubDate: 2025-10-25
-tags: ['java', 'spring-boot', 'spring-data-jpa', 'hibernate', 'lombok', 'annotation']
+tags:
+  [
+    "java",
+    "spring-boot",
+    "spring-data-jpa",
+    "hibernate",
+    "lombok",
+    "annotation",
+  ]
 draft: true
 ---
 
@@ -48,7 +56,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
     private BigDecimal price;
 }
@@ -136,7 +144,7 @@ The `@ToString` annotation is the most famous culprit, but the real danger often
 
 `@Data` is one of Lombok's most popular annotations. It's a convenient shortcut that bundles together `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString`, and `@EqualsAndHashCode`.
 
-And that's precisely the problem. By putting `@Data` on a JPA entity, you are *implicitly* and *unintentionally* applying all the risks of `@ToString` and `@EqualsAndHashCode` (which suffers from the same lazy-loading issues) to your class.
+And that's precisely the problem. By putting `@Data` on a JPA entity, you are _implicitly_ and _unintentionally_ applying all the risks of `@ToString` and `@EqualsAndHashCode` (which suffers from the same lazy-loading issues) to your class.
 
 **AVOID THIS:**
 
@@ -188,7 +196,7 @@ When you call `user.toString()`, it calls `posts.toString()`, which calls `post.
 
 #### Problem 2: The Lazy Loading Surprise (Performance Killer)
 
-Even without a bidirectional relationship, `@ToString` can be a major performance problem. JPA's lazy loading means that associations are not loaded from the database until you access them. Lombok's `toString()` method will access *all* fields, triggering lazy loads unexpectedly.
+Even without a bidirectional relationship, `@ToString` can be a major performance problem. JPA's lazy loading means that associations are not loaded from the database until you access them. Lombok's `toString()` method will access _all_ fields, triggering lazy loads unexpectedly.
 
 ```java
 // AVOID THIS!
@@ -206,7 +214,7 @@ public class User {
 public void findUserAndLog() {
     User user = userRepository.findById(1L).get(); // 'posts' is a proxy
     // This innocent line triggers a new SQL query to load all posts!
-    System.out.println("Logging user: " + user); 
+    System.out.println("Logging user: " + user);
 }
 ```
 
@@ -265,9 +273,9 @@ Always prefer `@RequiredArgsConstructor` with `final` fields for your Spring bea
 
 Lombok is an incredible tool, but in the complex worlds of persistence and dependency injection, you must wield it with care.
 
-* **Safe:** `@Getter`, `@Setter`, and `@Builder` are generally safe and beneficial.
-* **Dangerous on Entities:** `@ToString` and `@EqualsAndHashCode` are risky due to lazy loading and bidirectional relationships. **Avoid `@Data` on JPA entities** as it bundles these risks implicitly.
-* **Dangerous for DI:** `@AllArgsConstructor` can break the Spring container's contract. **Prefer `@RequiredArgsConstructor` with `final` fields** for dependency injection.
+- **Safe:** `@Getter`, `@Setter`, and `@Builder` are generally safe and beneficial.
+- **Dangerous on Entities:** `@ToString` and `@EqualsAndHashCode` are risky due to lazy loading and bidirectional relationships. **Avoid `@Data` on JPA entities** as it bundles these risks implicitly.
+- **Dangerous for DI:** `@AllArgsConstructor` can break the Spring container's contract. **Prefer `@RequiredArgsConstructor` with `final` fields** for dependency injection.
 
 The golden rule is:
 **Be deliberate.**
@@ -276,5 +284,5 @@ Understand what each Lombok annotation does under the hood. By being explicit an
 
 ## References
 
-1. <a id="ref1"></a>[String.matches(String regex)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String))
+1. <a id="ref1"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 2. <a id="ref2"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
