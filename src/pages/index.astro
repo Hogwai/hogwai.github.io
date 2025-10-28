@@ -42,7 +42,7 @@ const posts = (await getCollection('posts'))
             pubDate={post.data.pubDate}
             slug={post.slug}
             tags={post.data.tags}
-            client:visible
+            client:idle
           />
         ))}
       </div>
