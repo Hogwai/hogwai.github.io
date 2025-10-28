@@ -41,7 +41,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
             <>
               <span>•</span>
               <time datetime={updatedDate.toISOString()}>
-                Mis à jour le {updatedDate.toLocaleDateString('en-GB', {
+                Updated at {updatedDate.toLocaleDateString('en-GB', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -68,7 +68,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
         </div>
         
         <aside class="lg:col-span-1">
-          <div class="sticky top-24">
+          <div class="sticky top-24 h-fit">
             <TableOfContents headings={headings} client:visible />
           </div>
         </aside>
