@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hogwai.github.io/sitemap-index.xml
