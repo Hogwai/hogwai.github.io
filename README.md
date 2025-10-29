@@ -17,6 +17,7 @@ For questions or suggestions, reach out via:
 - Email: <github@lw.mozmail.com>
 - GitHub Issues: [issues](https://github.com/Hogwai/hogwai.github.io/issues)
 
-## License
+## Licenses
 
-This work is licensed under a MIT license
+- Code: Licensed under [MIT](/LICENSE)
+- Content: Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

@@ -1,28 +1,45 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 ---
 
 <BaseLayout title="About">
   <Header client:visible />
-  
+
   <main class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">About</h1>
-      
+      <h1
+        class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white"
+      >
+        About
+      </h1>
+
       <div class="prose prose-gray dark:prose-invert prose-sm max-w-none">
         <p class="text-xl text-gray-700 dark:text-gray-300 mb-6">
-           Welcome to my technical blog
+          Welcome to my technical blog
         </p>
-        
-        <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">Who am I ?</h2>
+
+        <h2
+          class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100"
+        >
+          Who am I ?
+        </h2>
         <p class="text-gray-700 dark:text-gray-300">
-          I'm Lilian, a seasoned developer with a passion for the java ecosystem.
+          I'm Lilian, a seasoned developer with a passion for the java
+          ecosystem.
+        </p>
+        <h2
+          class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100"
+        >
+          The stack
+        </h2>
+        <p class="text-gray-700 dark:text-gray-300">
+          The blog is made with [Astro](https://github.com/withastro/astro), [React](https://github.com/facebook/react), [TypeScript](https://github.com/microsoft/TypeScript) and [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
         </p>
       </div>
     </div>
   </main>
-  
+
   <Footer />
 </BaseLayout>
