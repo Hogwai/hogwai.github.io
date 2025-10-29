@@ -49,7 +49,7 @@ public class User {
 ```java
 User user = new User();
 user.setUsername("John");
-user.setEmail("johnny@boy.com")
+user.setEmail("johnny@boy.com");
 
 LOG.info("Username: {}", user.getUsername());
 LOG.info("Email: {}", user.getEmail());
@@ -63,6 +63,8 @@ The Builder pattern is fantastic for constructing complex objects, and `@Builder
 @Entity
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,7 +77,7 @@ public class Post {
 
 ```java
 Post post = Post.builder()
-                .title("How to use Lombok effectively ?")
+                .title("How to use Lombok effectively?")
                 .description("There is probably a good blog post on that subject!")
                 .build();
 
@@ -123,7 +125,7 @@ user.ifPresent(usr -> LOG.info("User: {}", usr));
 Or like that:
 
 ```java
-List<Post> user = userRepository.findById(1L);
+Optional<User> user = userRepository.findById(1L);
 user.ifPresent(usr -> LOG.info("Posts from user {}: {}", usr.getUsername(), usr.getPosts()));
 ```
 
@@ -204,7 +206,7 @@ To have a fine-grained control on the serialization of the entities, you can ove
 public String toString() {
     return "User{" +
             "id=" + id +
-            ", username='" + username + "'" +
+            ", username='" + username + "\'" +
             "}";
 }
 ```
@@ -214,8 +216,8 @@ public String toString() {
 public String toString() {
     return "Post{" +
             "id=" + id +
-            ", title='" + title + '\'' +
-            ", description='" + description + '\'' +
+            ", title='" + title + "\'" +
+            ", description='" + description + "\'" +
             "}";
 }
 ```
@@ -244,7 +246,7 @@ public class User {
 }
 ```
 
-As stated in the Lombok documentation, `@Data` is primarly designed for simple POJOs<sup><a href="#ref1">[1]</a></sup> (i.e. for DTOs and value objects).
+As stated in the Lombok documentation, `@Data` is primarily designed for simple POJOs<sup><a href="#ref1">[1]</a></sup> (i.e. for DTOs and value objects).
 
 For an entity, it is better to be explicit:
 
@@ -258,7 +260,7 @@ For an entity, it is better to be explicit:
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private Long id;
 
     private String username;
 
@@ -271,7 +273,7 @@ public class User {
 
 ### `@AllArgsConstructor`
 
-A common pattern I see regurlarly is using `@AllArgsConstructor` on a Spring `@Service` or `@Component` for constructor injection:
+A common pattern I see regularly is using `@AllArgsConstructor` on a Spring `@Service` or `@Component` for constructor injection:
 
 ```java
 @Service
@@ -316,7 +318,6 @@ You can also implement the constructor yourself.
 
 ```java
 @Service
-@RequiredArgsConstructor
 public class UserService {
     @Value("${property}")
     private String springManagedProperty;
@@ -333,7 +334,7 @@ public class UserService {
 
 Benefits:
 
-1. **Safety:** Clear boundary between dependancies and value attributes.
+1. **Safety:** Clear boundary between dependencies and value attributes.
 2. **Immutability:** Promotes good design and thread safety.
 3. **Spring Compatibility:** Works perfectly with the recommended constructor injection.
 
@@ -344,7 +345,7 @@ Benefits:
 | Annotation                 | Safe for              | Potential Risks               | Alternative / Recommendation         |
 | -------------------------- | --------------------- | ----------------------------- | ------------------------------------ |
 | `@Getter` / `@Setter`      | All                   | None                          | -                                    |
-| `@Builder`                 | All                   | None                          | -                                    |
+| `@Builder` | All (with `@NoArgsConstructor` for JPA) | Missing no-args constructor | Add `@NoArgsConstructor` |
 | `@ToString`                | DTOs, simple entities | Recursion, lazy loading (JPA) | `@ToString(exclude=...)`             |
 | `@EqualsAndHashCode`       | DTOs                  | Lazy loading (JPA)            | Avoid or configure explicitly        |
 | `@Data`                    | DTOs / value objects  | Bundles risks on entities     | Avoid on JPA                         |
@@ -355,3 +356,4 @@ Benefits:
 
 1. <a id="ref1"></a>[Lombok documentation for @Data](https://projectlombok.org/features/Data)
 2. [Lombok documentation](https://projectlombok.org/features/)
+3. [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)
