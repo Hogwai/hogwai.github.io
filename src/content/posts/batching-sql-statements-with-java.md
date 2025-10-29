@@ -3,7 +3,7 @@ title: "Batching SQL statements with Java"
 description: "Agnostic and platform-specific ways to batch SQL statements"
 pubDate: 2025-10-30
 tags: ["java", "sql", "batching", "performance", "ORM"]
-draft: false
+draft: true
 ---
 
 Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings, and perform complex text transformations with just a few lines of code. However, this power comes with a hidden performance cost if not used correctly.
