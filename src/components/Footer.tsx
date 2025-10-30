@@ -12,7 +12,7 @@ export default function Footer() {
             </a>
             . Content licensed under{" "}
             <a
-              href="https://github.com/Hogwai/hogwai.github.io#license"
+              href="https://github.com/Hogwai/hogwai.github.io#licenses"
               target="_blank"
             >
               CC BY 4.0
