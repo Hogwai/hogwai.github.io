@@ -1,3 +1,5 @@
+import { Github, Linkedin, Rss } from "lucide-react";
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -25,7 +27,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              GitHub
+              <Github />
             </a>
             <a
               href="https://www.linkedin.com/in/lilian-wernert/"
@@ -33,13 +35,13 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Linkedin
+              <Linkedin />
             </a>
             <a
               href="/rss.xml"
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              RSS
+              <Rss />
             </a>
           </div>
         </div>
