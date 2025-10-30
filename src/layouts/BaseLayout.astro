@@ -43,11 +43,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           : "light");
       document.documentElement.classList.toggle("dark", theme === "dark");
     </script>
-    <script
-      is:inline
-      defer
-      src="https://cloud.umami.is/script.js"
-      data-website-id="be4da73f-7653-4f79-8c0e-8e517de6dbba"></script>
+    {
+      import.meta.env.PROD && (
+        <script
+          is:inline
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="be4da73f-7653-4f79-8c0e-8e517de6dbba"
+        />
+      )
+    }
 
     <style is:global>
       html {
