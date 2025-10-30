@@ -64,10 +64,9 @@ Calling `Pattern.compile()` has a multi-dimensional performance cost:
 ### The Wrong Way (Inefficient)
 
 ```java
-// AVOID THIS!
 public void processLines(List<String> lines) {
     for (String line : lines) {
-        // Pattern is re-compiled on every iteration! Very inefficient.
+        // Pattern is re-compiled on every iteration
         if (line.matches("\\d+")) {
             // process number
         }
@@ -75,17 +74,15 @@ public void processLines(List<String> lines) {
 }
 ```
 
-### The Right Way (Efficient)
+### The Right Way
 
 The best practice for regex patterns that are used repeatedly is to compile them once and store them in a `private static final` field. This ensures the pattern is compiled only once when the class is loaded.
 
 ```java
-// DO THIS!
 import java.util.regex.Pattern;
 
 public class LineProcessor {
-    // Compile the pattern once and store it as a constant.
-    // It's thread-safe and will be reused for every instance and call.
+    // Compiled once and stored as a constant.
     private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");
 
     public void processLines(List<String> lines) {

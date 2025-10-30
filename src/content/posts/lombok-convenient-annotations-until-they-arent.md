@@ -1,8 +1,8 @@
 ---
 title: |
-  Lombok: Convenient annotations until they aren't (WIP)
+  Lombok: Convenient annotations until they aren't
 description: "Some Lombok annotations do not have your best interests at heart. Learn how to avoid undesirable behaviors and side effects"
-pubDate: 2025-10-25
+pubDate: 2025-10-30
 tags:
   [
     "java",
@@ -12,21 +12,25 @@ tags:
     "lombok",
     "annotation",
   ]
-draft: true
+draft: false
 ---
 
-Lombok has been and remains a gift for Java developers.
-IIt frees us from the burden of writing tedious, repetitive code, making our classes cleaner, more readable, and easier to maintain.
+## Introduction
 
-But as with any powerful tool, convenience can sometimes hide subtle dangers. When Lombok meets the world of JPA (Java Persistence API) and Spring, a few annotations can lead to unexpected behaviors and frustrating issues.
+Lombok has long been and continues to be a gift for Java developers.
+It frees us from the burden of writing tedious, repetitive code, making our classes cleaner, more readable, and easier to maintain.
 
-## The Safe Zone
+But, as with any powerful tool, convenience can sometimes hide subtle pitfalls.
+
+This article aims to help you avoid them by giving you the keys to make thoughtful, informed choices.
+
+## Lombok on safe ground
+
+Some annotations are simple, direct, and don't interfere with any lifecycle or state.
 
 ### `@Getter` and `@Setter`
 
-These are the bread and butter of Lombok. Java Beans relies heavily on standard getters and setters to access and mutate their state. Whether you're using field or property access, Lombok-generated getters and setters are indistinguishable from hand-written ones.
-
-They are simple, direct, and don't trigger any complex behavior.
+The bread and butter of Java Beans. Lombok-generated getters and setters are indistinguishable from hand-written ones, whether using field or property access.
 
 ```java
 @Entity
@@ -38,48 +42,238 @@ public class User {
     private Long id;
 
     private String username;
-
     private String email;
 }
 ```
 
+```java
+User user = new User();
+user.setUsername("John");
+user.setEmail("johnny@boy.com");
+
+LOG.info("Username: {}", user.getUsername());
+LOG.info("Email: {}", user.getEmail());
+```
+
 ### `@Builder`
 
-The Builder pattern is fantastic for constructing complex objects and `@Builder` makes it really easy.
-Again, using a builder is safe and doesn't interfere with the persistence lifecycle nor the state of an entity.
+The Builder pattern is fantastic for constructing complex objects, and `@Builder` makes it really easy. It doesn't interfere with persistence lifecycle or entity state.
 
 ```java
 @Entity
 @Getter
 @Builder
-public class Product {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private BigDecimal price;
+    private String title;
+    private String description;
 }
 ```
-
-## The Gray Zone
-
-### The `@AllArgsConstructor` Pitfall
-
-A common (but incorrect) pattern is to use `@AllArgsConstructor` on a Spring `@Service` or `@Component` to let Spring inject dependencies via the constructor.
 
 ```java
-@Service
-@AllArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
-    private final EmailService emailService;
+Post post = Post.builder()
+                .title("How to use Lombok effectively?")
+                .description("There is probably a good blog post on that subject!")
+                .build();
+
+LOG.info("Title: {}", post.getTitle());
+LOG.info("Description: {}", post.getDescription());
+```
+
+## Lombok on JPA entities
+
+On `@Entity` classes, issues often stem from interactions with lazy loading, bidirectional relationships, and implicit bundling.
+
+### `@ToString`
+
+#### Problem 1: Stack overflow on bidirectional relationships
+
+This is the most classic issue. Imagine a standard bidirectional relationship: a `User` has many `Post`s, and each `Post` belongs to a `User`.
+
+```java
+@Entity
+@ToString
+public class User {
+    // ...
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 }
 ```
 
-The example above works well...
-HOWEVER
-the issue with `@AllArgsConstructor` is that it can not tell the difference between different types of attributes:
+```java
+@Entity
+@ToString
+public class Post {
+    // ...
+    @ManyToOne
+    private User user;
+}
+```
+
+If you try something like that:
+
+```java
+Optional<User> user = userRepository.findById(1L);
+user.ifPresent(usr -> LOG.info("User: {}", usr));
+```
+
+Or like that:
+
+```java
+Optional<User> user = userRepository.findById(1L);
+user.ifPresent(usr -> LOG.info("Posts from user {}: {}", usr.getUsername(), usr.getPosts()));
+```
+
+You will get a `StackOverflowError`.
+Here's why.
+
+When you use Lombok's `@ToString` on entities with bidirectional relationships (e.g., a User has many Posts, and each Post references its User), logging an entity also logs its relationships.
+
+Lombok generates a `toString()` method that includes all fields.
+This is a circular reference: calling `user.toString()` triggers `posts.toString()`, which calls each `post.toString()`, which in turn calls `user.toString()` again...
+
+It creates an infinite recursion: user → posts → post → user → ...
+Eventually, the call stack overflows, resulting in a `StackOverflowError`.
+
+#### Problem 2: Lazy loading
+
+Even without bidirectionality, `@ToString` can cause major performance issues. JPA's lazy loading means associations aren't fetched until accessed. Lombok's `toString()` accesses _all_ fields, triggering unexpected loads.
+
+```java
+@Entity
+@ToString
+public class User {
+    // ...
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
+}
+```
+
+```java
+Optional<User> user = userRepository.findById(1L);
+user.ifPresent(usr -> LOG.info("User: {}", usr));
+```
+
+Here, `posts` is a [PersistenceBag](https://docs.hibernate.org/stable/core/javadocs/org/hibernate/collection/spi/PersistentBag.html) that will be initialized when the logger calls `posts.toString()`.
+If `posts` contains thousands of `Post`, they will all be fetched.
+
+This leads to:
+
+1. **Unexpected Database Hits:** Your simple log now queries the DB.
+2. **N+1 Query Problem:** In a loop, it generates a lot of extra queries.
+3. **LazyInitializationException:** Can be thrown if the session is closed.
+
+#### Solutions
+
+##### Excluding the fields
+
+Use `@ToString(exclude = "posts")` or `@ToString.Exclude` on problematic fields.
+
+```java
+@Entity
+@Getter
+@ToString(exclude = "posts")
+public class User {
+    // ...
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
+}
+```
+
+```java
+@Entity
+@Getter
+@ToString
+public class Post {
+    // ...
+    @ManyToOne
+    @ToString.Exclude // Prevents back-reference recursion
+    private User user;
+}
+```
+
+##### Overriding `toString()`
+
+To have a fine-grained control on the serialization of the entities, you can override the `toString()` method:
+
+```java
+@Override
+public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", username='" + username + "\'" +
+            "}";
+}
+```
+
+```java
+@Override
+public String toString() {
+    return "Post{" +
+            "id=" + id +
+            ", title='" + title + "\'" +
+            ", description='" + description + "\'" +
+            "}";
+}
+```
+
+### `@EqualsAndHashCode`
+
+Similar risks apply to `@ToString`: it accesses all fields, which can trigger lazy loading or cause recursion.
+Avoid using it on entities unless explicitly configured with `@EqualsAndHashCode(onlyExplicitlyIncluded = true)`.
+In most cases, you don’t need it, and even when you do, it’s usually better to implement these methods manually, so you can define equality according to your own rules.
+
+### `@Data`: All-in-One Problem
+
+`@Data` bundles `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString`, and `@EqualsAndHashCode`.
+
+```java
+@Entity
+@Data // Includes @ToString and @EqualsAndHashCode
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
+}
+```
+
+As stated in the Lombok documentation, `@Data` is primarily designed for simple POJOs<sup><a href="#ref1">[1]</a></sup> (i.e. for DTOs and value objects).
+
+For an entity, it is better to be explicit:
+
+```java
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = "posts") // Explicit about toString
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
+}
+```
+
+## Dependency Injection in Spring
+
+### `@AllArgsConstructor`
+
+A common pattern I see regularly is using `@AllArgsConstructor` on a Spring `@Service` or `@Component` for constructor injection:
 
 ```java
 @Service
@@ -87,17 +281,24 @@ the issue with `@AllArgsConstructor` is that it can not tell the difference betw
 public class UserService {
     @Value("${property}")
     private String springManagedProperty;
+
     private final UserRepository userRepository;
     private final EmailService emailService;
 }
 ```
 
-In this example, we have two dependancies and a simple attribute managed by Spring.
-`springManagedProperty` will be null because the `@Value` annotation is bypassed by the constructor injection generated by Lombok.
+This seems like a perfectly fine solution at first.
 
-#### A more robust way: `@RequiredArgsConstructor`
+But here's the catch:
 
-A safer way is to use `@RequiredArgsConstructor` with `final` fields.
+As its name suggests, `@AllArgsConstructor` includes all fields, whether it should or not.
+It cannot distinguish legitimate dependencies from fields annotated with `@Value`.
+
+#### Solutions
+
+##### Use `@RequiredArgsConstructor`
+
+Prefer `@RequiredArgsConstructor` with `final` fields (only mandatory dependencies).
 
 ```java
 @Service
@@ -105,27 +306,22 @@ A safer way is to use `@RequiredArgsConstructor` with `final` fields.
 public class UserService {
     @Value("${property}")
     private String springManagedProperty;
+
     private final UserRepository userRepository;
     private final EmailService emailService;
 }
 ```
 
-This approach is better for several reasons:
+##### Implement the constructor manually
 
-1. **Safety:** It only generates a constructor for the `final` fields, which are your mandatory dependencies. Everything else remains untouched.
-2. **Immutability:** Using `final` fields promotes good design and thread safety.
-3. **Spring Compatibility:** It works perfectly with Spring's constructor injection, which is the recommended injection method.
-
-#### The best way (in my humble opinion)
-
-Lombok doesn't have to be 'all-or-nothing'.
-Constructor injection is a standard and sometimes a bit of boilerplate code doesn't hurt.
+You can also implement the constructor yourself.
 
 ```java
 @Service
 public class UserService {
     @Value("${property}")
     private String springManagedProperty;
+
     private final UserRepository userRepository;
     private final EmailService emailService;
 
@@ -136,153 +332,28 @@ public class UserService {
 }
 ```
 
-## The Danger Zone: More Than Just `@ToString`
+Benefits:
 
-The `@ToString` annotation is the most famous culprit, but the real danger often comes from shortcuts that bundle it in.
+1. **Safety:** Clear boundary between dependencies and value attributes.
+2. **Immutability:** Promotes good design and thread safety.
+3. **Spring Compatibility:** Works perfectly with the recommended constructor injection.
 
-### The `@Data` Trap: An All-in-One Problem
+## Wrapping up
 
-`@Data` is one of Lombok's most popular annotations. It's a convenient shortcut that bundles together `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString`, and `@EqualsAndHashCode`.
+**Golden Rule**: Understand what Lombok annotations do under the hood before pasting them on your classes.
 
-And that's precisely the problem. By putting `@Data` on a JPA entity, you are _implicitly_ and _unintentionally_ applying all the risks of `@ToString` and `@EqualsAndHashCode` (which suffers from the same lazy-loading issues) to your class.
-
-**AVOID THIS:**
-
-```java
-@Entity
-@Data // This is a trap! It includes @ToString and @EqualsAndHashCode
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Post> posts = new ArrayList<>();
-}
-```
-
-While `@Data` is fantastic for simple DTOs or value objects, it is a **code smell on JPA entities**. It's better to be explicit and only apply the annotations you truly need and have considered.
-
-### The Perils of `@ToString`
-
-Let's break down why `@ToString` is so problematic on entities.
-
-#### Problem 1: The Stack Overflow Nightmare (Bidirectional Relationships)
-
-This is the most classic issue. Imagine a standard bidirectional relationship: a `User` has many `Post`s, and each `Post` belongs to a `User`.
-
-```java
-// AVOID THIS!
-@Entity
-@ToString // DANGER!
-public class User {
-    // ...
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
-}
-
-// AVOID THIS!
-@Entity
-@ToString // DANGER!
-public class Post {
-    // ...
-    @ManyToOne
-    private User user;
-}
-```
-
-When you call `user.toString()`, it calls `posts.toString()`, which calls `post.toString()`, which calls `user.toString()`... creating an infinite recursion that crashes your application with a `StackOverflowError`.
-
-#### Problem 2: The Lazy Loading Surprise (Performance Killer)
-
-Even without a bidirectional relationship, `@ToString` can be a major performance problem. JPA's lazy loading means that associations are not loaded from the database until you access them. Lombok's `toString()` method will access _all_ fields, triggering lazy loads unexpectedly.
-
-```java
-// AVOID THIS!
-@Entity
-@ToString // DANGER!
-public class User {
-    // ...
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Post> posts = new ArrayList<>();
-}
-```
-
-```java
-@Transactional
-public void findUserAndLog() {
-    User user = userRepository.findById(1L).get(); // 'posts' is a proxy
-    // This innocent line triggers a new SQL query to load all posts!
-    System.out.println("Logging user: " + user);
-}
-```
-
-This can lead to:
-
-1. **Unexpected Database Hits:** Your simple logging statement is now hitting the database.
-2. **N+1 Query Problem:** Doing this in a loop can generate hundreds of extra queries.
-3. **LazyInitializationException:** If you call `toString()` outside a transactional context, the session is closed, and Hibernate will throw an exception.
-
-## The Solutions: How to Use Lombok Safely
-
-So, how do we use Lombok without falling into these traps?
-
-### Solution 1: Be Explicit, Avoid `@Data` on Entities
-
-Instead of `@Data`, be explicit. Use only the annotations you need.
-
-```java
-@Entity
-@Getter
-@RequiredArgsConstructor // For the mandatory fields like @Id
-@ToString(exclude = "posts") // Be explicit about toString
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id; // final works great with @RequiredArgsConstructor
-
-    private String username;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Post> posts = new ArrayList<>();
-}
-```
-
-### Solution 2: Exclude Problematic Fields from `@ToString`
-
-As shown above, use `@ToString.Exclude` to prevent lazy loading and recursion.
-
-```java
-@Entity
-@Getter
-@ToString
-public class Post {
-    // ...
-    @ManyToOne
-    @ToString.Exclude // Prevents the back-reference recursion
-    private User user;
-}
-```
-
-### Solution 3: Use `@RequiredArgsConstructor` for Dependency Injection
-
-Always prefer `@RequiredArgsConstructor` with `final` fields for your Spring beans over `@AllArgsConstructor`.
-
-## Conclusion
-
-Lombok is an incredible tool, but in the complex worlds of persistence and dependency injection, you must wield it with care.
-
-- **Safe:** `@Getter`, `@Setter`, and `@Builder` are generally safe and beneficial.
-- **Dangerous on Entities:** `@ToString` and `@EqualsAndHashCode` are risky due to lazy loading and bidirectional relationships. **Avoid `@Data` on JPA entities** as it bundles these risks implicitly.
-- **Dangerous for DI:** `@AllArgsConstructor` can break the Spring container's contract. **Prefer `@RequiredArgsConstructor` with `final` fields** for dependency injection.
-
-The golden rule is:
-**Be deliberate.**
-
-Understand what each Lombok annotation does under the hood. By being explicit and choosing the right tool for the job, you can keep your code clean, concise, and, most importantly, bug-free
+| Annotation                 | Safe for              | Potential Risks               | Alternative / Recommendation         |
+| -------------------------- | --------------------- | ----------------------------- | ------------------------------------ |
+| `@Getter` / `@Setter`      | All                   | None                          | -                                    |
+| `@Builder` | All (with `@NoArgsConstructor` for JPA) | Missing no-args constructor | Add `@NoArgsConstructor` |
+| `@ToString`                | DTOs, simple entities | Recursion, lazy loading (JPA) | `@ToString(exclude=...)`             |
+| `@EqualsAndHashCode`       | DTOs                  | Lazy loading (JPA)            | Avoid or configure explicitly        |
+| `@Data`                    | DTOs / value objects  | Bundles risks on entities     | Avoid on JPA                         |
+| `@AllArgsConstructor`      | Rarely                | Bypasses `@Value` / non-final | `@RequiredArgsConstructor` + `final` |
+| `@RequiredArgsConstructor` | Spring beans          | None (if `final` fields used) | Preferred for DI                     |
 
 ## References
 
-1. <a id="ref1"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
-2. <a id="ref2"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+1. <a id="ref1"></a>[Lombok documentation for @Data](https://projectlombok.org/features/Data)
+2. [Lombok documentation](https://projectlombok.org/features/)
+3. [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)

@@ -6,8 +6,17 @@ export default function Footer() {
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 dark:text-gray-400">
-            © {currentYear} <a href="https://github.com/Hogwai">Hogwai</a>.{" "}
-            Content licensed under the <a href="/LICENSE">MIT license</a>.{" "}
+            © {currentYear}{" "}
+            <a href="https://github.com/Hogwai" target="_blank">
+              Hogwai
+            </a>
+            . Content licensed under{" "}
+            <a
+              href="https://github.com/Hogwai/hogwai.github.io#license"
+              target="_blank"
+            >
+              CC BY 4.0
+            </a>
           </p>
           <div className="flex gap-6">
             <a

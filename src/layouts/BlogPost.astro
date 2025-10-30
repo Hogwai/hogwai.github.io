@@ -14,7 +14,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header client:load />
+  <Header client:visible />
   
   <main class="flex-grow bg-gray-50 dark:bg-gray-950">
     <article class="container-custom py-12">
@@ -69,13 +69,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags, headings = []
         
         <aside class="lg:col-span-1">
           <div class="sticky top-24 h-fit">
-            <TableOfContents headings={headings} client:visible />
+            <TableOfContents headings={headings} client:idle />
           </div>
         </aside>
       </div>
     </article>
   </main>
   
-  <BackToTop client:load />
+  <BackToTop client:idle />
   <Footer />
 </BaseLayout>
