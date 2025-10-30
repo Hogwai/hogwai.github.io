@@ -7,8 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx}\" --max-warnings=0",
-    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx}\" --fix && prettier --write \"src/**/*.{js,ts,jsx,tsx}\"",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --max-warnings=0",
+    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --fix && prettier --write \"src/**/*.{js,ts,jsx,tsx,mjs}\"",
     "prepare": "husky"
   },
   "dependencies": {
