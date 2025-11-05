@@ -4,11 +4,13 @@
 
 The purpose of this [blog](https://hogwai.github.io/) is to gather my ideas, thoughts and tips in a standard, readable format, mainly on Java.
 
+The blog has a [side project](https://github.com/Hogwai/hogwai.github.io-content) with content related to the posts (implementations, tests, examples).
+
 ## Content
 
 - **Tutorials**: Step-by-step guides on various topics.
 - **Tips**: Advice for optimizing your Java code, solving common issues or best practices.
-- **Practical examples**: Example projects with source code to learn by doing.
+- **Practical examples**: Example projects with source code.
 
 ## Contact
 
