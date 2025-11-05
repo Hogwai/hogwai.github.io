@@ -16,8 +16,7 @@ Cannot find module 'astro:content' or its corresponding type declarations.ts(230
 Can't catch a break !
 
 You've set up your project, you're ready to build something amazing, but then... there’s that issue.
-
-Although there are several potential causes, we're going to focus on a very common and often overlooked scenario, directly inspired by a solution from the Astro community. The fix may be simpler than you think: you just need to create some content first.
+The fix may be simpler than you think: you just need to create some content first.
 
 ## The Chicken-and-Egg Problem
 
@@ -34,9 +33,9 @@ Here is the step-by-step process that you can try.
 
 ### Step 1: Create Your First Content File
 
-This is the most critical step. Astro needs at least one piece of content to work with.
+Astro needs at least one piece of content to work with.
 
-Create a new directory for your collection, for example, `src/content/blog/`.
+Create a new directory for your collection, for example: `src/content/blog/`.
 
 Inside it, create a simple Markdown file.
 
@@ -45,7 +44,7 @@ Inside it, create a simple Markdown file.
 ```markdown
 ---
 title: "Great title"
-pubDate: 2025-10-81
+pubDate: 2025-10-18
 description: "Awesome description"
 layout: "../../layouts/BlogPostLayout.astro"
 ---
@@ -55,7 +54,7 @@ Outstanding post
 
 Just by adding this file, you've given Astro the raw material it needs.
 
-### Step 2: Configure Your Collection and Schema (Don't Forget This!)
+### Step 2: Configure Your Collection and Schema
 
 For Astro to provide proper type safety, you need to tell it what your `blog` collection should look like. This is done in a special configuration file.
 
