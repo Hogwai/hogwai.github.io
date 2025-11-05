@@ -8,7 +8,6 @@ tags:
     "java",
     "collections",
     "performance",
-    "memory",
   ]
 draft: false
 ---
