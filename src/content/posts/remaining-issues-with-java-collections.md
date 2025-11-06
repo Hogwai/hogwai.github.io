@@ -25,7 +25,7 @@ When you initialize an `ArrayList`, it will create an array (`Object[]`) as back
 
 The array is used for every operation: `indexOf`, `contains`, `get` etc...
 
-### `contains(Object o)`
+### Using `contains(Object o)`
 
 Now here's the first problem.
 
@@ -72,14 +72,27 @@ That gives an O(n) complexity, which means that the time consumed during a `cont
 
 It's negligible if the collection is small, but what if it's huge?
 
-### HashSet
+### Using `containsAll(Collection<?> c)`
 
-As we saw, the ArrayList `contains` implementation is not suitable for every size.
+The same logic applies to `containsAll(Collection<?> c)` but with a O(n*m) time complexity since every element of the given collection has to be checked against the elements of the other one.
+
+In addition, IntelliJ issues a [warning](https://www.jetbrains.com/help/inspectopedia/SlowListContainsAll.html) about this.
+
+```java
+public boolean check(List<String> list, Collection<String> collection) {
+  // O(n*m) complexity
+  return list.containsAll(collection);
+}
+```
+
+### Solutions
+
+As we saw, `contains` and `containsAll` implementations are not suitable for every collection size.
 
 A better solution is to leverage a more suitable data structure: `HashSet`.
 It is based on a hash table to provide consistent average-time performance for basic operations such as adding, deleting, and searching.
 
-#### `contains(Object o)`
+#### Using a HashSet
 
 Let's see the implementation<sup><a href="#ref3">[3]</a></sup>:
 
@@ -97,13 +110,11 @@ public boolean contains(Object o) {
 
 So, if we have a large collection and/or a collection that is frequently looked up (contains, remove), `HashSet` is definitely a more efficient choice.
 
-#### Utility methods
+#### Converting the Collection
 
 It is not always possible (or desirable) to replace all `ArrayLists` with `HashSets`.
 
 In such cases, creating a temporary `HashSet` is often an excellent compromise.
-
-##### Converting the ArrayList
 
 ```java
 Set<String> lookup = new HashSet<>(list);
@@ -153,7 +164,17 @@ Predicate<String> lookup = CollectionUtils.fastContains(list);
 if (lookup.test("el")) { 
   LOG.info("Found");
 }
+```
 
+#### Using `containsAll(Collection<?> c)`
+
+Same as before, converting the collection into a `HashSet` is the way to go:
+
+```java
+public boolean check(List<String> list, Collection<String> collection) {
+  // O(n+m) complexity
+  return new HashSet<>(list).containsAll(collection);
+}
 ```
 
 ## `stream()`
