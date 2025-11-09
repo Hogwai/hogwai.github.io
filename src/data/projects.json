@@ -11,7 +11,7 @@
             },
             {
                 "label": "Firefox",
-                "url": "https://addons.mozilla.org/fr/firefox/addon/linkedin-sponsor-block/",
+                "url": "https://addons.mozilla.org/en-US/firefox/addon/linkedin-sponsor-block/",
                 "type": "firefox"
             },
             {
@@ -21,7 +21,7 @@
             },
             {
                 "label": "Userscript",
-                "url": "https://greasyfork.org/fr/scripts/546877-linkedin-sponsor-block",
+                "url": "https://greasyfork.org/en/scripts/546877-linkedin-sponsor-block",
                 "type": "userscript"
             }
         ]
@@ -38,12 +38,12 @@
             },
             {
                 "label": "Firefox",
-                "url": "https://addons.mozilla.org/fr/firefox/addon/engineblock/",
+                "url": "https://addons.mozilla.org/en-US/firefox/addon/engineblock/",
                 "type": "firefox"
             },
             {
                 "label": "Userscript",
-                "url": "https://greasyfork.org/fr/scripts/555260-engineblock",
+                "url": "https://greasyfork.org/en/scripts/555260-engineblock",
                 "type": "userscript"
             }
         ]
