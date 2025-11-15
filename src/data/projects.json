@@ -1,7 +1,7 @@
 [
     {
         "title": "Linkedin Sponsor Block",
-        "description":"Userscript that hides promoted content on Linkedin. Also available as browser extension",
+        "description": "Extension that hides promoted content on Linkedin. Also available as an userscript",
         "technologies": ["JavaScript", "HTML"],
         "links": [
             {
@@ -10,20 +10,41 @@
                 "type": "github"
             },
             {
-                "label": "Userscript",
-                "url": "https://greasyfork.org/fr/scripts/546877-linkedin-sponsor-block",
-                "type": "userscript"
-            },
-
-            {
                 "label": "Firefox",
-                "url": "https://addons.mozilla.org/fr/firefox/addon/linkedin-sponsor-block/",
+                "url": "https://addons.mozilla.org/en-US/firefox/addon/linkedin-sponsor-block/",
                 "type": "firefox"
             },
             {
                 "label": "Chrome",
                 "url": "https://chromewebstore.google.com/detail/linkedin-sponsor-block/dmgglmnbmokkdocpamjkcgjfjceoocbh",
                 "type": "chrome"
+            },
+            {
+                "label": "Userscript",
+                "url": "https://greasyfork.org/en/scripts/546877-linkedin-sponsor-block",
+                "type": "userscript"
+            }
+        ]
+    },
+    {
+        "title": "EngineBlock",
+        "description": "Extension that allows to filter out vehicles based on their engine on lacentrale",
+        "technologies": ["JavaScript", "HTML"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/EngineBlock",
+                "type": "github"
+            },
+            {
+                "label": "Firefox",
+                "url": "https://addons.mozilla.org/en-US/firefox/addon/engineblock/",
+                "type": "firefox"
+            },
+            {
+                "label": "Userscript",
+                "url": "https://greasyfork.org/en/scripts/555260-engineblock",
+                "type": "userscript"
             }
         ]
     },
