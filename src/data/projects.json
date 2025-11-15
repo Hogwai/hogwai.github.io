@@ -28,7 +28,7 @@
     },
     {
         "title": "EngineBlock",
-        "description": "Extension that allows to filter out engines on lacentrale. Also available as an userscript",
+        "description": "Extension that allows to filter out vehicles based on their engine on lacentrale",
         "technologies": ["JavaScript", "HTML"],
         "links": [
             {
