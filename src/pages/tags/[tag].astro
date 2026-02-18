@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import BlogCard from '../../components/BlogCard';
+import NoteCard from '../../components/NoteCard';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+  const notes = (await getCollection('notes')).filter((n) => !n.data.draft);
+
+  const tagSet = new Set<string>();
+  for (const post of posts) post.data.tags.forEach((t) => tagSet.add(t));
+  for (const note of notes) note.data.tags.forEach((t) => tagSet.add(t));
+
+  return [...tagSet].map((tag) => ({
+    params: { tag },
+    props: {
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+      notes: notes
+        .filter((n) => n.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts, notes } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`}>
+  <Header client:visible />
+
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+    <div class="container-custom py-12">
+      <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        <a href="/tags" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
+          ← Tags
+        </a>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
+        #{tag}
+      </h1>
+
+      {posts.length > 0 && (
+        <section class="mb-10">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Posts</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {posts.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                slug={post.slug}
+                tags={post.data.tags}
+                client:idle
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {notes.length > 0 && (
+        <section>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Notes</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {notes.map((note) => (
+              <NoteCard
+                title={note.data.title}
+                description={note.data.description}
+                pubDate={note.data.pubDate}
+                slug={note.slug}
+                tags={note.data.tags}
+                language={note.data.language}
+                client:idle
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

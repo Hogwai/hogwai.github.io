@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+const notes = (await getCollection('notes')).filter((n) => !n.data.draft);
+
+const tagCounts: Record<string, number> = {};
+
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
+  }
+}
+
+for (const note of notes) {
+  for (const tag of note.data.tags) {
+    tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
+  }
+}
+
+const tags = Object.entries(tagCounts).sort(([a], [b]) =>
+  a.localeCompare(b)
+);
+---
+
+<BaseLayout title="Tags">
+  <Header client:visible />
+
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+    <div class="container-custom py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
+        Tags
+      </h1>
+      <div class="flex flex-wrap gap-3">
+        {tags.map(([tag, count]) => (
+          <a
+            href={`/tags/${tag}`}
+            class="flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 hover:border-blue-500 dark:hover:border-blue-500 transition text-sm text-gray-700 dark:text-gray-300"
+          >
+            <span>{tag}</span>
+            <span class="text-xs text-gray-400 dark:text-gray-500">{count}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

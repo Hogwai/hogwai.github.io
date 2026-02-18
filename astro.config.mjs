@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import { remarkReadingTime } from "./src/plugins/remarkReadingTime.mjs";
 
 export default defineConfig({
   site: "https://hogwai.github.io",
@@ -16,6 +17,7 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
+    remarkPlugins: [remarkReadingTime],
     shikiConfig: {
       theme: "github-dark-dimmed",
       langs: ["java", "typescript", "javascript", "bash", "json", "yaml"],

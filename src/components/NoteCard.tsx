@@ -16,17 +16,19 @@ export default function NoteCard({
   language,
 }: Props) {
   return (
-    <a
-      href={`/notes/${slug}`}
-      className="block group border border-gray-200 dark:border-gray-800 rounded-lg p-4 bg-white dark:bg-gray-900 hover:border-blue-500 dark:hover:border-blue-500 transition"
-    >
-      <article className="space-y-2">
+    <article className="relative group border border-gray-200 dark:border-gray-800 rounded-lg p-4 bg-white dark:bg-gray-900 hover:border-blue-500 dark:hover:border-blue-500 transition">
+      <div className="space-y-2">
         <div className="flex items-start justify-between gap-2">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition leading-snug">
-            {title}
+          <h2 className="text-lg font-semibold leading-snug">
+            <a
+              href={`/notes/${slug}`}
+              className="text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition after:absolute after:inset-0 after:content-['']"
+            >
+              {title}
+            </a>
           </h2>
           {language && (
-            <span className="shrink-0 px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs font-mono">
+            <span className="relative z-10 shrink-0 px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs font-mono">
               {language}
             </span>
           )}
@@ -44,18 +46,19 @@ export default function NoteCard({
           </p>
         )}
         {tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 pt-1">
+          <div className="relative z-10 flex flex-wrap gap-1.5 pt-1">
             {tags.map((tag) => (
-              <span
+              <a
                 key={tag}
-                className="px-2 py-0.5 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded text-xs"
+                href={`/tags/${tag}`}
+                className="px-2 py-0.5 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded text-xs hover:underline"
               >
                 {tag}
-              </span>
+              </a>
             ))}
           </div>
         )}
-      </article>
-    </a>
+      </div>
+    </article>
   );
 }

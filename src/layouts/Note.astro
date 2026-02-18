@@ -55,9 +55,9 @@ const { title, description, pubDate, updatedDate, tags, language, source } = Ast
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mb-4">
             {tags.map((tag) => (
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full text-sm">
+              <a href={`/tags/${tag}`} class="px-3 py-1 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full text-sm hover:underline">
                 {tag}
-              </span>
+              </a>
             ))}
           </div>
         )}
