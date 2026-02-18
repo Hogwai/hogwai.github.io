@@ -1,0 +1,80 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import BackToTop from '../components/BackToTop';
+import { type CollectionEntry } from 'astro:content';
+
+type Props = CollectionEntry<'notes'>['data'];
+
+const { title, description, pubDate, updatedDate, tags, language, source } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header client:visible />
+
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+    <article class="container-custom py-12 max-w-3xl">
+      <div class="mb-8">
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-gray-600 dark:text-gray-400">
+          <a href="/notes" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
+            ← Notes
+          </a>
+          <span>•</span>
+          <time datetime={pubDate.toISOString()}>
+            {pubDate.toLocaleDateString('en-GB', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </time>
+          {updatedDate && (
+            <>
+              <span>•</span>
+              <time datetime={updatedDate.toISOString()}>
+                Updated {updatedDate.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </>
+          )}
+          {language && (
+            <>
+              <span>•</span>
+              <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded font-mono text-xs">
+                {language}
+              </span>
+            </>
+          )}
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">{title}</h1>
+
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-4">
+            {tags.map((tag) => (
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {source && (
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            Source: <a href={source} class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">{source}</a>
+          </p>
+        )}
+      </div>
+
+      <div class="prose prose-gray dark:prose-invert max-w-none">
+        <slot />
+      </div>
+    </article>
+  </main>
+
+  <BackToTop client:idle />
+  <Footer />
+</BaseLayout>

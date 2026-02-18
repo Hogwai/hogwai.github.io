@@ -3,10 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
+import NoteCard from '../components/NoteCard';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const recentNotes = (await getCollection('notes'))
+  .filter(note => !note.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 ---
@@ -47,6 +53,30 @@ const posts = (await getCollection('posts'))
         ))}
       </div>
     </section>
+
+    {recentNotes.length > 0 && (
+      <section class="container-custom py-5">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Recent notes</h2>
+          <a href="/notes" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            See all notes →
+          </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {recentNotes.map((note) => (
+            <NoteCard
+              title={note.data.title}
+              description={note.data.description}
+              pubDate={note.data.pubDate}
+              slug={note.slug}
+              tags={note.data.tags}
+              language={note.data.language}
+              client:idle
+            />
+          ))}
+        </div>
+      </section>
+    )}
   </main>
   
   <Footer />

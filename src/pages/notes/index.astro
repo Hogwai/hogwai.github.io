@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import NotesSearchAndFilter from '../../components/NotesSearchAndFilter';
+import { getCollection } from 'astro:content';
+
+const notes = (await getCollection('notes'))
+  .filter(note => !note.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Notes">
+  <Header client:visible />
+
+  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+    <div class="container-custom py-12">
+      <div class="mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2 text-gray-900 dark:text-white">Notes</h1>
+        <p class="text-gray-600 dark:text-gray-400">Quick fixes, snippets and setup tips.</p>
+      </div>
+
+      <NotesSearchAndFilter notes={notes} client:visible />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
