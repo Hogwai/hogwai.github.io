@@ -3,38 +3,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
+import NoteCard from '../components/NoteCard';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+const recentNotes = (await getCollection('notes'))
+  .filter(note => !note.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout title="Hogwai Tech Blog">
   <Header client:load />
-  
+
   <main class="flex-grow">
-    <section class="bg-gradient-to-b from-blue-100 to-transparent dark:from-blue-900/20 dark:to-transparent py-4">
-      <div class="container-custom text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-3 text-gray-900 dark:text-white">
-          Work in progress...
-        </h1>
-        <p class="text-xl text-gray-700 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          Thoughts, tutorials and technical posts about Java (mainly)
-        </p>
-        <a 
-          href="/posts" 
-          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-2 rounded-lg transition"
-        >
-          See all posts
+    <div class="container-custom pt-8 pb-6 border-b border-gray-200 dark:border-gray-800">
+      <p class="text-lg text-gray-500 dark:text-gray-400">Thoughts, tutorials and technical posts about Java (mainly)</p>
+    </div>
+
+    <section class="container-custom py-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Latest posts</h2>
+        <a href="/posts" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          See all posts →
         </a>
       </div>
-    </section>
-    
-    <section class="container-custom py-5">
-      <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Latest posts</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {posts.map((post) => (
           <BlogCard
             title={post.data.title}
@@ -47,7 +45,31 @@ const posts = (await getCollection('posts'))
         ))}
       </div>
     </section>
+
+    {recentNotes.length > 0 && (
+      <section class="container-custom py-5">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Recent notes</h2>
+          <a href="/notes" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            See all notes →
+          </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {recentNotes.map((note) => (
+            <NoteCard
+              title={note.data.title}
+              description={note.data.description}
+              pubDate={note.data.pubDate}
+              slug={note.slug}
+              tags={note.data.tags}
+              language={note.data.language}
+              client:idle
+            />
+          ))}
+        </div>
+      </section>
+    )}
   </main>
-  
+
   <Footer />
 </BaseLayout>
