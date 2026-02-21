@@ -1,3 +1,7 @@
+# Description
+
+<!-- Describe your changes in detail -->
+
 ## Type
 
 - [ ] 🎨 UI / Style
