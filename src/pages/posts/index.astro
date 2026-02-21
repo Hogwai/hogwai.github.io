@@ -10,10 +10,10 @@ const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Posts">
+<BaseLayout title="Posts" description="All posts on Hogwai Tech Blog — Java, performance, design patterns and more.">
   <Header client:visible />
   
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
       <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">All posts</h1>
       

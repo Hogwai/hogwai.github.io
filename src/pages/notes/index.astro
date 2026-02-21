@@ -10,10 +10,10 @@ const notes = (await getCollection('notes'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Notes">
+<BaseLayout title="Notes" description="Quick fixes, snippets and setup tips — short-form technical notes.">
   <Header client:visible />
 
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
       <div class="mb-8">
         <h1 class="text-4xl md:text-5xl font-bold mb-2 text-gray-900 dark:text-white">Notes</h1>

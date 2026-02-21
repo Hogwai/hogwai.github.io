@@ -19,7 +19,8 @@ export async function GET(context: APIContext) {
       pubDate: post.data.pubDate,
       link: `/posts/${post.slug}/`,
       categories: post.data.tags,
+      author: "Hogwai",
     })),
-    customData: `<language>en-en</language>`,
+    customData: `<language>en</language>`,
   });
 }

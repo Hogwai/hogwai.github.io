@@ -12,18 +12,71 @@ type Props = CollectionEntry<'posts'>['data'] & {
 };
 
 const { title, description, pubDate, updatedDate, heroImage, tags, headings = [], minutesRead } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = heroImage ? new URL(heroImage, Astro.site).href : undefined;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: description,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  ...(imageURL && { image: imageURL }),
+  url: canonicalURL.href,
+  author: {
+    "@type": "Person",
+    name: "Lilian",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Hogwai Tech Blog",
+  },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: Astro.site?.href ?? "https://hogwai.github.io",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Posts",
+      item: new URL("/posts/", Astro.site).href,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: canonicalURL.href,
+    },
+  ],
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={heroImage}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  </Fragment>
   <Header client:visible />
   
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <article class="container-custom py-12">
       <div class="mb-8">
         {heroImage && (
-          <img 
-            src={heroImage} 
+          <img
+            src={heroImage}
             alt={title}
+            loading="lazy"
+            decoding="async"
             class="w-full h-64 object-cover rounded-lg mb-6"
           />
         )}

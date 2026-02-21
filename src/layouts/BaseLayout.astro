@@ -4,10 +4,18 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = "Hogwai Tech Blog" } = Astro.props;
+const { title, description = "Hogwai Tech Blog", image } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = image ? new URL(image, Astro.site).href : undefined;
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Hogwai Tech Blog",
+  url: Astro.site?.href ?? "https://hogwai.github.io",
+};
 ---
 
 <!doctype html>
@@ -21,11 +29,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Lilian" />
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e3a5f" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hogwai Tech Blog" />
+    <meta property="og:locale" content="en_US" />
+    {imageURL && <meta property="og:image" content={imageURL} />}
+    {imageURL && <meta property="og:image:alt" content={title} />}
+
+    <meta name="twitter:card" content={imageURL ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {imageURL && <meta name="twitter:image" content={imageURL} />}
+    {imageURL && <meta name="twitter:image:alt" content={title} />}
 
     <link
       rel="alternate"
@@ -34,6 +55,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="/rss.xml"
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="dns-prefetch" href="https://cloud.umami.is" />
+    <link rel="manifest" href="/manifest.json" />
+    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
+
+    <slot name="head" />
 
     <script is:inline>
       const theme =
@@ -61,6 +87,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </style>
   </head>
   <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded">
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

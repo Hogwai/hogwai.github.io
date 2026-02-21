@@ -2,12 +2,27 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Lilian",
+  url: "https://hogwai.github.io",
+  jobTitle: "Software Developer",
+  sameAs: [
+    "https://github.com/Hogwai",
+    "https://www.linkedin.com/in/lilian-wernert/",
+  ],
+};
 ---
 
-<BaseLayout title="About">
+<BaseLayout title="About" description="About Lilian — developer with a passion for the Java ecosystem and the author of Hogwai Tech Blog.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  </Fragment>
   <Header client:visible />
 
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
       <h1
         class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white"
