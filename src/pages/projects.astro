@@ -8,10 +8,10 @@ import projectsData from '../data/projects.json';
 const projects = projectsData as Project[];
 ---
 
-<BaseLayout title="Projects">
+<BaseLayout title="Projects" description="Open-source and personal projects built by Lilian.">
   <Header client:visible />
   
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
       <div class="mb-12">
         <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">

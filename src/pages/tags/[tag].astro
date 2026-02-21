@@ -31,10 +31,10 @@ const { tag } = Astro.params;
 const { posts, notes } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag}`}>
+<BaseLayout title={`#${tag}`} description={`Posts and notes tagged with "${tag}" on Hogwai Tech Blog.`}>
   <Header client:visible />
 
-  <main class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
     <div class="container-custom py-12">
       <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
         <a href="/tags" class="hover:text-blue-600 dark:hover:text-blue-400 transition">

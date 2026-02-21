@@ -10,11 +10,11 @@
 
 <!-- Fill in if post or note -->
 
-| Field | Value |
-|-------|-------|
-| Title | |
+| Field | Value       |
+|-------|-------------|
+| Title |             |
 | Type  | Post / Note |
-| Tags  | |
+| Tags  |             |
 
 ---
 

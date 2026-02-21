@@ -17,10 +17,10 @@ const recentNotes = (await getCollection('notes'))
   .slice(0, 3);
 ---
 
-<BaseLayout title="Hogwai Tech Blog">
+<BaseLayout title="Hogwai Tech Blog" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem.">
   <Header client:load />
 
-  <main class="flex-grow">
+  <main id="main-content" class="flex-grow">
     <div class="container-custom pt-8 pb-6 border-b border-gray-200 dark:border-gray-800">
       <p class="text-lg text-gray-500 dark:text-gray-400">Thoughts, tutorials and technical posts about Java (mainly)</p>
     </div>
