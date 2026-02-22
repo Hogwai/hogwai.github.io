@@ -21,14 +21,14 @@ const recentNotes = (await getCollection('notes'))
   <Header client:load />
 
   <main id="main-content" class="flex-grow">
-    <div class="container-custom pt-8 pb-6 border-b border-gray-200 dark:border-gray-800">
-      <p class="text-lg text-gray-500 dark:text-gray-400">Thoughts, tutorials and technical posts about Java (mainly)</p>
+    <div class="container-custom pt-8 pb-6 border-b border-edge">
+      <p class="text-lg text-ink-muted">Thoughts, tutorials and technical posts about Java (mainly)</p>
     </div>
 
     <section class="container-custom py-8">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Latest posts</h2>
-        <a href="/posts" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+        <h2 class="text-2xl font-bold text-ink">Latest posts</h2>
+        <a href="/posts" class="text-sm text-link hover:underline">
           See all posts →
         </a>
       </div>
@@ -49,8 +49,8 @@ const recentNotes = (await getCollection('notes'))
     {recentNotes.length > 0 && (
       <section class="container-custom py-5">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Recent notes</h2>
-          <a href="/notes" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          <h2 class="text-2xl font-bold text-ink">Recent notes</h2>
+          <a href="/notes" class="text-sm text-link hover:underline">
             See all notes →
           </a>
         </div>

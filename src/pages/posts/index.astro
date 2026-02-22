@@ -13,9 +13,9 @@ const posts = (await getCollection('posts'))
 <BaseLayout title="Posts" description="All posts on Hogwai Tech Blog — Java, performance, design patterns and more.">
   <Header client:visible />
   
-  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">All posts</h1>
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">All posts</h1>
       
       <SearchAndFilter posts={posts} client:visible />
     </div>

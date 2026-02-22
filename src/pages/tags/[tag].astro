@@ -34,20 +34,20 @@ const { posts, notes } = Astro.props;
 <BaseLayout title={`#${tag}`} description={`Posts and notes tagged with "${tag}" on Hogwai Tech Blog.`}>
   <Header client:visible />
 
-  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
-      <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-        <a href="/tags" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
+      <div class="mb-2 text-sm text-ink-muted">
+        <a href="/tags" class="hover:text-link transition">
           ← Tags
         </a>
       </div>
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">
         #{tag}
       </h1>
 
       {posts.length > 0 && (
         <section class="mb-10">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Posts</h2>
+          <h2 class="text-2xl font-bold text-ink mb-4">Posts</h2>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {posts.map((post) => (
               <BlogCard
@@ -65,7 +65,7 @@ const { posts, notes } = Astro.props;
 
       {notes.length > 0 && (
         <section>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Notes</h2>
+          <h2 class="text-2xl font-bold text-ink mb-4">Notes</h2>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {notes.map((note) => (
               <NoteCard

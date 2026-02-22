@@ -29,19 +29,19 @@ const tags = Object.entries(tagCounts).sort(([a], [b]) =>
 <BaseLayout title="Tags" description="Browse all tags on Hogwai Tech Blog.">
   <Header client:visible />
 
-  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">
         Tags
       </h1>
       <div class="flex flex-wrap gap-3">
         {tags.map(([tag, count]) => (
           <a
             href={`/tags/${tag}`}
-            class="flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 hover:border-blue-500 dark:hover:border-blue-500 transition text-sm text-gray-700 dark:text-gray-300"
+            class="flex items-center gap-1.5 px-3 py-1.5 border border-edge rounded-lg bg-surface hover:border-link transition text-sm text-ink"
           >
             <span>{tag}</span>
-            <span class="text-xs text-gray-400 dark:text-gray-500">{count}</span>
+            <span class="text-xs text-ink-muted">{count}</span>
           </a>
         ))}
       </div>

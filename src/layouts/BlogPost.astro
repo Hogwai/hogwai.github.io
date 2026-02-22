@@ -68,7 +68,7 @@ const breadcrumbJsonLd = {
   </Fragment>
   <Header client:visible />
   
-  <main id="main-content" class="flex-grow bg-gray-50 dark:bg-gray-950">
+  <main id="main-content" class="flex-grow bg-page">
     <article class="container-custom py-12">
       <div class="mb-8">
         {heroImage && (
@@ -81,10 +81,10 @@ const breadcrumbJsonLd = {
           />
         )}
         
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{title}</h1>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-ink">{title}</h1>
         
-        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-gray-600 dark:text-gray-400">
-          <a href="/posts" class="hover:text-blue-600 dark:hover:text-blue-400 transition">
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink">
+          <a href="/posts" class="hover:text-link transition">
             ← Posts
           </a>
           <span>•</span>
@@ -118,7 +118,7 @@ const breadcrumbJsonLd = {
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <a href={`/tags/${tag}`} class="px-3 py-1 bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 rounded-full text-sm hover:underline">
+              <a href={`/tags/${tag}`} class="px-3 py-1 bg-tag-bg text-tag-text rounded-full text-sm hover:underline">
                 {tag}
               </a>
             ))}
@@ -127,7 +127,7 @@ const breadcrumbJsonLd = {
       </div>
       
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div class="lg:col-span-3 prose prose-gray dark:prose-invert max-w-none">
+        <div class="lg:col-span-3 prose prose max-w-none">
           <slot />
         </div>
         
