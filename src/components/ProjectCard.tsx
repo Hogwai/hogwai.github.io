@@ -110,7 +110,7 @@ export default function ProjectCard({
       case "github":
         return "bg-gray-900 dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600";
       case "web":
-        return "bg-blue-600 text-white hover:bg-blue-700";
+        return "bg-accent-600 text-white hover:bg-accent-700";
       case "firefox":
         return "bg-orange-600 text-white hover:bg-orange-700";
       case "chrome":
@@ -123,7 +123,7 @@ export default function ProjectCard({
   };
 
   return (
-    <article className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 transition group">
+    <article className="bg-surface border border-edge rounded-lg overflow-hidden hover:border-link transition group">
       {image && (
         <div className="aspect-video overflow-hidden">
           <img
@@ -135,17 +135,17 @@ export default function ProjectCard({
       )}
 
       <div className="p-6">
-        <h2 className="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+        <h2 className="text-2xl font-bold mb-3 text-ink group-hover:text-link transition">
           {title}
         </h2>
 
-        <p className="text-gray-700 dark:text-gray-300 mb-4">{description}</p>
+        <p className="text-ink mb-4">{description}</p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {technologies.map((tech) => (
             <span
               key={tech}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-sm font-medium"
+              className="px-2 py-1 bg-muted text-ink rounded text-sm font-medium"
             >
               {tech}
             </span>

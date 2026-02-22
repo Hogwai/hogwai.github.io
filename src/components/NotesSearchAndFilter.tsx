@@ -85,7 +85,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
             placeholder="Search a note..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+            className="w-full px-4 py-3 pl-12 rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
           />
           <svg
             className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -106,13 +106,11 @@ export default function NotesSearchAndFilter({ notes }: Props) {
       {/* Filters row */}
       <div className="mb-8 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Filters
-          </h3>
+          <h3 className="text-sm font-semibold text-ink">Filters</h3>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-sm text-link hover:underline"
             >
               Reset
             </button>
@@ -131,7 +129,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
                 className={`px-3 py-1 rounded text-xs font-mono font-medium transition ${
                   selectedLanguage === lang
                     ? "bg-gray-700 dark:bg-gray-200 text-white dark:text-gray-900"
-                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                    : "bg-muted text-ink hover:bg-soft"
                 }`}
               >
                 {lang}
@@ -149,8 +147,8 @@ export default function NotesSearchAndFilter({ notes }: Props) {
                 onClick={() => toggleTag(tag)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
                   selectedTags.includes(tag)
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+                    ? "bg-accent-600 text-white"
+                    : "bg-muted text-ink hover:bg-soft"
                 }`}
               >
                 {tag}
@@ -162,7 +160,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
 
       {/* Result count */}
       <div className="mb-4">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-ink">
           {filteredNotes.length} note{filteredNotes.length !== 1 ? "s" : ""}{" "}
           found
         </p>
@@ -186,7 +184,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
       ) : (
         <div className="text-center py-12">
           <svg
-            className="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-600"
+            className="w-16 h-16 mx-auto mb-4 text-ink-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -198,10 +196,8 @@ export default function NotesSearchAndFilter({ notes }: Props) {
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            No notes found
-          </p>
-          <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
+          <p className="text-ink text-lg">No notes found</p>
+          <p className="text-ink-muted text-sm mt-2">
             Try changing your search criteria
           </p>
         </div>

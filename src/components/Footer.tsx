@@ -4,10 +4,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-4 mt-auto">
+    <footer className="bg-surface border-t border-edge py-4 mt-auto">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-ink">
             © {currentYear}{" "}
             <a href="https://github.com/Hogwai" target="_blank">
               Hogwai
@@ -23,7 +23,7 @@ export default function Footer() {
           <div className="flex gap-6">
             <a
               href="https://github.com/Hogwai"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
+              className="text-ink hover:text-ink transition"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -31,16 +31,13 @@ export default function Footer() {
             </a>
             <a
               href="https://www.linkedin.com/in/lilian-wernert/"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
+              className="text-ink hover:text-ink transition"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Linkedin />
             </a>
-            <a
-              href="/rss.xml"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition"
-            >
+            <a href="/rss.xml" className="text-ink hover:text-ink transition">
               <Rss />
             </a>
           </div>
