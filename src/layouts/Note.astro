@@ -23,10 +23,19 @@ const jsonLd = {
   author: {
     "@type": "Person",
     name: "Lilian",
+    url: "https://hogwai.github.io/about",
+    sameAs: [
+      "https://github.com/Hogwai",
+      "https://www.linkedin.com/in/lilian-wernert/",
+    ],
   },
   publisher: {
     "@type": "Organization",
     name: "Hogwai Tech Blog",
+    logo: {
+      "@type": "ImageObject",
+      url: new URL("/favicon.png", Astro.site).href,
+    },
   },
   ...(language && { programmingLanguage: language }),
 };
@@ -57,7 +66,7 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<BaseLayout title={title} description={noteDescription}>
+<BaseLayout title={title} description={noteDescription} ogType="article" publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} tags={tags}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
