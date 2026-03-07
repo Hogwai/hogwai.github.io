@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import BlogCard from '../../components/BlogCard';
+import NoteCard from '../../components/NoteCard';
+import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../../i18n/utils';
+import { flags, type Lang } from '../../i18n/ui';
+
+const lang: Lang = "fr";
+const t = useTranslations(lang);
+
+const allPosts = (await getCollection('posts')).filter(p => !p.data.draft);
+const frPosts = allPosts
+  .filter(p => p.slug.startsWith('fr/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const enPosts = allPosts.filter(p => p.slug.startsWith('en/'));
+const frSlugSet = new Set(frPosts.map(p => getSlugWithoutLang(p.slug)));
+const enOnlyPosts = enPosts
+  .filter(p => !frSlugSet.has(getSlugWithoutLang(p.slug)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const posts = [
+  ...frPosts.map(p => ({ post: p, postLang: "fr" as const, badge: undefined })),
+  ...enOnlyPosts.map(p => ({ post: p, postLang: "en" as const, badge: flags.en })),
+].sort((a, b) => b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf()).slice(0, 3);
+
+const allNotes = (await getCollection('notes')).filter(n => !n.data.draft);
+const frNotes = allNotes
+  .filter(n => n.slug.startsWith('fr/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const enNotes = allNotes.filter(n => n.slug.startsWith('en/'));
+const frNoteSlugSet = new Set(frNotes.map(n => getSlugWithoutLang(n.slug)));
+const enOnlyNotes = enNotes
+  .filter(n => !frNoteSlugSet.has(getSlugWithoutLang(n.slug)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const recentNotes = [
+  ...frNotes.map(n => ({ note: n, noteLang: "fr" as const, badge: undefined })),
+  ...enOnlyNotes.map(n => ({ note: n, noteLang: "en" as const, badge: flags.en })),
+].sort((a, b) => b.note.data.pubDate.valueOf() - a.note.data.pubDate.valueOf()).slice(0, 3);
+---
+
+<BaseLayout title="Hogwai Tech Blog" description="Reflexions, tutoriels et articles techniques sur Java et l'ecosysteme JVM." lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:load />
+
+  <main id="main-content" class="flex-grow">
+    <div class="container-custom pt-8 pb-6 border-b border-edge">
+      <h1 class="text-lg text-ink-muted">{t("home.subtitle")}</h1>
+    </div>
+
+    <section class="container-custom py-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-ink">{t("home.latestPosts")}</h2>
+        <a href="/fr/posts" class="text-sm text-link hover:underline">
+          {t("home.seeAllPosts")} &rarr;
+        </a>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {posts.map(({ post, postLang, badge }) => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={getSlugWithoutLang(post.slug)}
+            tags={post.data.tags}
+            lang={postLang}
+            langBadge={badge}
+            client:idle
+          />
+        ))}
+      </div>
+    </section>
+
+    {recentNotes.length > 0 && (
+      <section class="container-custom py-5">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-ink">{t("home.recentNotes")}</h2>
+          <a href="/fr/notes" class="text-sm text-link hover:underline">
+            {t("home.seeAllNotes")} &rarr;
+          </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {recentNotes.map(({ note, noteLang, badge }) => (
+            <NoteCard
+              title={note.data.title}
+              description={note.data.description}
+              pubDate={note.data.pubDate}
+              slug={getSlugWithoutLang(note.slug)}
+              tags={note.data.tags}
+              language={note.data.language}
+              lang={noteLang}
+              langBadge={badge}
+              client:idle
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

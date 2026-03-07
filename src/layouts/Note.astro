@@ -3,11 +3,30 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
-import { type CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import { type Lang } from '../i18n/utils';
+import { defaultLang, flags } from '../i18n/ui';
+import { useTranslations, getLocalePath, getOtherLang } from '../i18n/utils';
 
-type Props = CollectionEntry<'notes'>['data'];
+type Props = CollectionEntry<'notes'>['data'] & {
+  lang?: Lang;
+};
 
-const { title, description, pubDate, updatedDate, tags, language, source } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, language, source, lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+const prefix = getLocalePath(lang);
+
+const otherLang = getOtherLang(lang);
+const currentSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || '';
+const allNotes = await getCollection('notes');
+const hasTranslation = allNotes.some(
+  (n) => n.slug === `${otherLang}/${currentSlug}`
+);
+const translationUrl = hasTranslation
+  ? `${getLocalePath(otherLang)}/notes/${currentSlug}/`
+  : null;
+const tOther = useTranslations(otherLang);
+const locale = lang === "fr" ? "fr-FR" : "en-GB";
 
 const noteDescription = description ?? `${title} — Hogwai Tech Blog.`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -47,14 +66,14 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       position: 1,
-      name: "Home",
-      item: Astro.site?.href ?? "https://hogwai.github.io",
+      name: t("nav.home"),
+      item: new URL(`${prefix}/`, Astro.site).href,
     },
     {
       "@type": "ListItem",
       position: 2,
-      name: "Notes",
-      item: new URL("/notes/", Astro.site).href,
+      name: t("nav.notes"),
+      item: new URL(`${prefix}/notes/`, Astro.site).href,
     },
     {
       "@type": "ListItem",
@@ -66,23 +85,23 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<BaseLayout title={title} description={noteDescription} ogType="article" publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} tags={tags}>
+<BaseLayout title={title} description={noteDescription} ogType="article" publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} tags={tags} lang={lang}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   </Fragment>
-  <Header client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 
   <main id="main-content" class="flex-grow bg-page">
     <article class="container-custom py-12 max-w-3xl">
       <div class="mb-8">
         <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink">
-          <a href="/notes" class="hover:text-link transition">
-            ← Notes
+          <a href={`${prefix}/notes`} class="hover:text-link transition">
+            &larr; {t("notes.backLink")}
           </a>
-          <span>•</span>
+          <span>&bull;</span>
           <time datetime={pubDate.toISOString()}>
-            {pubDate.toLocaleDateString('en-GB', {
+            {pubDate.toLocaleDateString(locale, {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -90,9 +109,9 @@ const breadcrumbJsonLd = {
           </time>
           {updatedDate && (
             <>
-              <span>•</span>
+              <span>&bull;</span>
               <time datetime={updatedDate.toISOString()}>
-                Updated {updatedDate.toLocaleDateString('en-GB', {
+                {t("common.updated")} {updatedDate.toLocaleDateString(locale, {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -102,7 +121,7 @@ const breadcrumbJsonLd = {
           )}
           {language && (
             <>
-              <span>•</span>
+              <span>&bull;</span>
               <span class="px-2 py-0.5 bg-muted text-ink rounded font-mono text-xs">
                 {language}
               </span>
@@ -110,12 +129,21 @@ const breadcrumbJsonLd = {
           )}
         </div>
 
+        {translationUrl && (
+          <a
+            href={translationUrl}
+            class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
+          >
+            {flags[otherLang]} {tOther("lang.switchLabel")}
+          </a>
+        )}
+
         <h1 class="text-3xl md:text-4xl font-bold mb-4 text-ink">{title}</h1>
 
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mb-4">
             {tags.map((tag) => (
-              <a href={`/tags/${tag}`} class="px-3 py-1 bg-tag-bg text-tag-text rounded-full text-sm hover:underline">
+              <a href={`${prefix}/tags/${tag}`} class="px-3 py-1 bg-tag-bg text-tag-text rounded-full text-sm hover:underline">
                 {tag}
               </a>
             ))}
@@ -124,7 +152,7 @@ const breadcrumbJsonLd = {
 
         {source && (
           <p class="text-sm text-ink-muted">
-            Source: <a href={source} class="text-link hover:underline" target="_blank" rel="noopener noreferrer">{source}</a>
+            {t("common.source")}: <a href={source} class="text-link hover:underline" target="_blank" rel="noopener noreferrer">{source}</a>
           </p>
         )}
       </div>
@@ -136,5 +164,5 @@ const breadcrumbJsonLd = {
   </main>
 
   <BackToTop client:idle />
-  <Footer />
+  <Footer lang={lang} />
 </BaseLayout>

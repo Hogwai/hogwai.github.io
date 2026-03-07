@@ -1,7 +1,15 @@
 import { Github, Linkedin, Rss } from "lucide-react";
+import { defaultLang, type Lang } from "../i18n/ui";
+import { useTranslations, getLocalePath } from "../i18n/utils";
 
-export default function Footer() {
+interface Props {
+  lang?: Lang;
+}
+
+export default function Footer({ lang = defaultLang }: Props) {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations(lang);
+  const prefix = getLocalePath(lang);
 
   return (
     <footer className="bg-surface border-t border-edge py-4 mt-auto">
@@ -12,7 +20,7 @@ export default function Footer() {
             <a href="https://github.com/Hogwai" target="_blank">
               Hogwai
             </a>
-            . Content licensed under{" "}
+            . {t("footer.contentLicense")}{" "}
             <a
               href="https://github.com/Hogwai/hogwai.github.io#licenses"
               target="_blank"
@@ -37,7 +45,10 @@ export default function Footer() {
             >
               <Linkedin />
             </a>
-            <a href="/rss.xml" className="text-ink hover:text-ink transition">
+            <a
+              href={`${prefix}/rss.xml`}
+              className="text-ink hover:text-ink transition"
+            >
               <Rss />
             </a>
           </div>

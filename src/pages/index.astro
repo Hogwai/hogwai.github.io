@@ -5,31 +5,35 @@ import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import NoteCard from '../components/NoteCard';
 import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../i18n/utils';
+
+const lang = "en" as const;
+const t = useTranslations(lang);
 
 const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft)
+  .filter(post => !post.data.draft && post.slug.startsWith('en/'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
 const recentNotes = (await getCollection('notes'))
-  .filter(note => !note.data.draft)
+  .filter(note => !note.data.draft && note.slug.startsWith('en/'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 ---
 
-<BaseLayout title="Hogwai Tech Blog" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem.">
-  <Header client:load />
+<BaseLayout title="Hogwai Tech Blog" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem." lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:load />
 
   <main id="main-content" class="flex-grow">
     <div class="container-custom pt-8 pb-6 border-b border-edge">
-      <h1 class="text-lg text-ink-muted">Thoughts, tutorials and technical posts about Java (mainly)</h1>
+      <h1 class="text-lg text-ink-muted">{t("home.subtitle")}</h1>
     </div>
 
     <section class="container-custom py-8">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-ink">Latest posts</h2>
+        <h2 class="text-2xl font-bold text-ink">{t("home.latestPosts")}</h2>
         <a href="/posts" class="text-sm text-link hover:underline">
-          See all posts →
+          {t("home.seeAllPosts")} &rarr;
         </a>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -38,8 +42,9 @@ const recentNotes = (await getCollection('notes'))
             title={post.data.title}
             description={post.data.description}
             pubDate={post.data.pubDate}
-            slug={post.slug}
+            slug={getSlugWithoutLang(post.slug)}
             tags={post.data.tags}
+            lang={lang}
             client:idle
           />
         ))}
@@ -49,9 +54,9 @@ const recentNotes = (await getCollection('notes'))
     {recentNotes.length > 0 && (
       <section class="container-custom py-5">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-ink">Recent notes</h2>
+          <h2 class="text-2xl font-bold text-ink">{t("home.recentNotes")}</h2>
           <a href="/notes" class="text-sm text-link hover:underline">
-            See all notes →
+            {t("home.seeAllNotes")} &rarr;
           </a>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -60,9 +65,10 @@ const recentNotes = (await getCollection('notes'))
               title={note.data.title}
               description={note.data.description}
               pubDate={note.data.pubDate}
-              slug={note.slug}
+              slug={getSlugWithoutLang(note.slug)}
               tags={note.data.tags}
               language={note.data.language}
+              lang={lang}
               client:idle
             />
           ))}
@@ -71,5 +77,5 @@ const recentNotes = (await getCollection('notes'))
     )}
   </main>
 
-  <Footer />
+  <Footer lang={lang} />
 </BaseLayout>

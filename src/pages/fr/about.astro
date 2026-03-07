@@ -1,10 +1,11 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { useTranslations } from "../i18n/utils";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import { useTranslations } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
 
-const lang = "en" as const;
+const lang: Lang = "fr";
 const t = useTranslations(lang);
 
 const personJsonLd = {
@@ -53,7 +54,7 @@ const personJsonLd = {
           {t("about.theStack")}
         </h2>
         <p class="text-ink">
-          {t("about.theStackText")} <a href="https://github.com/withastro/astro" target="_blank">Astro</a>, <a href="https://github.com/facebook/react" target="_blank">React</a>, <a href="https://github.com/microsoft/TypeScript" target="_blank">TypeScript</a>, and <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank">Tailwind CSS</a>.
+          {t("about.theStackText")} <a href="https://github.com/withastro/astro" target="_blank">Astro</a>, <a href="https://github.com/facebook/react" target="_blank">React</a>, <a href="https://github.com/microsoft/TypeScript" target="_blank">TypeScript</a> et <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank">Tailwind CSS</a>.
         </p>
       </div>
     </div>

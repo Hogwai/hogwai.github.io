@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import BlogCard from "./BlogCard";
+import { defaultLang, type Lang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
 
 interface Post {
   slug: string;
@@ -9,15 +11,19 @@ interface Post {
     pubDate: Date;
     tags: string[];
   };
+  lang?: Lang;
+  langBadge?: string;
 }
 
 interface Props {
   posts: Post[];
+  lang?: Lang;
 }
 
-export default function SearchAndFilter({ posts }: Props) {
+export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const t = useTranslations(lang);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -58,6 +64,12 @@ export default function SearchAndFilter({ posts }: Props) {
     setSelectedTags([]);
   };
 
+  const resultCount = filteredPosts.length;
+  const resultText =
+    resultCount === 1
+      ? t("posts.found_one")
+      : t("posts.found_other").replace("{count}", String(resultCount));
+
   return (
     <div>
       {/* Search bar */}
@@ -65,7 +77,7 @@ export default function SearchAndFilter({ posts }: Props) {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search a post..."
+            placeholder={t("posts.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 pl-12 rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
@@ -89,13 +101,15 @@ export default function SearchAndFilter({ posts }: Props) {
       {/* Filter by tag */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-ink">Filter by tag</h3>
+          <h3 className="text-sm font-semibold text-ink">
+            {t("posts.filterByTag")}
+          </h3>
           {(searchQuery || selectedTags.length > 0) && (
             <button
               onClick={clearFilters}
               className="text-sm text-link hover:underline"
             >
-              Reset
+              {t("posts.reset")}
             </button>
           )}
         </div>
@@ -118,10 +132,7 @@ export default function SearchAndFilter({ posts }: Props) {
 
       {/* Results */}
       <div className="mb-4">
-        <p className="text-sm text-ink">
-          {filteredPosts.length} post{filteredPosts.length !== 1 ? "s" : ""}{" "}
-          found
-        </p>
+        <p className="text-sm text-ink">{resultText}</p>
       </div>
 
       {/* Filtered results */}
@@ -135,6 +146,8 @@ export default function SearchAndFilter({ posts }: Props) {
               pubDate={post.data.pubDate}
               slug={post.slug}
               tags={post.data.tags}
+              lang={post.lang ?? lang}
+              langBadge={post.langBadge}
             />
           ))}
         </div>
@@ -153,9 +166,9 @@ export default function SearchAndFilter({ posts }: Props) {
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-ink text-lg">No posts found</p>
+          <p className="text-ink text-lg">{t("posts.noResults")}</p>
           <p className="text-ink-muted text-sm mt-2">
-            Try changing your search criteria
+            {t("posts.noResultsHint")}
           </p>
         </div>
       )}
