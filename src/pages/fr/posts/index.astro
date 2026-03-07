@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import SearchAndFilter from '../../../components/SearchAndFilter';
+import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../../../i18n/utils';
+import { flags, type Lang } from '../../../i18n/ui';
+
+const lang: Lang = "fr";
+const t = useTranslations(lang);
+
+const allPosts = (await getCollection('posts')).filter(p => !p.data.draft);
+const frPosts = allPosts
+  .filter(p => p.slug.startsWith('fr/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug) }));
+const enPosts = allPosts.filter(p => p.slug.startsWith('en/'));
+const frSlugSet = new Set(frPosts.map(p => p.slug));
+const enOnlyPosts = enPosts
+  .filter(p => !frSlugSet.has(getSlugWithoutLang(p.slug)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug), langBadge: flags.en, lang: "en" as const }));
+
+const posts = [
+  ...frPosts.map(p => ({ ...p, langBadge: undefined, lang: "fr" as const })),
+  ...enOnlyPosts,
+].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={t("posts.title")} description={t("posts.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+
+  <main id="main-content" class="flex-grow bg-page">
+    <div class="container-custom py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">{t("posts.title")}</h1>
+
+      <SearchAndFilter posts={posts} lang={lang} client:visible />
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

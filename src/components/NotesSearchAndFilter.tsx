@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import NoteCard from "./NoteCard";
+import { defaultLang, type Lang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
 
 interface Note {
   slug: string;
@@ -10,16 +12,23 @@ interface Note {
     tags: string[];
     language?: string;
   };
+  lang?: Lang;
+  langBadge?: string;
 }
 
 interface Props {
   notes: Note[];
+  lang?: Lang;
 }
 
-export default function NotesSearchAndFilter({ notes }: Props) {
+export default function NotesSearchAndFilter({
+  notes,
+  lang = defaultLang,
+}: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const t = useTranslations(lang);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -75,6 +84,12 @@ export default function NotesSearchAndFilter({ notes }: Props) {
   const hasActiveFilters =
     searchQuery !== "" || selectedTags.length > 0 || selectedLanguage !== "";
 
+  const resultCount = filteredNotes.length;
+  const resultText =
+    resultCount === 1
+      ? t("notes.found_one")
+      : t("notes.found_other").replace("{count}", String(resultCount));
+
   return (
     <div>
       {/* Search bar */}
@@ -82,7 +97,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search a note..."
+            placeholder={t("notes.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 pl-12 rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
@@ -106,13 +121,15 @@ export default function NotesSearchAndFilter({ notes }: Props) {
       {/* Filters row */}
       <div className="mb-8 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-ink">Filters</h3>
+          <h3 className="text-sm font-semibold text-ink">
+            {t("notes.filters")}
+          </h3>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
               className="text-sm text-link hover:underline"
             >
-              Reset
+              {t("notes.reset")}
             </button>
           )}
         </div>
@@ -120,19 +137,19 @@ export default function NotesSearchAndFilter({ notes }: Props) {
         {/* Language filter */}
         {allLanguages.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {allLanguages.map((lang) => (
+            {allLanguages.map((lng) => (
               <button
-                key={lang}
+                key={lng}
                 onClick={() =>
-                  setSelectedLanguage(selectedLanguage === lang ? "" : lang)
+                  setSelectedLanguage(selectedLanguage === lng ? "" : lng)
                 }
                 className={`px-3 py-1 rounded text-xs font-mono font-medium transition ${
-                  selectedLanguage === lang
+                  selectedLanguage === lng
                     ? "bg-gray-700 dark:bg-gray-200 text-white dark:text-gray-900"
                     : "bg-muted text-ink hover:bg-soft"
                 }`}
               >
-                {lang}
+                {lng}
               </button>
             ))}
           </div>
@@ -160,10 +177,7 @@ export default function NotesSearchAndFilter({ notes }: Props) {
 
       {/* Result count */}
       <div className="mb-4">
-        <p className="text-sm text-ink">
-          {filteredNotes.length} note{filteredNotes.length !== 1 ? "s" : ""}{" "}
-          found
-        </p>
+        <p className="text-sm text-ink">{resultText}</p>
       </div>
 
       {/* Notes grid */}
@@ -178,6 +192,8 @@ export default function NotesSearchAndFilter({ notes }: Props) {
               slug={note.slug}
               tags={note.data.tags}
               language={note.data.language}
+              lang={note.lang ?? lang}
+              langBadge={note.langBadge}
             />
           ))}
         </div>
@@ -196,9 +212,9 @@ export default function NotesSearchAndFilter({ notes }: Props) {
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-ink text-lg">No notes found</p>
+          <p className="text-ink text-lg">{t("notes.noResults")}</p>
           <p className="text-ink-muted text-sm mt-2">
-            Try changing your search criteria
+            {t("notes.noResultsHint")}
           </p>
         </div>
       )}

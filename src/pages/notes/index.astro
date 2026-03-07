@@ -4,25 +4,30 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import NotesSearchAndFilter from '../../components/NotesSearchAndFilter';
 import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../../i18n/utils';
+
+const lang = "en" as const;
+const t = useTranslations(lang);
 
 const notes = (await getCollection('notes'))
-  .filter(note => !note.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .filter(note => !note.data.draft && note.slug.startsWith('en/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(note => ({ ...note, slug: getSlugWithoutLang(note.slug) }));
 ---
 
-<BaseLayout title="Notes" description="Quick fixes, snippets and setup tips — short-form technical notes.">
-  <Header client:visible />
+<BaseLayout title={t("notes.title")} description={t("notes.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
       <div class="mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold mb-2 text-ink">Notes</h1>
-        <p class="text-ink">Quick fixes, snippets and setup tips.</p>
+        <h1 class="text-4xl md:text-5xl font-bold mb-2 text-ink">{t("notes.title")}</h1>
+        <p class="text-ink">{t("notes.subtitle")}</p>
       </div>
 
-      <NotesSearchAndFilter notes={notes} client:visible />
+      <NotesSearchAndFilter notes={notes} lang={lang} client:visible />
     </div>
   </main>
 
-  <Footer />
+  <Footer lang={lang} />
 </BaseLayout>

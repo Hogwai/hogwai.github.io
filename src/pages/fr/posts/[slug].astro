@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
-import { getSlugWithoutLang } from '../../i18n/utils';
+import BlogPost from '../../../layouts/BlogPost.astro';
+import { getSlugWithoutLang } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
-  const enPosts = posts.filter((p) => p.slug.startsWith('en/'));
-  return enPosts.map((post) => ({
+  const frPosts = posts.filter((p) => p.slug.startsWith('fr/'));
+  return frPosts.map((post) => ({
     params: { slug: getSlugWithoutLang(post.slug) },
     props: post,
   }));
@@ -16,6 +16,6 @@ const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await post.render();
 ---
 
-<BlogPost {...post.data} headings={headings} minutesRead={remarkPluginFrontmatter.minutesRead}>
+<BlogPost {...post.data} headings={headings} minutesRead={remarkPluginFrontmatter.minutesRead} lang="fr">
   <Content />
 </BlogPost>

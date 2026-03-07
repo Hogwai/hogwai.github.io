@@ -4,22 +4,27 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import SearchAndFilter from '../../components/SearchAndFilter';
 import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../../i18n/utils';
+
+const lang = "en" as const;
+const t = useTranslations(lang);
 
 const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .filter(post => !post.data.draft && post.slug.startsWith('en/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(post => ({ ...post, slug: getSlugWithoutLang(post.slug) }));
 ---
 
-<BaseLayout title="Posts" description="All posts on Hogwai Tech Blog — Java, performance, design patterns and more.">
-  <Header client:visible />
-  
+<BaseLayout title={t("posts.title")} description={t("posts.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">All posts</h1>
-      
-      <SearchAndFilter posts={posts} client:visible />
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">{t("posts.title")}</h1>
+
+      <SearchAndFilter posts={posts} lang={lang} client:visible />
     </div>
   </main>
-  
-  <Footer />
+
+  <Footer lang={lang} />
 </BaseLayout>

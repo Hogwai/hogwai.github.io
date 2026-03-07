@@ -2,23 +2,27 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useTranslations } from '../i18n/utils';
+
+const lang = "en" as const;
+const t = useTranslations(lang);
 ---
 
-<BaseLayout title="404 — Page not found" description="Page not found — Hogwai Tech Blog.">
-  <Header client:visible />
+<BaseLayout title={t("404.title")} description={t("404.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-24 text-center">
       <p class="text-8xl font-bold text-gray-200 dark:text-gray-800 mb-4">404</p>
-      <p class="text-xl text-ink-muted mb-8">Page not found.</p>
+      <p class="text-xl text-ink-muted mb-8">{t("404.text")}</p>
       <a
         href="/"
         class="text-link hover:underline"
       >
-        ← Home
+        &larr; {t("404.homeLink")}
       </a>
     </div>
   </main>
 
-  <Footer />
+  <Footer lang={lang} />
 </BaseLayout>
