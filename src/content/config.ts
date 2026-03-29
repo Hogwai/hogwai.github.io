@@ -13,4 +13,21 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+const notes = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    language: z
+      .string()
+      .transform((v) => v.toLowerCase())
+      .optional(),
+    source: z.string().url().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { posts, notes };

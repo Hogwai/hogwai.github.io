@@ -52,11 +52,9 @@ export default function TableOfContents({ headings }: Props) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-          Table of contents
-        </h3>
+    <nav className="bg-surface border border-edge rounded-lg overflow-hidden">
+      <div className="p-4 border-b border-edge">
+        <h3 className="text-lg font-bold text-ink">Table of contents</h3>
       </div>
       <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
         <ul className="space-y-2 text-sm">
@@ -68,10 +66,10 @@ export default function TableOfContents({ headings }: Props) {
               <a
                 href={`#${heading.slug}`}
                 onClick={(e) => handleClick(e, heading.slug)}
-                className={`hover:text-blue-600 dark:hover:text-blue-400 transition block ${
+                className={`hover:text-link transition block ${
                   activeId === heading.slug
-                    ? "text-blue-600 dark:text-blue-400 font-medium"
-                    : "text-gray-600 dark:text-gray-400"
+                    ? "text-link font-medium"
+                    : "text-ink"
                 }`}
               >
                 {heading.text}

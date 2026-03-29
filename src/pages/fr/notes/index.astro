@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import NotesSearchAndFilter from '../../../components/NotesSearchAndFilter';
+import { getCollection } from 'astro:content';
+import { useTranslations, getSlugWithoutLang } from '../../../i18n/utils';
+import { flags, type Lang } from '../../../i18n/ui';
+
+const lang: Lang = "fr";
+const t = useTranslations(lang);
+
+const allNotes = (await getCollection('notes')).filter(n => !n.data.draft);
+const frNotes = allNotes
+  .filter(n => n.slug.startsWith('fr/'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(n => ({ ...n, slug: getSlugWithoutLang(n.slug) }));
+const enNotes = allNotes.filter(n => n.slug.startsWith('en/'));
+const frSlugSet = new Set(frNotes.map(n => n.slug));
+const enOnlyNotes = enNotes
+  .filter(n => !frSlugSet.has(getSlugWithoutLang(n.slug)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(n => ({ ...n, slug: getSlugWithoutLang(n.slug), langBadge: flags.en, lang: "en" as const }));
+
+const notes = [
+  ...frNotes.map(n => ({ ...n, langBadge: undefined, lang: "fr" as const })),
+  ...enOnlyNotes,
+].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={t("notes.title")} description={t("notes.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+
+  <main id="main-content" class="flex-grow bg-page">
+    <div class="container-custom py-12">
+      <div class="mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2 text-ink">{t("notes.title")}</h1>
+        <p class="text-ink">{t("notes.subtitle")}</p>
+      </div>
+
+      <NotesSearchAndFilter notes={notes} lang={lang} client:visible />
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

@@ -29,10 +29,8 @@ export default function MavenGoalsSearch() {
   };
 
   return (
-    <div className="p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
-      <h3 className="text-lg font-bold mb-3 text-gray-900 dark:text-gray-100">
-        🔍 Search Maven Goal
-      </h3>
+    <div className="p-4 bg-surface border border-edge rounded-lg">
+      <h3 className="text-lg font-bold mb-3 text-ink">🔍 Search Maven Goal</h3>
 
       <div className="relative mb-4">
         <input
@@ -40,7 +38,7 @@ export default function MavenGoalsSearch() {
           placeholder="Search for a goal..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full px-3 py-2 pl-10 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+          className="w-full px-3 py-2 pl-10 text-sm rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
         />
         <svg
           className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -59,51 +57,51 @@ export default function MavenGoalsSearch() {
 
       {query.trim() && (
         <>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+          <p className="text-xs text-ink mb-2">
             {filtered.length} result{filtered.length !== 1 ? "s" : ""}
           </p>
 
           {filtered.length === 0 ? (
-            <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+            <p className="text-sm text-ink-muted text-center py-4">
               No goal found
             </p>
           ) : (
-            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            <div className="border border-edge rounded-lg overflow-hidden">
               <div className="max-h-96 overflow-y-auto">
                 <table className="w-full text-sm">
-                  <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0">
+                  <thead className="bg-muted border-b border-edge sticky top-0">
                     <tr>
-                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300">
+                      <th className="px-3 py-2 text-left text-xs font-semibold text-ink">
                         Goal
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300">
+                      <th className="px-3 py-2 text-left text-xs font-semibold text-ink">
                         Phase
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300">
+                      <th className="px-3 py-2 text-left text-xs font-semibold text-ink">
                         Description
                       </th>
                       <th className="w-10"></th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  <tbody className="divide-y divide-edge">
                     {filtered.map((g) => (
                       <>
                         <tr
                           key={g.goal}
-                          className="hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition"
+                          className="hover:bg-soft cursor-pointer transition"
                           onClick={() => toggleExpand(g.goal)}
                         >
                           <td className="px-3 py-2">
-                            <code className="text-xs font-mono text-blue-600 dark:text-blue-400">
+                            <code className="text-xs font-mono text-link">
                               {g.goal}
                             </code>
                           </td>
                           <td className="px-3 py-2">
-                            <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
+                            <span className="px-2 py-0.5 bg-muted text-ink rounded text-xs">
                               {g.phase}
                             </span>
                           </td>
-                          <td className="px-3 py-2 text-gray-700 dark:text-gray-300 text-xs">
+                          <td className="px-3 py-2 text-ink text-xs">
                             {g.description.length > 80
                               ? g.description.substring(0, 80) + "..."
                               : g.description}
@@ -127,24 +125,24 @@ export default function MavenGoalsSearch() {
                           </td>
                         </tr>
                         {expandedGoal === g.goal && (
-                          <tr className="bg-gray-50 dark:bg-gray-800">
+                          <tr className="bg-muted">
                             <td colSpan={4} className="px-3 py-3">
                               <div className="space-y-2">
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                                  <p className="text-xs font-semibold text-ink mb-1">
                                     Full description:
                                   </p>
-                                  <p className="text-xs text-gray-700 dark:text-gray-300">
+                                  <p className="text-xs text-ink">
                                     {g.description}
                                   </p>
                                 </div>
 
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                                  <p className="text-xs font-semibold text-ink mb-1">
                                     Example:
                                   </p>
                                   <div className="relative group">
-                                    <pre className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-2 pr-10 rounded text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto">
+                                    <pre className="bg-surface border border-edge p-2 pr-10 rounded text-xs font-mono text-ink overflow-x-auto">
                                       {g.example}
                                     </pre>
                                     <button
@@ -152,7 +150,7 @@ export default function MavenGoalsSearch() {
                                         e.stopPropagation();
                                         copyToClipboard(g.example, g.goal);
                                       }}
-                                      className="absolute top-2 right-2 p-1.5 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition opacity-0 group-hover:opacity-100"
+                                      className="absolute top-2 right-2 p-1.5 text-ink-muted hover:text-link hover:bg-soft rounded transition opacity-0 group-hover:opacity-100"
                                       title="Copy to clipboard"
                                     >
                                       {copiedGoal === g.goal ? (
@@ -192,7 +190,7 @@ export default function MavenGoalsSearch() {
                                   href={g.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                                  className="inline-flex items-center gap-1 text-xs text-link hover:underline"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   Official documentation

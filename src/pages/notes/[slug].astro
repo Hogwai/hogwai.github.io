@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Note from '../../layouts/Note.astro';
+import { getSlugWithoutLang } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  const enNotes = notes.filter((n) => n.slug.startsWith('en/'));
+  return enNotes.map((note) => ({
+    params: { slug: getSlugWithoutLang(note.slug) },
+    props: note,
+  }));
+}
+
+const note = Astro.props;
+const { Content } = await note.render();
+---
+
+<Note {...note.data}>
+  <Content />
+</Note>

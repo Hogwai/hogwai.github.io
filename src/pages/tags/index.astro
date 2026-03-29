@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import { getCollection } from 'astro:content';
+import { useTranslations, getLocalePath } from '../../i18n/utils';
+
+const lang = "en" as const;
+const t = useTranslations(lang);
+const prefix = getLocalePath(lang);
+
+const posts = (await getCollection('posts')).filter((p) => !p.data.draft && p.slug.startsWith('en/'));
+const notes = (await getCollection('notes')).filter((n) => !n.data.draft && n.slug.startsWith('en/'));
+
+const tagCounts: Record<string, number> = {};
+
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
+  }
+}
+
+for (const note of notes) {
+  for (const tag of note.data.tags) {
+    tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
+  }
+}
+
+const tags = Object.entries(tagCounts).sort(([a], [b]) =>
+  a.localeCompare(b)
+);
+---
+
+<BaseLayout title={t("tags.title")} description={t("tags.description")} lang={lang}>
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+
+  <main id="main-content" class="flex-grow bg-page">
+    <div class="container-custom py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">
+        {t("tags.title")}
+      </h1>
+      <div class="flex flex-wrap gap-3">
+        {tags.map(([tag, count]) => (
+          <a
+            href={`${prefix}/tags/${tag}`}
+            class="flex items-center gap-1.5 px-3 py-1.5 border border-edge rounded-lg bg-surface hover:border-link transition text-sm text-ink"
+          >
+            <span>{tag}</span>
+            <span class="text-xs text-ink-muted">{count}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

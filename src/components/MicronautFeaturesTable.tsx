@@ -108,7 +108,7 @@ export default function MicronautFeaturesTable() {
 
     return sortDirection === "asc" ? (
       <svg
-        className="w-4 h-4 text-blue-600 dark:text-blue-400"
+        className="w-4 h-4 text-link"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -122,7 +122,7 @@ export default function MicronautFeaturesTable() {
       </svg>
     ) : (
       <svg
-        className="w-4 h-4 text-blue-600 dark:text-blue-400"
+        className="w-4 h-4 text-link"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -138,10 +138,8 @@ export default function MicronautFeaturesTable() {
   };
 
   return (
-    <div className="my-6 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
-      <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
-        🔍 Micronaut Features
-      </h3>
+    <div className="my-6 p-4 bg-surface border border-edge rounded-lg">
+      <h3 className="text-lg font-bold mb-4 text-ink">🔍 Micronaut Features</h3>
 
       {/* Search bar / filters */}
       <div className="flex gap-3 mb-4">
@@ -152,7 +150,7 @@ export default function MicronautFeaturesTable() {
             placeholder="Search features..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-3 py-2 pl-10 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+            className="w-full px-3 py-2 pl-10 text-sm rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
           />
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -173,7 +171,7 @@ export default function MicronautFeaturesTable() {
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition"
+          className="px-3 py-2 text-sm rounded-lg border border-edge bg-surface text-ink focus:outline-none focus:ring-2 focus:ring-link transition"
         >
           <option value="">All types</option>
           {allTypes.map((type) => (
@@ -187,7 +185,7 @@ export default function MicronautFeaturesTable() {
         {(searchQuery || typeFilter) && (
           <button
             onClick={clearFilters}
-            className="px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition whitespace-nowrap"
+            className="px-3 py-2 text-sm text-link hover:bg-soft rounded-lg transition whitespace-nowrap"
             title="Clear filters"
           >
             Clear
@@ -196,24 +194,24 @@ export default function MicronautFeaturesTable() {
       </div>
 
       {/* Counter */}
-      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+      <p className="text-xs text-ink mb-2">
         {filteredAndSorted.length} feature
         {filteredAndSorted.length !== 1 ? "s" : ""}
       </p>
 
       {/* Results */}
       {filteredAndSorted.length === 0 ? (
-        <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+        <p className="text-sm text-ink-muted text-center py-8">
           No features found
         </p>
       ) : (
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+        <div className="border border-edge rounded-lg overflow-hidden">
           <div className="max-h-[300px] overflow-y-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0">
+              <thead className="bg-muted border-b border-edge sticky top-0">
                 <tr>
                   <th
-                    className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    className="px-3 py-2 text-left text-xs font-semibold text-ink cursor-pointer hover:bg-soft transition"
                     onClick={() => handleSort("feature")}
                   >
                     <div className="flex items-center gap-1">
@@ -222,7 +220,7 @@ export default function MicronautFeaturesTable() {
                     </div>
                   </th>
                   <th
-                    className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    className="px-3 py-2 text-left text-xs font-semibold text-ink cursor-pointer hover:bg-soft transition"
                     onClick={() => handleSort("type")}
                   >
                     <div className="flex items-center gap-1">
@@ -231,7 +229,7 @@ export default function MicronautFeaturesTable() {
                     </div>
                   </th>
                   <th
-                    className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    className="px-3 py-2 text-left text-xs font-semibold text-ink cursor-pointer hover:bg-soft transition"
                     onClick={() => handleSort("description")}
                   >
                     <div className="flex items-center gap-1">
@@ -240,7 +238,7 @@ export default function MicronautFeaturesTable() {
                     </div>
                   </th>
                   <th
-                    className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    className="px-3 py-2 text-left text-xs font-semibold text-ink cursor-pointer hover:bg-soft transition"
                     onClick={() => handleSort("details")}
                   >
                     <div className="flex items-center gap-1">
@@ -250,20 +248,17 @@ export default function MicronautFeaturesTable() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="divide-y divide-edge">
                 {filteredAndSorted.map((feature, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-                  >
+                  <tr key={index} className="hover:bg-soft transition">
                     <td className="px-3 py-2">
                       <div className="flex items-center gap-2 group">
-                        <code className="text-xs font-mono text-blue-600 dark:text-blue-400">
+                        <code className="text-xs font-mono text-link">
                           {feature.feature}
                         </code>
                         <button
                           onClick={() => copyToClipboard(feature.feature)}
-                          className="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition opacity-0 group-hover:opacity-100"
+                          className="p-1 text-gray-400 hover:text-link hover:bg-soft rounded transition opacity-0 group-hover:opacity-100"
                           title="Copy feature name"
                         >
                           {copiedFeature === feature.feature ? (
@@ -299,14 +294,14 @@ export default function MicronautFeaturesTable() {
                       </div>
                     </td>
                     <td className="px-3 py-2">
-                      <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
+                      <span className="px-2 py-0.5 bg-muted text-ink rounded text-xs">
                         {feature.type}
                       </span>
                     </td>
-                    <td className="px-3 py-2 text-gray-700 dark:text-gray-300 text-xs">
+                    <td className="px-3 py-2 text-ink text-xs">
                       {feature.description}
                     </td>
-                    <td className="px-3 py-2 text-gray-600 dark:text-gray-400 text-xs">
+                    <td className="px-3 py-2 text-ink text-xs">
                       {feature.details}
                     </td>
                   </tr>

@@ -1,12 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ProjectCard, { type Project } from '../components/ProjectCard';
-import projectsData from '../data/projects.json';
-import { useTranslations } from '../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import ProjectCard, { type Project } from '../../components/ProjectCard';
+import projectsData from '../../data/projects.json';
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
 
-const lang = "en" as const;
+const lang: Lang = "fr";
 const t = useTranslations(lang);
 
 const projects = projectsData as Project[];
