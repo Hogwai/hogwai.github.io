@@ -342,15 +342,15 @@ Benefits:
 
 **Golden Rule**: Understand what Lombok annotations do under the hood before pasting them on your classes.
 
-| Annotation                 | Safe for              | Potential Risks               | Alternative / Recommendation         |
-| -------------------------- | --------------------- | ----------------------------- | ------------------------------------ |
-| `@Getter` / `@Setter`      | All                   | None                          | -                                    |
-| `@Builder` | All (with `@NoArgsConstructor` for JPA) | Missing no-args constructor | Add `@NoArgsConstructor` |
-| `@ToString`                | DTOs, simple entities | Recursion, lazy loading (JPA) | `@ToString(exclude=...)`             |
-| `@EqualsAndHashCode`       | DTOs                  | Lazy loading (JPA)            | Avoid or configure explicitly        |
-| `@Data`                    | DTOs / value objects  | Bundles risks on entities     | Avoid on JPA                         |
-| `@AllArgsConstructor`      | Rarely                | Bypasses `@Value` / non-final | `@RequiredArgsConstructor` + `final` |
-| `@RequiredArgsConstructor` | Spring beans          | None (if `final` fields used) | Preferred for DI                     |
+| Annotation                 | Safe for                                | Potential Risks               | Alternative / Recommendation         |
+| -------------------------- | --------------------------------------- | ----------------------------- | ------------------------------------ |
+| `@Getter` / `@Setter`      | All                                     | None                          | -                                    |
+| `@Builder`                 | All (with `@NoArgsConstructor` for JPA) | Missing no-args constructor   | Add `@NoArgsConstructor`             |
+| `@ToString`                | DTOs, simple entities                   | Recursion, lazy loading (JPA) | `@ToString(exclude=...)`             |
+| `@EqualsAndHashCode`       | DTOs                                    | Lazy loading (JPA)            | Avoid or configure explicitly        |
+| `@Data`                    | DTOs / value objects                    | Bundles risks on entities     | Avoid on JPA                         |
+| `@AllArgsConstructor`      | Rarely                                  | Bypasses `@Value` / non-final | `@RequiredArgsConstructor` + `final` |
+| `@RequiredArgsConstructor` | Spring beans                            | None (if `final` fields used) | Preferred for DI                     |
 
 ## References
 

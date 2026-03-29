@@ -3,13 +3,7 @@ title: |
   Remaining issues with Java Collections
 description: "Specific and not-so-obvious problems you may encounter that have not yet been resolved"
 pubDate: 2025-11-05
-tags:
-  [
-    "java",
-    "collections",
-    "performance",
-    "internal"
-  ]
+tags: ["java", "collections", "performance", "internal"]
 draft: false
 ---
 
@@ -74,7 +68,7 @@ It's negligible if the collection is small, but what if it's huge?
 
 ### Using `containsAll(Collection<?> c)`
 
-The same logic applies to `containsAll(Collection<?> c)` but with a O(n*m) time complexity since every element of the given collection has to be checked against the elements of the other one.
+The same logic applies to `containsAll(Collection<?> c)` but with a O(n\*m) time complexity since every element of the given collection has to be checked against the elements of the other one.
 
 In addition, IntelliJ issues a [warning](https://www.jetbrains.com/help/inspectopedia/SlowListContainsAll.html) about this.
 
@@ -118,7 +112,7 @@ In such cases, creating a temporary `HashSet` is often an excellent compromise.
 
 ```java
 Set<String> lookup = new HashSet<>(list);
-if (lookup.contains(x)) { 
+if (lookup.contains(x)) {
   LOG.info("Found");
 }
 ```
@@ -141,7 +135,7 @@ public static <T> boolean fastContains(Collection<T> collection, T element) {
 
 ```java
 List<String> list = List.of("elem", "element", "el");
-if (CollectionUtils.fastContains(list, "element")) { 
+if (CollectionUtils.fastContains(list, "element")) {
   LOG.info("Found");
 }
 ```
@@ -161,7 +155,7 @@ public static <T> Predicate<T> fastContains(Collection<T> collection) {
 ```java
 List<String> list = List.of("elem", "element", "el");
 Predicate<String> lookup = CollectionUtils.fastContains(list);
-if (lookup.test("el")) { 
+if (lookup.test("el")) {
   LOG.info("Found");
 }
 ```
@@ -237,7 +231,7 @@ To sum things up:
 1. <a id="ref1"></a>[ArrayList.java#L139: elementData](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L139)
 2. <a id="ref2"></a>[ArrayList.java#L275: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L275)
 3. <a id="ref3"></a>[HashSet.java#L213: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/HashSet.java#L213)
-3. <a id="ref4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
+4. <a id="ref4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
 
 ## Demo
 
