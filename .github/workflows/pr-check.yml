@@ -53,6 +53,12 @@ jobs:
         run: npm run lint
         working-directory: ${{ env.BUILD_PATH }}
 
+      - name: Check links in changed files
+        run: |
+          git diff --name-only origin/main...HEAD -- '*.md' '*.mdx' | \
+            xargs --no-run-if-empty markdown-link-check --config .markdown-link-check.json
+        working-directory: ${{ env.BUILD_PATH }}
+
       - name: Astro check
         run: ${{ steps.detect-package-manager.outputs.runner }} astro check
         working-directory: ${{ env.BUILD_PATH }}

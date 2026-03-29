@@ -8,7 +8,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --max-warnings=0",
-    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --fix && prettier --write \"src/**/*.{js,ts,jsx,tsx,mjs}\"",
+    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --fix && prettier --write \"src/**/*.{js,ts,jsx,tsx,mjs,md,mdx}\"",
+    "lint:md": "markdownlint-cli2 \"src/content/**/*.{md,mdx}\"",
+    "check-links": "find src/content -name '*.md' -o -name '*.mdx' | xargs markdown-link-check --config .markdown-link-check.json",
+    "new:post": "node scripts/new-content.js post",
+    "new:note": "node scripts/new-content.js note",
+    "lint-staged": "node ./node_modules/lint-staged/bin/lint-staged.js",
+    "commitlint": "node ./node_modules/@commitlint/cli/cli.js",
     "prepare": "husky"
   },
   "dependencies": {
@@ -29,6 +35,8 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@tailwindcss/typography": "^0.5.19",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@typescript-eslint/parser": "^8.56.0",
@@ -39,6 +47,22 @@
     "eslint-plugin-astro": "^1.6.0",
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "markdown-link-check": "^3.14.2",
+    "markdownlint-cli2": "^0.22.0",
     "prettier": "^3.8.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs}": [
+      "eslint --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.astro": [
+      "eslint --max-warnings=0"
+    ],
+    "*.{md,mdx}": [
+      "markdownlint-cli2",
+      "prettier --write"
+    ]
   }
 }
