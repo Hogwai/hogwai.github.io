@@ -1,0 +1,71 @@
+---
+title: "Aide-mémoire des goals Maven"
+description: "Retrouvez facilement le goal Maven dont vous avez besoin"
+pubDate: 2025-10-22
+tags: ["java", "maven", "cheat-sheet"]
+draft: false
+---
+
+import MavenGoalsSearch from "../../../components/MavenGoalsSearch.tsx";
+
+<MavenGoalsSearch client:idle />
+
+---
+
+## Comprendre les chaînes de goals
+
+Quand vous lancez une commande Maven comme `mvn package`, Maven n'exécute pas uniquement ce goal : il parcourt toutes les phases qui le précèdent, dans l'ordre.
+
+| Commande      | Phases implicites (exécutées dans l'ordre)               |
+| ------------- | -------------------------------------------------------- |
+| `mvn compile` | `validate → compile`                                     |
+| `mvn test`    | `validate → compile → test`                              |
+| `mvn package` | `validate → compile → test → package`                    |
+| `mvn install` | `validate → compile → test → package → install`          |
+| `mvn deploy`  | `validate → compile → test → package → install → deploy` |
+| `mvn verify`  | `validate → compile → test → verify`                     |
+
+Chaque phase est associée par défaut à un ou plusieurs goals de plugin.
+Exemple :
+`compile` → `compiler:compile`
+`package` → `jar:jar` ou `war:war` (selon le type de packaging).
+
+---
+
+## Commandes de diagnostic et d'aide
+
+| Commande                              | Description                                                                       | Exemple de sortie                            |
+| ------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------- |
+| `mvn help:effective-pom`              | Affiche le POM fusionné complet (parent + profils + valeurs par défaut).          | Utile pour déboguer les problèmes d'héritage |
+| `mvn help:describe -Dcmd=compile`     | Indique quel plugin et quel goal sont liés à `compile`.                           | Révèle le mapping `compiler:compile`         |
+| `mvn help:describe -Dplugin=compiler` | Liste tous les goals disponibles pour un plugin donné.                            | `compiler:compile`, `compiler:testCompile`   |
+| `mvn dependency:tree`                 | Affiche la hiérarchie des dépendances et les éventuels conflits.                  | `A:1.0 → B:2.0 → C:3.1`                      |
+| `mvn -X`                              | Exécute le build en mode debug, avec les détails des bindings et du cycle de vie. | Idéal pour diagnostiquer un build            |
+
+---
+
+## Liaisons de goals personnalisées
+
+Vous pouvez associer des goals de plugin à n'importe quelle phase dans votre `pom.xml` :
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-antrun-plugin</artifactId>
+  <executions>
+    <execution>
+      <phase>generate-sources</phase>
+      <goals>
+        <goal>run</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+```
+
+## Références
+
+- [Introduction au cycle de vie du build](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+- [Référence des bindings du cycle de vie par défaut](https://maven.apache.org/ref/current/maven-core/lifecycles.html)
+- [Plugin Help](https://maven.apache.org/plugins/maven-help-plugin/)
+- [Index des plugins Apache Maven](https://maven.apache.org/plugins/index.html)

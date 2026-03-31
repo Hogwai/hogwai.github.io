@@ -2,6 +2,7 @@
     {
         "title": "Linkedin Sponsor Block",
         "description": "Extension that hides promoted content on Linkedin. Also available as an userscript",
+        "description_fr": "Extension qui masque le contenu sponsorisé sur Linkedin. Également disponible en userscript",
         "technologies": ["JavaScript", "HTML"],
         "links": [
             {
@@ -29,6 +30,7 @@
     {
         "title": "EngineBlock",
         "description": "Extension that allows to filter out vehicles based on their engine on lacentrale",
+        "description_fr": "Extension qui permet de filtrer les véhicules par motorisation sur lacentrale",
         "technologies": ["JavaScript", "HTML"],
         "links": [
             {
@@ -51,6 +53,7 @@
     {
         "title": "Snippet Manager",
         "description": "Web app that lets you save snippets of text, code etc...",
+        "description_fr": "Application web pour sauvegarder des extraits de texte, de code, etc.",
         "technologies": ["TypeScript", "Next.js", "React", "Tailwind CSS", "Tauri", "Rust"],
         "links": [
             {
@@ -73,6 +76,7 @@
     {
         "title": "Sismo Graph",
         "description": "A reactJS app allowing to visualize sismic events that happened all over the world",
+        "description_fr": "Application React permettant de visualiser les événements sismiques à travers le monde",
         "technologies": ["React", "TypeScript", "Leaflet.js", "Zustand", "reactstrap", "USGS API"],
         "links": [
             {

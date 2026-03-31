@@ -14,6 +14,7 @@ interface ProjectLink {
 export interface Project {
   title: string;
   description: string;
+  description_fr?: string;
   technologies: string[];
   links?: ProjectLink[];
   image?: string;
