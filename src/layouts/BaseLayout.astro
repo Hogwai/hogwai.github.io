@@ -87,6 +87,27 @@ const siteJsonLd = {
           : "light");
       document.documentElement.classList.toggle("dark", theme === "dark");
     </script>
+    <script is:inline>
+      (function () {
+        var defined = "preferred-lang";
+        var stored;
+        try { stored = localStorage.getItem(defined); } catch (e) {}
+        var target = stored || (navigator.language.startsWith("fr") ? "fr" : "en");
+        var path = location.pathname;
+        // Skip non-content paths
+        if (/\.(xml|json)$/.test(path) || path.startsWith("/rss")) return;
+        var isFr = /^\/fr(\/|$)/.test(path);
+        var currentLang = isFr ? "fr" : "en";
+        if (target === currentLang) return;
+        var newPath;
+        if (target === "fr") {
+          newPath = path === "/" ? "/fr/" : "/fr" + path;
+        } else {
+          newPath = path.replace(/^\/fr(\/|$)/, "/") || "/";
+        }
+        location.replace(newPath);
+      })();
+    </script>
     {
       import.meta.env.PROD && (
         <script

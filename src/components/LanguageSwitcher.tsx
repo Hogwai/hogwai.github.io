@@ -54,6 +54,11 @@ export default function LanguageSwitcher({ lang, currentPath }: Props) {
             <a
               key={code}
               href={getPathForLang(code)}
+              onClick={() => {
+                try {
+                  localStorage.setItem("preferred-lang", code);
+                } catch {}
+              }}
               className={`flex items-center gap-2 px-3 py-2 text-sm transition ${
                 code === lang
                   ? "text-link font-medium bg-muted"

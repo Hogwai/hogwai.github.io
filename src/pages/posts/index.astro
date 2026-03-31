@@ -5,14 +5,27 @@ import Footer from '../../components/Footer';
 import SearchAndFilter from '../../components/SearchAndFilter';
 import { getCollection } from 'astro:content';
 import { useTranslations, getSlugWithoutLang } from '../../i18n/utils';
+import { flags, type Lang } from '../../i18n/ui';
 
-const lang = "en" as const;
+const lang: Lang = "en";
 const t = useTranslations(lang);
 
-const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft && post.slug.startsWith('en/'))
+const allPosts = (await getCollection('posts')).filter(p => !p.data.draft);
+const enPosts = allPosts
+  .filter(p => p.slug.startsWith('en/'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map(post => ({ ...post, slug: getSlugWithoutLang(post.slug) }));
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug) }));
+const frPosts = allPosts.filter(p => p.slug.startsWith('fr/'));
+const enSlugSet = new Set(enPosts.map(p => p.slug));
+const frOnlyPosts = frPosts
+  .filter(p => !enSlugSet.has(getSlugWithoutLang(p.slug)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug), langBadge: flags.fr, lang: "fr" as const }));
+
+const posts = [
+  ...enPosts.map(p => ({ ...p, langBadge: undefined, lang: "en" as const })),
+  ...frOnlyPosts,
+].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout title={t("posts.title")} description={t("posts.description")} lang={lang}>

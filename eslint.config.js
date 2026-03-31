@@ -43,7 +43,9 @@ export default [
         extraFileExtensions: [".astro"],
       },
     },
-    rules: {},
+    rules: {
+      "prettier/prettier": "off",
+    },
   },
   {
     ignores: ["dist/", ".astro/", "node_modules/", "*.d.ts"],

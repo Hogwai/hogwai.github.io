@@ -30,7 +30,7 @@ jobs:
         id: link-check
         run: |
           set +e
-          OUTPUT=$(find src/content -name '*.md' -o -name '*.mdx' | xargs markdown-link-check --config .markdown-link-check.json 2>&1)
+          OUTPUT=$(find src/content -name '*.md' -o -name '*.mdx' | xargs npx markdown-link-check --config .markdown-link-check.json 2>&1)
           EXIT_CODE=$?
           echo "$OUTPUT"
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)

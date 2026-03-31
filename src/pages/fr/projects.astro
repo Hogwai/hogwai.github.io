@@ -31,7 +31,7 @@ const projects = projectsData as Project[];
         {projects.map((project) => (
           <ProjectCard
             title={project.title}
-            description={project.description}
+            description={project.description_fr || project.description}
             technologies={project.technologies}
             links={project.links}
             image={project.image}
