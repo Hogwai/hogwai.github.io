@@ -12,13 +12,6 @@ The blog has a [side project](https://github.com/Hogwai/hogwai.github.io-content
 - **Tips**: Advice for optimizing your Java code, solving common issues or best practices.
 - **Practical examples**: Example projects with source code.
 
-## Contact
-
-For questions or suggestions, reach out via:
-
-- Email: <github@lw.mozmail.com>
-- GitHub Issues: [issues](https://github.com/Hogwai/hogwai.github.io/issues)
-
 ## Licenses
 
 - Code: Licensed under [MIT](/LICENSE)
