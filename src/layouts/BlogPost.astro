@@ -111,6 +111,7 @@ const breadcrumbJsonLd = {
         {translationUrl && (
           <a
             href={translationUrl}
+            onclick={`try{localStorage.setItem('preferred-lang','${otherLang}')}catch(e){}`}
             class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
           >
             {flags[otherLang]} {tOther("lang.switchLabel")}
