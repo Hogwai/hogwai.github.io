@@ -1,19 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
 import { getSlugWithoutLang } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
-  const frPosts = posts.filter((p) => p.slug.startsWith('fr/'));
+  const frPosts = posts.filter((p) => p.id.startsWith('fr/'));
   return frPosts.map((post) => ({
-    params: { slug: getSlugWithoutLang(post.slug) },
+    params: { slug: getSlugWithoutLang(post.id) },
     props: post,
   }));
 }
 
 const post = Astro.props;
-const { Content, headings, remarkPluginFrontmatter } = await post.render();
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
 ---
 
 <BlogPost {...post.data} headings={headings} minutesRead={remarkPluginFrontmatter.minutesRead} lang="fr">

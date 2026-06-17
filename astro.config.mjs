@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
-import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { remarkReadingTime } from "./src/plugins/remarkReadingTime.mjs";
@@ -48,11 +48,11 @@ const contentDates = getContentDates();
 export default defineConfig({
   site: "https://hogwai.github.io",
   base: "/",
+  vite: {
+    plugins: [tailwindcss()],
+  },
   integrations: [
     react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
     mdx(),
     sitemap({
       serialize(item) {

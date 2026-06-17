@@ -23,7 +23,7 @@ const otherLang = getOtherLang(lang);
 const currentSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || '';
 const allPosts = await getCollection('posts');
 const hasTranslation = allPosts.some(
-  (p) => p.slug === `${otherLang}/${currentSlug}`
+  (p) => p.id === `${otherLang}/${currentSlug}`
 );
 const translationUrl = hasTranslation
   ? `${getLocalePath(otherLang)}/posts/${currentSlug}/`

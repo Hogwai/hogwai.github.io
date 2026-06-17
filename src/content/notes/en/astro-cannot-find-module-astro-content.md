@@ -1,5 +1,5 @@
 ---
-title: 'Astro: Cannot find module ''astro:content'''
+title: "Astro: Cannot find module 'astro:content'"
 description: 'Fix for the TypeScript error "Cannot find module astro:content or its corresponding type declarations.ts(2307)"'
 pubDate: 2025-10-18
 tags: ["astro", "setup", "error", "typescript"]

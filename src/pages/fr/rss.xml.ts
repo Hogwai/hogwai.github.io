@@ -8,24 +8,24 @@ export async function GET(context: APIContext) {
   const notes = await getCollection("notes");
 
   const postItems = posts
-    .filter((post) => !post.data.draft && post.slug.startsWith("fr/"))
+    .filter((post) => !post.data.draft && post.id.startsWith("fr/"))
     .map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: `/fr/posts/${getSlugWithoutLang(post.slug)}/`,
+      link: `/fr/posts/${getSlugWithoutLang(post.id)}/`,
       categories: post.data.tags,
       author: "Hogwai",
     }));
 
   const noteItems = notes
-    .filter((note) => !note.data.draft && note.slug.startsWith("fr/"))
+    .filter((note) => !note.data.draft && note.id.startsWith("fr/"))
     .map((note) => ({
       title: note.data.title,
       description:
         note.data.description ?? `${note.data.title} — Hogwai Tech Blog.`,
       pubDate: note.data.pubDate,
-      link: `/fr/notes/${getSlugWithoutLang(note.slug)}/`,
+      link: `/fr/notes/${getSlugWithoutLang(note.id)}/`,
       categories: note.data.tags,
       author: "Hogwai",
     }));

@@ -1,19 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Note from '../../../layouts/Note.astro';
 import { getSlugWithoutLang } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes');
-  const frNotes = notes.filter((n) => n.slug.startsWith('fr/'));
+  const frNotes = notes.filter((n) => n.id.startsWith('fr/'));
   return frNotes.map((note) => ({
-    params: { slug: getSlugWithoutLang(note.slug) },
+    params: { slug: getSlugWithoutLang(note.id) },
     props: note,
   }));
 }
 
 const note = Astro.props;
-const { Content } = await note.render();
+const { Content } = await render(note);
 ---
 
 <Note {...note.data} lang="fr">

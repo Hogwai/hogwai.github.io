@@ -20,7 +20,7 @@ const otherLang = getOtherLang(lang);
 const currentSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || '';
 const allNotes = await getCollection('notes');
 const hasTranslation = allNotes.some(
-  (n) => n.slug === `${otherLang}/${currentSlug}`
+  (n) => n.id === `${otherLang}/${currentSlug}`
 );
 const translationUrl = hasTranslation
   ? `${getLocalePath(otherLang)}/notes/${currentSlug}/`
