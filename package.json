@@ -64,5 +64,10 @@
       "markdownlint-cli2",
       "prettier --write"
     ]
+  },
+  "allowScripts": {
+    "esbuild@0.27.4": true,
+    "esbuild@0.25.12": true,
+    "sharp@0.34.5": true
   }
 }
