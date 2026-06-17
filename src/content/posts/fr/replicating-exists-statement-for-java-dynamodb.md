@@ -7,26 +7,26 @@ tags: ["dynamodb", "java", "performance"]
 draft: false
 ---
 
-En SQL, vérifier qu'une ligne existe est trivial :
+En SQL, vérifier l'existence d'un élément est une opération triviale :
 
 ```sql
 SELECT 1 FROM posts WHERE id = '123' LIMIT 1;
 ```
 
-DynamoDB n'a pas d'équivalent. Un `GetItem` classique sur un élément de 50 Ko lit les 50 Ko en entier, même si vous souhaitez seulement savoir s'il existe. Vous payez pour la lecture complète.
+DynamoDB n'a pas d'équivalent. Un `GetItem` classique sur un élément de 50 Ko lit les 50 Ko en entier, même si l'on souhaite seulement savoir s'il existe.
 
-Cet article présente des stratégies efficaces pour implémenter un `exists` avec le SDK AWS pour Java v2.
+Dans cet article, nous abordons des stratégies efficaces pour implémenter un `exists` avec le SDK AWS pour Java v2.
 
-## 1. L'approche naïve vs. les projections
+## L'approche naïve vs. les projections
 
-Utilisez une `ProjectionExpression` pour ne récupérer que la clé de partition plutôt que l'élément complet. Cela réduit le transfert réseau et le coût de désérialisation.
+Une première possibilité est d'utiliser une `ProjectionExpression` afin de ne récupérer que la clé de partition plutôt que l'élément complet. Cela réduit le transfert réseau et le coût de désérialisation.
 
 ```java
 public boolean existsByProjection(String subreddit, String id) {
     GetItemRequest request = GetItemRequest.builder()
             .tableName("posts")
             .key(buildKey(subreddit, id))
-            .projectionExpression("subreddit") // Only ask for the key!
+            .projectionExpression("subreddit") // On ne demande que la clé, pas l'élément
             .build();
 
     GetItemResponse response = dynamoDbClient.getItem(request);
@@ -34,30 +34,29 @@ public boolean existsByProjection(String subreddit, String id) {
 }
 ```
 
-### Le piège de facturation caché
+Toutefois, cette approche ne réduit pas le coût car DynamoDB calcule les RCU consommées sur la taille totale de l'élément stocké, indépendamment des attributs projetés.
 
-La projection réduit le transfert réseau, mais pas la consommation de RCU. DynamoDB lit l'élément en entier depuis le disque avant d'appliquer la projection.
+## Diviser la facture par deux : la cohérence éventuelle
 
-- Gain : latence réseau, CPU côté client.
-- Coût : identique à une lecture complète en termes de RCU.
+La deuxième astuce possible est d'effectuer des lectures à cohérence éventuelle (qui est l'option par défaut de lecture).
 
-## 2. Diviser la facture par deux : la cohérence éventuelle
-
-Si votre cas d'usage tolère un délai de détection inférieur à la seconde (ce qui est généralement le cas pour une vérification d'existence), passez en cohérence éventuelle.
+La cohérence éventuelle peut présenter un délai de réplication d'au plus une seconde dans des conditions normales.
+Ce mode de lecture consomme 1 RCU pour un élément jusqu'à 4 Ko.
 
 ```java
 GetItemRequest.builder()
     .key(key)
     .projectionExpression("id")
-    .consistentRead(false) // <--- The magic line
+    .consistentRead(false)
     .build();
 ```
 
-`GetItem` utilise par défaut des lectures fortement cohérentes. Passer `consistentRead(false)` divise le coût en RCU par deux.
+La cohérence forte est à utiliser `consistentRead(true)` si le cas d'usage exige impérativement la fraîcheur de la donnée.
+Ce mode de lecture consomme 2 RCU pour un élément jusqu'à 4 Ko.
 
-## 3. Le défi du batch (BatchGetItem)
+## Le défi du batch (BatchGetItem)
 
-Pour vérifier plusieurs éléments en une seule fois, utilisez `BatchGetItem` plutôt que des appels individuels en boucle.
+Pour vérifier plusieurs éléments en une seule fois, on peut utiliser `BatchGetItem` plutôt que de faire des vérifications individuels successives.
 
 Deux comportements à gérer :
 
@@ -68,7 +67,7 @@ Implémentation avec mécanisme de retry :
 
 ```java
 public Map<String, Boolean> batchExists(String subreddit, List<String> ids) {
-    // 1. Prepare keys
+    // 1. Préparation des clés
     List<Map<String, AttributeValue>> keys = ids.stream()
             .map(id -> buildKey(subreddit, id))
             .toList();
@@ -76,7 +75,7 @@ public Map<String, Boolean> batchExists(String subreddit, List<String> ids) {
     Map<String, KeysAndAttributes> requestItems = new HashMap<>();
     requestItems.put("posts", KeysAndAttributes.builder()
             .keys(keys)
-            .projectionExpression("id") // Network optimization
+            .projectionExpression("id") // Que la clé
             .build());
 
     BatchGetItemRequest request = BatchGetItemRequest.builder()
@@ -85,28 +84,28 @@ public Map<String, Boolean> batchExists(String subreddit, List<String> ids) {
             .build();
 
     Map<String, Boolean> result = new HashMap<>();
-    ids.forEach(id -> result.put(id, false)); // Default to false
+    ids.forEach(id -> result.put(id, false)); // Faux par défaut
 
     int attempts = 0;
 
-    // 2. Retry Loop for Unprocessed Keys
+    // 2. Retry pour les clés non traitées
     do {
         attempts++;
         BatchGetItemResponse response = dynamoDbClient.batchGetItem(request);
 
-        // Mark found items
+        // Items trouvés
         var foundItems = response.responses().getOrDefault("posts", List.of());
         foundItems.forEach(item -> result.put(item.get("id").s(), true));
 
-        // Check for throttling / unprocessed keys
+        // Clés non traitées
         if (response.hasUnprocessedKeys() && !response.unprocessedKeys().isEmpty()) {
             request = request.toBuilder()
                              .requestItems(response.unprocessedKeys())
                              .build();
-            // Exponential backoff strategy
+            // Stratégie de backoff exponentiel
             backoff(attempts);
         } else {
-            break; // All clear
+            break; // Fin de traitement
         }
     } while (attempts < 5);
 
@@ -126,34 +125,41 @@ private static void backoff(int attempt) {
 }
 ```
 
-## 4. Vérifier des attributs complexes
+## Vérifier des attributs complexes
 
-Au-delà de la simple existence d'un élément, vous pouvez avoir besoin de vérifier si un attribut spécifique contient des données (par exemple, une liste non vide).
+Au-delà de la simple existence d'un élément, on peut avoir besoin de vérifier si un attribut spécifique contient des données (par exemple, une liste non vide).
 
-Récupérer uniquement l'attribut cible via `GetItem` est plus direct qu'utiliser une `Query` avec `FilterExpression`, car les filtres sont appliqués _après_ que le coût de lecture a été engagé.
+### Utilisation de `GetItem`
+
+Récupérer uniquement l'attribut cible via `GetItem` est plus direct et économe qu'utiliser une `Query` avec `FilterExpression`, car DynamoDB localise l'élément par sa clé primaire (opération O(1)), puis ne renvoie que les attributs demandés si l'on utilise une `ProjectionExpression`.
+Le coût en RCU est calculé par rapport à la taille de l'élément, mais on évite le transfert réseau et la désérialisation des attributs inutiles.
 
 ```java
 public boolean hasKeywordsByGetItem(String subreddit, String id) {
     GetItemRequest request = GetItemRequest.builder()
             .tableName("posts")
             .key(buildKey(subreddit, id))
-            .projectionExpression("keywords") // Fetch only this column
-            .consistentRead(false)            // Save RCUs
+            .projectionExpression("keywords")
+            .consistentRead(false)
             .build();
 
     GetItemResponse response = dynamoDbClient.getItem(request);
 
-    if (!response.hasItem()) return false;
+    if (!response.hasItem()) {
+        return false;
+    }
 
     AttributeValue keywords = response.item().get("keywords");
-    // Check if attribute exists and is a non-empty list
+
+    // Vérifier si l'attribut existe et n'est pas vide
     return keywords != null && keywords.hasL() && !keywords.l().isEmpty();
 }
 ```
 
-### Alternative : utiliser Query avec FilterExpression
+### Utiliser `Query` avec `FilterExpression`
 
-L'approche par `Query` reste utile pour des conditions plus complexes. À noter que le filtre est appliqué après la lecture, donc la consommation de RCU est identique.
+L'approche par `Query` reste utile lorsque l'on doit récupérer un ensemble d'éléments partageant la même clé de partition, puis affiner localement les résultats.
+DynamoDB lit d'abord tous les éléments correspondant à la condition de partition/sort key, consomme les RCU pour chacun d'eux, puis seulement applique le filtre en mémoire. Les éléments écartés par le filtre ont quand même été facturés.
 
 ```java
 public boolean hasKeywords(String subreddit, String id) {
@@ -180,12 +186,12 @@ public boolean hasKeywords(String subreddit, String id) {
 
 ## Récapitulatif des performances
 
-| Technique            | Réduit la bande passante ? | Réduit les coûts (RCU) ? | Cas d'usage idéal                     |
-| :------------------- | :------------------------: | :----------------------: | :------------------------------------ |
-| GetItem complet      |            Non             |           Non            | Récupération des données réelles      |
-| Projection           |            Oui             |           Non            | Grands éléments, réduction de latence |
-| Cohérence éventuelle |            Non             |        Oui (-50%)        | Vérifications d'existence standard    |
-| GSI (Keys Only)      |            Oui             |        Oui (-90%)        | Très grands éléments (>40 Ko)         |
+| Technique            | Réduit la bande passante ? | Réduit les coûts (RCU) ? | Cas d'usage idéal                                                           |
+| :------------------- | :------------------------: | :----------------------: | :-------------------------------------------------------------------------- |
+| GetItem complet      |            Non             |           Non            | Récupération des données réelles                                            |
+| Projection           |            Oui             |           Non            | Grands éléments, réduction de latence, vérification d'existence (hasItem()) |
+| Cohérence éventuelle |            Non             |        Oui (-50%)        | Vérifications d'existence standard                                          |
+| GSI (Keys Only)      |            Oui             |        Oui (-90%)        | Très grands éléments (>40 Ko)                                               |
 
 > Pour des éléments de plus de 40 Ko, un GSI en `KEYS_ONLY` coûte 0,5 RCU par lecture, indépendamment de la taille de l'élément dans la table principale.
 
@@ -196,6 +202,7 @@ Pour une vérification d'existence standard :
 1. `projectionExpression` : réduit le transfert réseau.
 2. `consistentRead(false)` : divise le coût en RCU par deux.
 3. Gérer les `UnprocessedKeys` dans les opérations par batch.
+4. Pour les éléments > 40 Ko, envisager un GSI en KEYS_ONLY pour réduire le coût de 90 %.
 
 ## Références
 
