@@ -9,12 +9,12 @@ draft: false
 
 ## Un peu de contexte
 
-Durant l'une de mes précédentes expériences, j'ai du travailler sur un monolithe legacy ayant 1 ou 2 décennies d'âge.
-Ce monolithe avait plusieurs caractéristiques qui en faisait une application peu aisée à manoeuvrer:
+Durant l'une de mes précédentes expériences, j'ai dû travailler sur un monolithe legacy ayant 1 ou 2 décennies d'âge.
+Ce monolithe avait plusieurs caractéristiques qui en faisaient une application peu aisée à manœuvrer:
 
 - Conçu avec Apache Struts 1 (ou inférieur)
-- Bloqué sur java 8, du aux dépendances directes et transitives et à la peur du management d'effectuer la montée de version
-- Disposant d'une qualité de code très variable selon les fichiers, du à un manque d'harmonisation et un recours excessif à de la prestation
+- Bloqué sur Java 8, dû aux dépendances directes et transitives et à la peur du management d'effectuer la montée de version
+- Disposant d'une qualité de code très variable selon les fichiers, dû à un manque d'harmonisation et un recours excessif à de la prestation
 - Sans ORM
 - Utilisant Bitronix comme gestionnaire de transactions
 
@@ -54,7 +54,7 @@ public List<Item> getItemsByCategory(String categoryCode) {
 
 ## Pattern 1 : gestion des paramètres nommés
 
-Premier constat : JDBC ne gère que les paramètres positionels (`?`), ce qui en terme de lisibilité n'est pas optimal.
+Premier constat : JDBC ne gère que les paramètres positionnels (`?`), ce qui en termes de lisibilité n'est pas optimal.
 
 L'idée est de pouvoir passer de ça:
 
@@ -80,7 +80,7 @@ WHERE c.code = :categoryCode
 ORDER BY i.name
 ```
 
-Ici, un utilitaire `SqlUtil` prend en entrée des paramètres nommés et effectue le remplacements par des `?`.
+Ici, un utilitaire `SqlUtil` prend en entrée des paramètres nommés et effectue le remplacement par des `?`.
 Il convertit aussi les listes en énumérations de paramètres `(?,?,...)` pour la clause IN :
 
 ```java
@@ -231,11 +231,11 @@ public List<Item> getItemsWithExecutor(ItemCriteria criteria) {
 }
 ```
 
-Les fermetures du `PreparedStatement` et du `ResultSet` sont gérés et ne sont plus dans le code appelant.
+Les fermetures du `PreparedStatement` et du `ResultSet` sont gérées et ne sont plus dans le code appelant.
 
 ## Pattern 3 : extraction en méthodes
 
-Les lambdas sont pratiques mais deviennent rapidement verbeuse quand le binding ou le mapping est complexe. On les extrait en méthodes statiques :
+Les lambdas sont pratiques mais deviennent rapidement verbeuses quand le binding ou le mapping est complexe. On les extrait en méthodes statiques :
 
 ```java
 private static List<Item> mapResults(ResultSet rs) throws SQLException {
@@ -441,7 +441,7 @@ public List<Item> getItemsWithRowMapper(ItemCriteria criteria) {
 
 Les try-with-resources ont été encapsulés. Le mapping est une constante réutilisable.
 
-Ici on obtient une méthode plus légère avec du code déclaratif, des responsabilités bien définis et sans effet de bord.
+Ici on obtient une méthode plus légère avec du code déclaratif, des responsabilités bien définies et sans effet de bord.
 
 ## Ce que ces patterns changent
 
@@ -455,6 +455,6 @@ Ici on obtient une méthode plus légère avec du code déclaratif, des responsa
 
 ## Conclusion
 
-Chaque abstraction résout un problème spécifique : `SqlUtil` pour le SQL nommé, `JdbcExecutor` pour le cycle de vie, `ParamBinder` pour les index, `RowMapper` pour le mapping. Combinées, elles permettent d'éviter certains anti-patterns, oublis ainsi de factoriser le code répétitif sans avoir à ajouter de framework ou librairie.
+Chaque abstraction résout un problème spécifique : `SqlUtil` pour le SQL nommé, `JdbcExecutor` pour le cycle de vie, `ParamBinder` pour les index, `RowMapper` pour le mapping. Combinées, elles permettent d'éviter certains anti-patterns et des oublis, tout en factorisant le code répétitif sans avoir à ajouter de framework ou de librairie.
 
-Un projet mettant en oeuvre ces concepts est disponible ici : [legacy-jdbc-abstractor](https://github.com/Hogwai/hogwai.github.io-content/tree/main/legacy-jdbc-abstractor).
+Un projet mettant en œuvre ces concepts est disponible ici : [legacy-jdbc-abstractor](https://github.com/Hogwai/hogwai.github.io-content/tree/main/legacy-jdbc-abstractor).

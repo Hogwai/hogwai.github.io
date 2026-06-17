@@ -439,7 +439,7 @@ public List<Item> getItemsWithRowMapper(ItemCriteria criteria) {
 }
 ```
 
-Try-with-resources have been encapsulated. The mapping is a reusable constant.
+The try-with-resources have been encapsulated. The mapping is a reusable constant.
 
 The result is a lighter method with declarative code, well-defined responsibilities, and no side effects.
 
