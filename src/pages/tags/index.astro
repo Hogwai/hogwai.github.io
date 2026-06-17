@@ -9,8 +9,8 @@ const lang = "en" as const;
 const t = useTranslations(lang);
 const prefix = getLocalePath(lang);
 
-const posts = (await getCollection('posts')).filter((p) => !p.data.draft && p.slug.startsWith('en/'));
-const notes = (await getCollection('notes')).filter((n) => !n.data.draft && n.slug.startsWith('en/'));
+const posts = (await getCollection('posts')).filter((p) => !p.data.draft && p.id.startsWith('en/'));
+const notes = (await getCollection('notes')).filter((n) => !n.data.draft && n.id.startsWith('en/'));
 
 const tagCounts: Record<string, number> = {};
 

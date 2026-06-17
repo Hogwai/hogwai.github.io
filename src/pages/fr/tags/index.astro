@@ -14,15 +14,15 @@ const allPosts = (await getCollection('posts')).filter((p) => !p.data.draft);
 const allNotes = (await getCollection('notes')).filter((n) => !n.data.draft);
 
 // Deduplicate: prefer FR version, fallback to EN-only
-const frPostSlugs = new Set(allPosts.filter(p => p.slug.startsWith('fr/')).map(p => getSlugWithoutLang(p.slug)));
+const frPostSlugs = new Set(allPosts.filter(p => p.id.startsWith('fr/')).map(p => getSlugWithoutLang(p.id)));
 const posts = [
-  ...allPosts.filter(p => p.slug.startsWith('fr/')),
-  ...allPosts.filter(p => p.slug.startsWith('en/') && !frPostSlugs.has(getSlugWithoutLang(p.slug))),
+  ...allPosts.filter(p => p.id.startsWith('fr/')),
+  ...allPosts.filter(p => p.id.startsWith('en/') && !frPostSlugs.has(getSlugWithoutLang(p.id))),
 ];
-const frNoteSlugs = new Set(allNotes.filter(n => n.slug.startsWith('fr/')).map(n => getSlugWithoutLang(n.slug)));
+const frNoteSlugs = new Set(allNotes.filter(n => n.id.startsWith('fr/')).map(n => getSlugWithoutLang(n.id)));
 const notes = [
-  ...allNotes.filter(n => n.slug.startsWith('fr/')),
-  ...allNotes.filter(n => n.slug.startsWith('en/') && !frNoteSlugs.has(getSlugWithoutLang(n.slug))),
+  ...allNotes.filter(n => n.id.startsWith('fr/')),
+  ...allNotes.filter(n => n.id.startsWith('en/') && !frNoteSlugs.has(getSlugWithoutLang(n.id))),
 ];
 
 const tagCounts: Record<string, number> = {};
