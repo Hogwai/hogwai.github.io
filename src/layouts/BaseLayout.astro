@@ -75,7 +75,7 @@ const siteJsonLd = {
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="dns-prefetch" href="https://cloud.umami.is" />
     <link rel="manifest" href="/manifest.json" />
-    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} is:inline />
 
     <slot name="head" />
 

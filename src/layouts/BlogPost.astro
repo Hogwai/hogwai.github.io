@@ -90,8 +90,8 @@ const breadcrumbJsonLd = {
 
 <BaseLayout title={title} description={description} image={heroImage} ogType="article" publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} tags={tags} lang={lang}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} is:inline />
   </Fragment>
   <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 

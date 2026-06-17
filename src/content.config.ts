@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const posts = defineCollection({
@@ -26,7 +27,7 @@ const notes = defineCollection({
       .string()
       .transform((v) => v.toLowerCase())
       .optional(),
-    source: z.string().url().optional(),
+    source: z.url().optional(),
     draft: z.boolean().default(false),
   }),
 });
