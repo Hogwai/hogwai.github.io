@@ -12,15 +12,15 @@ const t = useTranslations(lang);
 
 const allNotes = (await getCollection('notes')).filter(n => !n.data.draft);
 const enNotes = allNotes
-  .filter(n => n.slug.startsWith('en/'))
+  .filter(n => n.id.startsWith('en/'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map(n => ({ ...n, slug: getSlugWithoutLang(n.slug) }));
-const frNotes = allNotes.filter(n => n.slug.startsWith('fr/'));
+  .map(n => ({ ...n, slug: getSlugWithoutLang(n.id) }));
+const frNotes = allNotes.filter(n => n.id.startsWith('fr/'));
 const enSlugSet = new Set(enNotes.map(n => n.slug));
 const frOnlyNotes = frNotes
-  .filter(n => !enSlugSet.has(getSlugWithoutLang(n.slug)))
+  .filter(n => !enSlugSet.has(getSlugWithoutLang(n.id)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map(n => ({ ...n, slug: getSlugWithoutLang(n.slug), langBadge: flags.fr, lang: "fr" as const }));
+  .map(n => ({ ...n, slug: getSlugWithoutLang(n.id), langBadge: flags.fr, lang: "fr" as const }));
 
 const notes = [
   ...enNotes.map(n => ({ ...n, langBadge: undefined, lang: "en" as const })),

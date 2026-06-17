@@ -12,15 +12,15 @@ const t = useTranslations(lang);
 
 const allPosts = (await getCollection('posts')).filter(p => !p.data.draft);
 const enPosts = allPosts
-  .filter(p => p.slug.startsWith('en/'))
+  .filter(p => p.id.startsWith('en/'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug) }));
-const frPosts = allPosts.filter(p => p.slug.startsWith('fr/'));
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.id) }));
+const frPosts = allPosts.filter(p => p.id.startsWith('fr/'));
 const enSlugSet = new Set(enPosts.map(p => p.slug));
 const frOnlyPosts = frPosts
-  .filter(p => !enSlugSet.has(getSlugWithoutLang(p.slug)))
+  .filter(p => !enSlugSet.has(getSlugWithoutLang(p.id)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map(p => ({ ...p, slug: getSlugWithoutLang(p.slug), langBadge: flags.fr, lang: "fr" as const }));
+  .map(p => ({ ...p, slug: getSlugWithoutLang(p.id), langBadge: flags.fr, lang: "fr" as const }));
 
 const posts = [
   ...enPosts.map(p => ({ ...p, langBadge: undefined, lang: "en" as const })),

@@ -51,6 +51,29 @@
         ]
     },
     {
+        "title": "Userscripts",
+        "description": "Collection of userscripts enhancing websites with additional features",
+        "description_fr": "Collection d'userscripts améliorant des sites web avec des fonctionnalités supplémentaires",
+        "technologies": ["JavaScript", "Rollup"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/userscripts",
+                "type": "github"
+            },
+            {
+                "label": "LaCentraleEnhancer",
+                "url": "https://greasyfork.org/en/scripts/576491-lacentraleenhancer",
+                "type": "userscript"
+            },
+            {
+                "label": "LinkedinScheduledCalendar",
+                "url": "https://greasyfork.org/en/scripts/583449-linkedinscheduledcalendar",
+                "type": "userscript"
+            }
+        ]
+    },
+    {
         "title": "Snippet Manager",
         "description": "Web app that lets you save snippets of text, code etc...",
         "description_fr": "Application web pour sauvegarder des extraits de texte, de code, etc.",

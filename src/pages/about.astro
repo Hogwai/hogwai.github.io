@@ -22,7 +22,7 @@ const personJsonLd = {
 
 <BaseLayout title={t("about.title")} description={t("about.description")} lang={lang}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} is:inline />
   </Fragment>
   <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 

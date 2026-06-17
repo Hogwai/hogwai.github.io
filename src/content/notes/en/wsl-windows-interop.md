@@ -1,6 +1,6 @@
 ---
-title: 'WSL: Enable Windows interop to run Windows commands from WSL'
-description: 'How to enable and use WSL/Windows interoperability to execute Windows programs directly from a WSL terminal.'
+title: "WSL: Enable Windows interop to run Windows commands from WSL"
+description: "How to enable and use WSL/Windows interoperability to execute Windows programs directly from a WSL terminal."
 pubDate: 2026-02-21
 tags: ["wsl", "windows", "linux", "setup"]
 language: "bash"
