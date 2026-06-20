@@ -36,7 +36,7 @@ const { tag } = Astro.params;
 const { posts, notes } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag}`} description={`Posts and notes tagged with "${tag}" on Hogwai Tech Blog.`} lang={lang}>
+<BaseLayout title={`#${tag}`} description={`Posts and notes tagged with "${tag}" on Heap of Hogwai.`} lang={lang}>
   <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 
   <main id="main-content" class="flex-grow bg-page">

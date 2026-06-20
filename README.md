@@ -1,4 +1,4 @@
-# Hogwai Tech Blog
+# Heap of Hogwai
 
 ## Purpose
 

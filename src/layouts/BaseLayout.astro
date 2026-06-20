@@ -14,7 +14,7 @@ interface Props {
   lang?: Lang;
 }
 
-const { title, description = "Hogwai Tech Blog", image, ogType = "website", publishedTime, modifiedTime, tags, lang = defaultLang } = Astro.props;
+const { title, description = "Heap of Hogwai", image, ogType = "website", publishedTime, modifiedTime, tags, lang = defaultLang } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const otherLang = getOtherLang(lang);
 const alternateURL = new URL(getAlternateUrl(Astro.url, otherLang), Astro.site);
@@ -34,7 +34,7 @@ const imageURL = new URL(ogImage, Astro.site).href;
 const siteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Hogwai Tech Blog",
+  name: "Heap of Hogwai",
   url: Astro.site?.href ?? "https://hogwai.github.io",
 };
 ---
@@ -63,7 +63,7 @@ const siteJsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content="Hogwai Tech Blog" />
+    <meta property="og:site_name" content="Heap of Hogwai" />
     <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
     {ogType === "article" && publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {ogType === "article" && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
@@ -80,7 +80,7 @@ const siteJsonLd = {
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="Hogwai Tech Blog RSS Feed"
+      title="Heap of Hogwai RSS Feed"
       href={`${getLocalePath(lang)}/rss.xml`}
     />
     <link rel="sitemap" href="/sitemap-index.xml" />

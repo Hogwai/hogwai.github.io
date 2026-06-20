@@ -28,7 +28,7 @@ const translationUrl = hasTranslation
 const tOther = useTranslations(otherLang);
 const locale = lang === "fr" ? "fr-FR" : "en-GB";
 
-const noteDescription = description ?? `${title} — Hogwai Tech Blog.`;
+const noteDescription = description ?? `${title} — Heap of Hogwai.`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const jsonLd = {
@@ -50,7 +50,7 @@ const jsonLd = {
   },
   publisher: {
     "@type": "Organization",
-    name: "Hogwai Tech Blog",
+    name: "Heap of Hogwai",
     logo: {
       "@type": "ImageObject",
       url: new URL("/favicon.png", Astro.site).href,

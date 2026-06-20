@@ -32,24 +32,24 @@ for (const note of notes) {
 
 // Static pages
 pages["home"] = {
-  title: "Hogwai Tech Blog",
+  title: "Heap of Hogwai",
   description:
     "Thoughts, tutorials and technical posts about Java and the JVM ecosystem.",
 };
 pages["fr/home"] = {
-  title: "Hogwai Tech Blog",
+  title: "Heap of Hogwai",
   description:
     "Réflexions, tutoriels et articles techniques sur Java et l'écosystème JVM.",
 };
 pages["posts"] = {
   title: "All posts",
   description:
-    "All posts on Hogwai Tech Blog — Java, performance, design patterns and more.",
+    "All posts on Heap of Hogwai — Java, performance, design patterns and more.",
 };
 pages["fr/posts"] = {
   title: "Tous les posts",
   description:
-    "Tous les posts sur Hogwai Tech Blog — Java, performance, design patterns et plus.",
+    "Tous les posts sur Heap of Hogwai — Java, performance, design patterns et plus.",
 };
 pages["notes"] = {
   title: "Notes",
@@ -63,20 +63,20 @@ pages["fr/notes"] = {
 pages["about"] = {
   title: "About",
   description:
-    "About Lilian — developer with a passion for the Java ecosystem and the author of Hogwai Tech Blog.",
+    "About Lilian — developer with a passion for the Java ecosystem and the author of Heap of Hogwai.",
 };
 pages["fr/about"] = {
   title: "À propos",
   description:
-    "À propos de Lilian, développeur passionné par l'écosystème Java et auteur de Hogwai Tech Blog.",
+    "À propos de Lilian, développeur passionné par l'écosystème Java et auteur de Heap of Hogwai.",
 };
 pages["tags"] = {
   title: "Tags",
-  description: "Browse all tags on Hogwai Tech Blog.",
+  description: "Browse all tags on Heap of Hogwai.",
 };
 pages["fr/tags"] = {
   title: "Tags",
-  description: "Parcourir tous les tags sur Hogwai Tech Blog.",
+  description: "Parcourir tous les tags sur Heap of Hogwai.",
 };
 pages["projects"] = {
   title: "Projects",

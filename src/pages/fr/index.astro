@@ -42,7 +42,7 @@ const recentNotes = [
 ].sort((a, b) => b.note.data.pubDate.valueOf() - a.note.data.pubDate.valueOf()).slice(0, 3);
 ---
 
-<BaseLayout title="Hogwai Tech Blog" description="Reflexions, tutoriels et articles techniques sur Java et l'ecosysteme JVM." lang={lang}>
+<BaseLayout title="Heap of Hogwai" description="Reflexions, tutoriels et articles techniques sur Java et l'ecosysteme JVM." lang={lang}>
   <Header lang={lang} currentPath={Astro.url.pathname} client:load />
 
   <main id="main-content" class="flex-grow">

@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
     .map((note) => ({
       title: note.data.title,
       description:
-        note.data.description ?? `${note.data.title} — Hogwai Tech Blog.`,
+        note.data.description ?? `${note.data.title} — Heap of Hogwai.`,
       pubDate: note.data.pubDate,
       link: `/notes/${getSlugWithoutLang(note.id)}/`,
       categories: note.data.tags,
@@ -35,7 +35,7 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: "Hogwai Tech Blog",
+    title: "Heap of Hogwai",
     description: "Thoughts, tutorials and technical posts about Java (mainly)",
     site: context.site || "https://hogwai.github.io/",
     items: allItems,

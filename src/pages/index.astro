@@ -21,7 +21,7 @@ const recentNotes = (await getCollection('notes'))
   .slice(0, 3);
 ---
 
-<BaseLayout title="Hogwai Tech Blog" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem." lang={lang}>
+<BaseLayout title="Heap of Hogwai" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem." lang={lang}>
   <Header lang={lang} currentPath={Astro.url.pathname} client:load />
 
   <main id="main-content" class="flex-grow">
