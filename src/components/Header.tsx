@@ -33,7 +33,7 @@ export default function Header({
             href={`${prefix}/`}
             className="text-2xl font-bold text-link hover:text-link-hover transition"
           >
-            Hogwai Tech Blog
+            Heap of Hogwai
           </a>
 
           <div className="flex items-center gap-4">

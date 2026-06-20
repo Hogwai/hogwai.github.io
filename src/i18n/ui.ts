@@ -31,7 +31,7 @@ export const ui = {
     // Posts page
     "posts.title": "All posts",
     "posts.description":
-      "All posts on Hogwai Tech Blog — Java, performance, design patterns and more.",
+      "All posts on Heap of Hogwai — Java, performance, design patterns and more.",
     "posts.searchPlaceholder": "Search a post...",
     "posts.filterByTag": "Filter by tag",
     "posts.reset": "Reset",
@@ -55,14 +55,14 @@ export const ui = {
     "notes.backLink": "Notes",
     // Tags
     "tags.title": "Tags",
-    "tags.description": "Browse all tags on Hogwai Tech Blog.",
+    "tags.description": "Browse all tags on Heap of Hogwai.",
     "tags.backLink": "Tags",
     "tags.postsSection": "Posts",
     "tags.notesSection": "Notes",
     // About
     "about.title": "About",
     "about.description":
-      "About Lilian — developer with a passion for the Java ecosystem and the author of Hogwai Tech Blog.",
+      "About Lilian — developer with a passion for the Java ecosystem and the author of Heap of Hogwai.",
     "about.welcome": "Welcome to my technical blog",
     "about.whoAmI": "Who am I ?",
     "about.whoAmIText":
@@ -76,7 +76,7 @@ export const ui = {
     "projects.subtitle": "Some things I built",
     // 404
     "404.title": "404 — Page not found",
-    "404.description": "Page not found — Hogwai Tech Blog.",
+    "404.description": "Page not found — Heap of Hogwai.",
     "404.text": "Page not found.",
     "404.homeLink": "Home",
     // Footer
@@ -106,7 +106,7 @@ export const ui = {
     // Posts page
     "posts.title": "Tous les posts",
     "posts.description":
-      "Tous les posts sur Hogwai Tech Blog — Java, performance, design patterns et plus.",
+      "Tous les posts sur Heap of Hogwai — Java, performance, design patterns et plus.",
     "posts.searchPlaceholder": "Rechercher un article...",
     "posts.filterByTag": "Filtrer par tag",
     "posts.reset": "Réinitialiser",
@@ -130,14 +130,14 @@ export const ui = {
     "notes.backLink": "Notes",
     // Tags
     "tags.title": "Tags",
-    "tags.description": "Parcourir tous les tags sur Hogwai Tech Blog.",
+    "tags.description": "Parcourir tous les tags sur Heap of Hogwai.",
     "tags.backLink": "Tags",
     "tags.postsSection": "Articles",
     "tags.notesSection": "Notes",
     // About
     "about.title": "A propos",
     "about.description":
-      "A propos de Lilian, developpeur passionné par l'écosysteme Java et auteur de Hogwai Tech Blog.",
+      "A propos de Lilian, developpeur passionné par l'écosysteme Java et auteur de Heap of Hogwai.",
     "about.welcome": "Bienvenue sur mon blog technique",
     "about.whoAmI": "Qui suis-je ?",
     "about.whoAmIText":
@@ -151,7 +151,7 @@ export const ui = {
     "projects.subtitle": "Quelques projets réalisés",
     // 404
     "404.title": "404 — Page introuvable",
-    "404.description": "Page introuvable - Hogwai Tech Blog.",
+    "404.description": "Page introuvable - Heap of Hogwai.",
     "404.text": "Page introuvable.",
     "404.homeLink": "Accueil",
     // Footer
