@@ -70,6 +70,11 @@
                 "label": "LinkedinScheduledCalendar",
                 "url": "https://greasyfork.org/en/scripts/583449-linkedinscheduledcalendar",
                 "type": "userscript"
+            },
+            {
+                "label": "LinkedinSafetyPageSkip",
+                "url": "https://greasyfork.org/en/scripts/553715-linkedinsafetypageskip",
+                "type": "userscript"
             }
         ]
     },
