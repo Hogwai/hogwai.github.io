@@ -31,9 +31,10 @@ export default function Header({
         <div className="flex justify-between items-center">
           <a
             href={`${prefix}/`}
-            className="text-2xl font-bold text-link hover:text-link-hover transition"
+            className="inline-flex items-center gap-2 text-2xl font-bold text-link hover:text-link-hover transition-colors duration-200"
           >
-            Heap of Hogwai
+            <span className="text-ink-muted">{"{"}</span>Heap of Hogwai
+            <span className="text-ink-muted">{"}"}</span>
           </a>
 
           <div className="flex items-center gap-4">
