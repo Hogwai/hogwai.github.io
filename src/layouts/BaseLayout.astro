@@ -19,7 +19,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const otherLang = getOtherLang(lang);
 const alternateURL = new URL(getAlternateUrl(Astro.url, otherLang), Astro.site);
 const xDefaultURL = lang === defaultLang ? canonicalURL : alternateURL;
-const imageURL = image ? new URL(image, Astro.site).href : undefined;
+const defaultOGImage = (() => {
+  let p = Astro.url.pathname.replace(/\/$/, '') || '/home';
+  if (p === '/fr') p = '/fr/home';
+  // Tag detail pages fall back to the generic tags OG image
+  if (/^\/tags\//.test(p)) p = '/tags';
+  if (/^\/fr\/tags\//.test(p)) p = '/fr/tags';
+  // 404 page — favicon fallback
+  if (p === '/404') return '/favicon.png';
+  return `/og${p}.png`;
+})();
+const ogImage = image ?? defaultOGImage;
+const imageURL = new URL(ogImage, Astro.site).href;
 const siteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
