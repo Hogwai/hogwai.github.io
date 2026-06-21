@@ -1,5 +1,5 @@
 ---
-title: "building a database-driven workflow engine on Spring Batch"
+title: "Building a database-driven workflow engine on Spring Batch"
 description: "How to leverage the power of a JobExecutionDecider to enable runtime-configurable workflows, without redeployment"
 pubDate: 2026-06-21
 tags: ["java", "spring-batch", "spring-boot", "workflow", "database"]
