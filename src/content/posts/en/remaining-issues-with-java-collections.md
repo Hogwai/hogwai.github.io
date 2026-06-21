@@ -194,7 +194,7 @@ Heinz Kabutz wrote an excellent [article](https://www.javaspecialists.eu/archive
 
 #### Adding a guard
 
-The most straighforward solution is to simply adding a check on the emptiness of a collection:
+The most straightforward solution is to simply adding a check on the emptiness of a collection:
 
 ```java
 if (collection != null && !collection.isEmpty()) {
