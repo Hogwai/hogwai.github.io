@@ -56,7 +56,7 @@ This generates `.astro/content.d.ts` with all type definitions.
 
 ### Restart the TypeScript server
 
-In VS Code: `Ctrl+Shift+P` → `TypeScript: Restart TS Server`.
+In VS Code: `Ctrl+Shift+P` -> `TypeScript: Restart TS Server`.
 
 ## References
 

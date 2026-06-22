@@ -16,19 +16,19 @@ import MavenGoalsSearch from "../../../components/MavenGoalsSearch.tsx";
 
 Quand vous lancez une commande Maven comme `mvn package`, Maven n'exécute pas uniquement ce goal : il parcourt toutes les phases qui le précèdent, dans l'ordre.
 
-| Commande      | Phases implicites (exécutées dans l'ordre)               |
-| ------------- | -------------------------------------------------------- |
-| `mvn compile` | `validate → compile`                                     |
-| `mvn test`    | `validate → compile → test`                              |
-| `mvn package` | `validate → compile → test → package`                    |
-| `mvn install` | `validate → compile → test → package → install`          |
-| `mvn deploy`  | `validate → compile → test → package → install → deploy` |
-| `mvn verify`  | `validate → compile → test → verify`                     |
+| Commande      | Phases implicites (exécutées dans l'ordre)                    |
+| ------------- | ------------------------------------------------------------- |
+| `mvn compile` | `validate -> compile`                                         |
+| `mvn test`    | `validate -> compile -> test`                                 |
+| `mvn package` | `validate -> compile -> test -> package`                      |
+| `mvn install` | `validate -> compile -> test -> package -> install`           |
+| `mvn deploy`  | `validate -> compile -> test -> package -> install -> deploy` |
+| `mvn verify`  | `validate -> compile -> test -> verify`                       |
 
 Chaque phase est associée par défaut à un ou plusieurs goals de plugin.
 Exemple :
-`compile` → `compiler:compile`
-`package` → `jar:jar` ou `war:war` (selon le type de packaging).
+`compile` -> `compiler:compile`
+`package` -> `jar:jar` ou `war:war` (selon le type de packaging).
 
 ---
 
@@ -39,7 +39,7 @@ Exemple :
 | `mvn help:effective-pom`              | Affiche le POM fusionné complet (parent + profils + valeurs par défaut).          | Utile pour déboguer les problèmes d'héritage |
 | `mvn help:describe -Dcmd=compile`     | Indique quel plugin et quel goal sont liés à `compile`.                           | Révèle le mapping `compiler:compile`         |
 | `mvn help:describe -Dplugin=compiler` | Liste tous les goals disponibles pour un plugin donné.                            | `compiler:compile`, `compiler:testCompile`   |
-| `mvn dependency:tree`                 | Affiche la hiérarchie des dépendances et les éventuels conflits.                  | `A:1.0 → B:2.0 → C:3.1`                      |
+| `mvn dependency:tree`                 | Affiche la hiérarchie des dépendances et les éventuels conflits.                  | `A:1.0 -> B:2.0 -> C:3.1`                    |
 | `mvn -X`                              | Exécute le build en mode debug, avec les détails des bindings et du cycle de vie. | Idéal pour diagnostiquer un build            |
 
 ---
