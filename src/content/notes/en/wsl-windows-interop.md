@@ -2,8 +2,7 @@
 title: "WSL: Enable Windows interop to run Windows commands from WSL"
 description: "How to enable and use WSL/Windows interoperability to execute Windows programs directly from a WSL terminal."
 pubDate: 2026-02-21
-tags: ["wsl", "windows", "linux", "setup"]
-language: "bash"
+tags: ["wsl", "windows", "linux", "setup", "bash"]
 ---
 
 WSL can execute Windows binaries (`.exe`) directly from a Linux terminal thanks to **WSL/Windows interoperability**. This feature is enabled by default but can be turned off.

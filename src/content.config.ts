@@ -23,10 +23,6 @@ const notes = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
-    language: z
-      .string()
-      .transform((v) => v.toLowerCase())
-      .optional(),
     source: z.url().optional(),
     draft: z.boolean().default(false),
   }),

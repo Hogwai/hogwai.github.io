@@ -3,7 +3,6 @@ title: "Astro: Cannot find module 'astro:content'"
 description: 'Correction de l''erreur TypeScript "Cannot find module astro:content or its corresponding type declarations.ts(2307)"'
 pubDate: 2025-10-18
 tags: ["astro", "setup", "error", "typescript"]
-language: "astro"
 ---
 
 Le module `astro:content` est un module virtuel dont les types sont **générés par Astro** à partir de vos fichiers de contenu et de `config.ts`. S'il n'existe aucun contenu, TypeScript n'a rien à analyser.
