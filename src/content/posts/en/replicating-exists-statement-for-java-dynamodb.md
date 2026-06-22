@@ -198,7 +198,7 @@ For a standard existence check:
 1. `projectionExpression`: Reduces network transfer.
 2. `consistentRead(false)`: Halves RCU cost.
 3. Handle `UnprocessedKeys` in batch operations.
-4. For elements > 40 KB, consider a GSI in KEYS_ONLY to reduce the cost by 90%.
+4. For items > 40 KB, consider a GSI in KEYS_ONLY to reduce the cost by 90%.
 
 ## References
 

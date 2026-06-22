@@ -56,7 +56,7 @@ Cette commande génère `.astro/content.d.ts` avec toutes les définitions de ty
 
 ### Redémarrer le serveur TypeScript
 
-Dans VS Code : `Ctrl+Shift+P` → `TypeScript: Restart TS Server`.
+Dans VS Code : `Ctrl+Shift+P` -> `TypeScript: Restart TS Server`.
 
 ## Références
 

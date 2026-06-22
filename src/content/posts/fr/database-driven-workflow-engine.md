@@ -6,7 +6,7 @@ tags: ["java", "spring-batch", "spring-boot", "workflow", "database"]
 draft: false
 ---
 
-De manière générale, les jobs Spring Batch sont assez rigides : `stepA => stepB => stepC`. On peut, bien sur, utiliser des flows mais tout reste en mémoire.
+De manière générale, les jobs Spring Batch sont assez rigides : `stepA => stepB => stepC`. On peut, bien sûr, utiliser des flows mais tout reste en mémoire.
 Cela ne pose pas de problèmes tant que les steps et l'ordre d'exécution ne changent pas. Mais que se passe-t-il quand différentes sources de données nécessitent des pipelines de traitement différents ? Quand les fichiers d'un client ont besoin de validation et d'enrichissement alors que ceux d'un autre partent directement au chargement ? Quand vous devez ajouter, supprimer ou réordonner des étapes sans toucher au code source ?
 
 Cet article présente comment mettre en place un moteur de workflow piloté depuis la base de données et non en mémoire.
@@ -381,7 +381,7 @@ public class ChainInformationTasklet implements Tasklet {
     }
 
     @Override
-    public RepeatStatus exécute(StepContribution contribution,
+    public RepeatStatus execute(StepContribution contribution,
                                 ChunkContext chunkContext) {
         LOGGER.info("Launching chain configuration: {}",
             chainConfiguration);
@@ -422,7 +422,7 @@ public class ChainInformationTasklet implements Tasklet {
 
 ## L'API REST : Gérer les configurations
 
-La puissance réelle devient visible quand on ajoute une API CRUD. Les configurations de chaînes peuvent être creees, lues, mises à jour et invoquees sans toucher a l'application.
+La puissance réelle devient visible quand on ajoute une API CRUD. Les configurations de chaînes peuvent être créées, lues, mises à jour et invoquées sans toucher à l'application.
 
 ### DTOs
 
