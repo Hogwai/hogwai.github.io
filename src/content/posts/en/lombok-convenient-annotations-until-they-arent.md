@@ -224,7 +224,7 @@ public String toString() {
 
 ### `@EqualsAndHashCode`
 
-Similar risks apply to `@ToString`: it accesses all fields, which can trigger lazy loading or cause recursion.
+The same risks as `@ToString` apply: it accesses all fields, which can trigger lazy loading or cause recursion.
 Avoid using it on entities unless explicitly configured with `@EqualsAndHashCode(onlyExplicitlyIncluded = true)`.
 In most cases, you don’t need it, and even when you do, it’s usually better to implement these methods manually, so you can define equality according to your own rules.
 

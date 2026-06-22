@@ -212,7 +212,7 @@ On peut également procéder de manière plus fonctionnelle :
 ```java
 List<String> formattedList = Optional.ofNullable(collection)
                                       .filter(c -> !c.isEmpty())
-                                      .map(coll -> .stream()
+                                      .map(coll -> coll.stream()
                                                     .filter(s -> s.length() > 1)
                                                     .map(String::toUpperCase)
                                                     .toList())

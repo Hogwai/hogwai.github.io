@@ -50,7 +50,7 @@ public class RegexExample {
 }
 ```
 
-Key takeaway: The `Pattern` is the blueprint; the `Matcher` is the worker. You create the blueprint once and use it to create as many workers as you need.
+**Key takeaway:** The `Pattern` is the blueprint; the `Matcher` is the worker. You create the blueprint once and use it to create as many workers as you need.
 
 ## The performance trap: why you should never re-compile
 
@@ -205,7 +205,7 @@ Capturing groups are one of the most useful features of regex, they let you extr
 
 ### The (surprisingly small) performance cost of capturing
 
-Every time the regex engine encounters `(...)`, it could record the start and end position for later retrieval via `matcher.group(N)`. In practice, on modern JDK (25+), the JIT is smart enough to optimize away unused captures. The benchmarks show:
+Every time the regex engine encounters `(...)`, it could record the start and end position for later retrieval via `matcher.group(N)`. In practice, on the modern JDK (25+), the JIT is smart enough to optimize away unused captures. The benchmarks show:
 
 | Benchmark                                  | Score        | vs Non-Capturing |
 | ------------------------------------------ | ------------ | ---------------- |

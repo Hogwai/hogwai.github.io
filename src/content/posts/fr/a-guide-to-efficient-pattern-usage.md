@@ -585,8 +585,8 @@ En appliquant ces quelques ajustements, vous vous assurez que vos expressions r�
 1. <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 1. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 1. <a id="ref4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://bugs.openjdk.org/browse/JDK-6328855)
-1. <a id="ref5"></a>[Pattern.java — implémentation de Pattern.quote() dans OpenJDK](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java)
-1. <a id="ref6"></a>[Pattern.asMatchPredicate() — documentation API Java 11+](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
+1. <a id="ref5"></a>[Pattern.java : implémentation de Pattern.quote() dans OpenJDK](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java)
+1. <a id="ref6"></a>[Pattern.asMatchPredicate() : documentation API Java 11+](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
 1. <a id="ref7"></a>[JDK-8305486 : ajout de splitWithDelimiters à Pattern et String](https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
