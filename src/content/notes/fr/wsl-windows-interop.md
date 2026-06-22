@@ -2,8 +2,7 @@
 title: "WSL : Activer l'interopérabilité Windows pour exécuter des commandes Windows depuis WSL"
 description: "Comment activer et utiliser l'interopérabilité WSL/Windows pour lancer des programmes Windows directement depuis un terminal WSL."
 pubDate: 2026-02-21
-tags: ["wsl", "windows", "linux", "setup"]
-language: "bash"
+tags: ["wsl", "windows", "linux", "setup", "bash"]
 ---
 
 WSL permet d'exécuter des binaires Windows (`.exe`) directement depuis un terminal Linux grâce à **l'interopérabilité WSL/Windows**. Cette fonctionnalité est activée par défaut, mais peut être désactivée.

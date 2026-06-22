@@ -10,7 +10,6 @@ interface Note {
     description?: string;
     pubDate: Date;
     tags: string[];
-    language?: string;
   };
   lang?: Lang;
   langBadge?: string;
@@ -27,21 +26,12 @@ export default function NotesSearchAndFilter({
 }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const t = useTranslations(lang);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     notes.forEach((note) => note.data.tags.forEach((tag) => tagSet.add(tag)));
     return Array.from(tagSet).sort();
-  }, [notes]);
-
-  const allLanguages = useMemo(() => {
-    const langSet = new Set<string>();
-    notes.forEach((note) => {
-      if (note.data.language) langSet.add(note.data.language);
-    });
-    return Array.from(langSet).sort();
   }, [notes]);
 
   const filteredNotes = useMemo(() => {
@@ -62,12 +52,9 @@ export default function NotesSearchAndFilter({
         selectedTags.length === 0 ||
         selectedTags.every((tag) => note.data.tags.includes(tag));
 
-      const matchesLanguage =
-        selectedLanguage === "" || note.data.language === selectedLanguage;
-
-      return matchesSearch && matchesTags && matchesLanguage;
+      return matchesSearch && matchesTags;
     });
-  }, [notes, searchQuery, selectedTags, selectedLanguage]);
+  }, [notes, searchQuery, selectedTags]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -78,11 +65,9 @@ export default function NotesSearchAndFilter({
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedTags([]);
-    setSelectedLanguage("");
   };
 
-  const hasActiveFilters =
-    searchQuery !== "" || selectedTags.length > 0 || selectedLanguage !== "";
+  const hasActiveFilters = searchQuery !== "" || selectedTags.length > 0;
 
   const resultCount = filteredNotes.length;
   const resultText =
@@ -134,27 +119,6 @@ export default function NotesSearchAndFilter({
           )}
         </div>
 
-        {/* Language filter */}
-        {allLanguages.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {allLanguages.map((lng) => (
-              <button
-                key={lng}
-                onClick={() =>
-                  setSelectedLanguage(selectedLanguage === lng ? "" : lng)
-                }
-                className={`px-3 py-1 rounded text-xs font-mono font-medium transition ${
-                  selectedLanguage === lng
-                    ? "bg-gray-700 dark:bg-gray-200 text-white dark:text-gray-900"
-                    : "bg-muted text-ink hover:bg-soft"
-                }`}
-              >
-                {lng}
-              </button>
-            ))}
-          </div>
-        )}
-
         {/* Tag filter */}
         {allTags.length > 0 && (
           <div className="flex flex-wrap gap-2">
@@ -191,7 +155,6 @@ export default function NotesSearchAndFilter({
               pubDate={note.data.pubDate}
               slug={note.slug}
               tags={note.data.tags}
-              language={note.data.language}
               lang={note.lang ?? lang}
               langBadge={note.langBadge}
             />

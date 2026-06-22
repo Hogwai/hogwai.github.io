@@ -7,7 +7,6 @@ interface Props {
   pubDate: Date;
   slug: string;
   tags: string[];
-  language?: string;
   lang?: Lang;
   langBadge?: string;
 }
@@ -18,7 +17,6 @@ export default function NoteCard({
   pubDate,
   slug,
   tags,
-  language,
   lang = defaultLang,
   langBadge,
 }: Props) {
@@ -41,11 +39,6 @@ export default function NoteCard({
             {langBadge && (
               <span className="relative z-10 shrink-0 px-2 py-0.5 bg-muted text-ink rounded text-xs font-mono">
                 {langBadge}
-              </span>
-            )}
-            {language && (
-              <span className="relative z-10 shrink-0 px-2 py-0.5 bg-muted text-ink rounded text-xs font-mono">
-                {language}
               </span>
             )}
           </div>
