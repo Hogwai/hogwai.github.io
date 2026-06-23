@@ -17,7 +17,7 @@ DynamoDB has no direct equivalent. A standard `GetItem` on a 50 KB item reads th
 
 In this article, we explore efficient strategies for implementing an `exists` check using the AWS SDK for Java v2.
 
-## The Naive Approach vs. Projections
+## The naive approach vs. projections
 
 One option is to use a `ProjectionExpression` to retrieve only the partition key instead of the full item. This reduces network transfer and deserialization overhead.
 
@@ -36,7 +36,7 @@ public boolean existsByProjection(String subreddit, String id) {
 
 However, this approach does not reduce cost because DynamoDB calculates consumed RCUs based on the total size of the stored item, regardless of which attributes are projected.
 
-## Halving the Bill: Eventually Consistent Reads
+## Halving the bill: eventually consistent reads
 
 A second optimization is to use eventually consistent reads (which is the default read mode).
 
@@ -52,14 +52,14 @@ GetItemRequest.builder()
 
 Strongly consistent reads (`consistentRead(true)`) should be used when your use case strictly requires the most up-to-date data. This mode consumes 2 RCUs for items up to 4 KB.
 
-## The Batch Challenge (BatchGetItem)
+## The Batch challenge (BatchGetItem)
 
 To check multiple items at once, you can use `BatchGetItem` instead of making individual sequential calls.
 
 Two behaviors must be handled:
 
-1. Missing items are simply omitted from the response; they are not returned as `null`.
-2. Unprocessed keys: Under heavy load, the response may be partial.
+- Missing items are simply omitted from the response; they are not returned as `null`.
+- Unprocessed keys: Under heavy load, the response may be partial.
 
 Implementation with a retry mechanism:
 
@@ -123,7 +123,7 @@ private static void backoff(int attempt) {
 }
 ```
 
-## Checking Complex Attributes
+## Checking complex attributes
 
 Beyond simple item existence, you may need to verify whether a specific attribute contains data (e.g., a non-empty list).
 
@@ -180,7 +180,7 @@ public boolean hasKeywords(String subreddit, String id) {
 
 `GetItem` should be preferred for single-item checks: it is simpler, avoids query parsing overhead, and makes the intent explicit.
 
-## Performance Summary
+## Performance summary
 
 | Technique             | Reduces Bandwidth? | Reduces Cost (RCU)? | Ideal Use Case                                                 |
 | :-------------------- | :----------------: | :-----------------: | :------------------------------------------------------------- |
@@ -195,17 +195,17 @@ public boolean hasKeywords(String subreddit, String id) {
 
 For a standard existence check:
 
-1. `projectionExpression`: Reduces network transfer.
-2. `consistentRead(false)`: Halves RCU cost.
-3. Handle `UnprocessedKeys` in batch operations.
-4. For items > 40 KB, consider a GSI in KEYS_ONLY to reduce the cost by 90%.
+- `projectionExpression`: Reduces network transfer.
+- `consistentRead(false)`: Halves RCU cost.
+- Handle `UnprocessedKeys` in batch operations.
+- For items > 40 KB, consider a GSI in KEYS_ONLY to reduce the cost by 90%.
 
 ## References
 
-1. <a id="ref1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
-2. <a id="ref2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
-3. <a id="ref3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
-4. <a id="ref4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
+- <a id="ref1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
+- <a id="ref2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
+- <a id="ref3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
+- <a id="ref4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
 
 ## Demo
 

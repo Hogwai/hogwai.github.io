@@ -91,7 +91,7 @@ On `@Entity` classes, issues often stem from interactions with lazy loading, bid
 
 ### `@ToString`
 
-#### Problem 1: Stack overflow on bidirectional relationships
+#### Problem 1: stack overflow on bidirectional relationships
 
 This is the most classic issue. Imagine a standard bidirectional relationship: a `User` has many `Post`s, and each `Post` belongs to a `User`.
 
@@ -140,7 +140,7 @@ This is a circular reference: calling `user.toString()` triggers `posts.toString
 It creates an infinite recursion: user -> posts -> post -> user -> ...
 Eventually, the call stack overflows, resulting in a `StackOverflowError`.
 
-#### Problem 2: Lazy loading
+#### Problem 2: lazy loading
 
 Even without bidirectionality, `@ToString` can cause major performance issues. JPA's lazy loading means associations aren't fetched until accessed. Lombok's `toString()` accesses _all_ fields, triggering unexpected loads.
 
@@ -164,9 +164,9 @@ If `posts` contains thousands of `Post`, they will all be fetched.
 
 This leads to:
 
-1. **Unexpected Database Hits:** Your simple log now queries the DB.
-2. **N+1 Query Problem:** In a loop, it generates a lot of extra queries.
-3. **LazyInitializationException:** Can be thrown if the session is closed.
+- Unexpected Database Hits: Your simple log now queries the DB.
+- N+1 Query Problem: In a loop, it generates a lot of extra queries.
+- LazyInitializationException: Can be thrown if the session is closed.
 
 #### Solutions
 
@@ -228,7 +228,7 @@ The same risks as `@ToString` apply: it accesses all fields, which can trigger l
 Avoid using it on entities unless explicitly configured with `@EqualsAndHashCode(onlyExplicitlyIncluded = true)`.
 In most cases, you don’t need it, and even when you do, it’s usually better to implement these methods manually, so you can define equality according to your own rules.
 
-### `@Data`: All-in-One Problem
+### `@Data`: all-in-one problem
 
 `@Data` bundles `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString`, and `@EqualsAndHashCode`.
 
@@ -269,7 +269,7 @@ public class User {
 }
 ```
 
-## Dependency Injection in Spring
+## Dependency injection in Spring
 
 ### `@AllArgsConstructor`
 
@@ -334,13 +334,13 @@ public class UserService {
 
 Benefits:
 
-1. **Safety:** Clear boundary between dependencies and value attributes.
-2. **Immutability:** Promotes good design and thread safety.
-3. **Spring Compatibility:** Works perfectly with the recommended constructor injection.
+- Safety: Clear boundary between dependencies and value attributes.
+- Immutability: Promotes good design and thread safety.
+- Spring Compatibility: Works perfectly with the recommended constructor injection.
 
 ## Wrapping up
 
-**Golden Rule**: Understand what Lombok annotations do under the hood before pasting them on your classes.
+Golden Rule: Understand what Lombok annotations do under the hood before pasting them on your classes.
 
 | Annotation                 | Safe for                                | Potential Risks               | Alternative / Recommendation         |
 | -------------------------- | --------------------------------------- | ----------------------------- | ------------------------------------ |
@@ -354,6 +354,6 @@ Benefits:
 
 ## References
 
-1. <a id="ref1"></a>[Lombok documentation for @Data](https://projectlombok.org/features/Data)
-2. [Lombok documentation](https://projectlombok.org/features/)
-3. [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)
+- <a id="ref1"></a>[Lombok documentation for @Data](https://projectlombok.org/features/Data)
+- [Lombok documentation](https://projectlombok.org/features/)
+- [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)

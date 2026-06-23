@@ -15,7 +15,7 @@ La clé pour exploiter efficacement les regex en Java réside dans la compréhen
 
 Le concept le plus important à assimiler est que la compilation d'une expression régulière est une opération coûteuse. Lorsque vous appelez `Pattern.compile()`, Java prend votre chaîne regex, l'analyse et construit une représentation interne (souvent un automate fini) qu'il peut utiliser pour la correspondance. Ce processus consomme des cycles CPU.
 
-L'objet `Pattern` lui-même est une **représentation compilée et immuable** de votre regex. Il est thread-safe et peut être réutilisé indéfiniment. Le `Matcher`, en revanche, est un **moteur à état** qui effectue l'opération de correspondance réelle sur une chaîne d'entrée donnée.
+L'objet `Pattern` lui-même est une représentation compilée et immuable de votre regex. Il est thread-safe et peut être réutilisé indéfiniment. Le `Matcher`, en revanche, est un moteur à état qui effectue l'opération de correspondance réelle sur une chaîne d'entrée donnée.
 
 Voici la manière standard et correcte d'utiliser l'API regex :
 
@@ -25,23 +25,23 @@ import java.util.regex.Pattern;
 
 public class RegexExample {
 
-    // A simple regex to validate an email address
+    // Une regex simple pour valider une adresse email
     private static final String EMAIL_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
 
     public static void main(String[] args) {
         String email1 = "test.user@example.com";
         String email2 = "not-an-email";
 
-        // 1. Compile the regex ONCE
+        // 1. Compile la regex UNE SEULE FOIS
         Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
-        // 2. Create a Matcher for the first input
+        // 2. Crée un Matcher pour la première entrée
         Matcher matcher1 = pattern.matcher(email1);
         if (matcher1.matches()) {
             System.out.println("'" + email1 + "' is a valid email.");
         }
 
-        // 3. Reuse the SAME Pattern object for the second input
+        // 3. Réutilise le MÊME objet Pattern pour la seconde entrée
         Matcher matcher2 = pattern.matcher(email2);
         if (!matcher2.matches()) {
             System.out.println("'" + email2 + "' is NOT a valid email.");
@@ -50,7 +50,7 @@ public class RegexExample {
 }
 ```
 
-**À retenir :** Le `Pattern` est le plan de construction ; le `Matcher` est l'ouvrier. On crée le plan une seule fois et on l'utilise pour créer autant d'ouvriers que nécessaire.
+À retenir : Le `Pattern` est le plan de construction ; le `Matcher` est l'ouvrier. On crée le plan une seule fois et on l'utilise pour créer autant d'ouvriers que nécessaire.
 
 ## Le piège de performance : pourquoi éviter de recompiler
 
@@ -64,16 +64,15 @@ Appeler `Pattern.compile()` a un coût multidimensionnel :
 
 ### La mauvaise approche (inefficace)
 
-```java
+````java
 public void processLines(List<String> lines) {
     for (String line : lines) {
-        // Pattern is re-compiled on every iteration
+        // Le Pattern est recompilé à chaque itération
         if (line.matches("\\d+")) {
-            // process number
+            // traite le nombre
         }
     }
 }
-```
 
 ### La bonne approche
 
@@ -83,19 +82,18 @@ La meilleure pratique pour les patterns utilisés de façon répétée est de le
 import java.util.regex.Pattern;
 
 public class LineProcessor {
-    // Compiled once and stored as a constant.
+    // Compilé une fois et stocké comme constante.
     private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");
 
     public void processLines(List<String> lines) {
         for (String line : lines) {
-            // Use the pre-compiled pattern
+            // Utilise le pattern précompilé
             if (NUMERIC_PATTERN.matcher(line).matches()) {
-                // process number
-            }
+                // traite le nombre
         }
     }
 }
-```
+````
 
 En sortant la compilation de la boucle, on obtient un gain de performance considérable, particulièrement lorsqu'on traite des milliers ou des millions de chaînes.
 
@@ -109,7 +107,7 @@ La classe `String` de Java propose plusieurs méthodes pratiques qui acceptent u
 - `replaceAll(String regex, String replacement)`
 - `replaceFirst(String regex, String replacement)`.
 
-Aussi tentantes qu'elles soient par leur simplicité, elles cachent un secret gênant : **chacune de ces méthodes recompile le pattern regex en interne.**
+Aussi tentantes qu'elles soient par leur simplicité, elles cachent un secret gênant : chacune de ces méthodes recompile le pattern regex en interne.
 
 Comme l'indique la javadoc<sup><a href="#ref2">[2]</a></sup> :
 
@@ -132,18 +130,18 @@ Si vous appelez `"12345".matches("\\d+")` dans une boucle, vous recompilez le pa
 
 ### Règle pratique
 
-- **Pour des opérations ponctuelles et non critiques en termes de performance**, utiliser `String.matches()` est tout à fait acceptable.
-- **Pour tout code dans un chemin critique, une boucle ou une méthode appelée fréquemment (comme un gestionnaire de requêtes web), il est impératif d'utiliser un `static final Pattern` précompilé.**
+- Pour des opérations ponctuelles et non critiques en termes de performance, utiliser `String.matches()` est tout à fait acceptable.
+- Pour tout code dans un chemin critique, une boucle ou une méthode appelée fréquemment (comme un gestionnaire de requêtes web), il est impératif d'utiliser un `static final Pattern` précompilé.
 
 ### Comparaison
 
 ```java
-// Inefficient: Compiles the regex on every call
+// Inefficace : compile la regex à chaque appel
 public boolean isEmailValid(String email) {
     return email.matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$");
 }
 
-// Efficient: Uses the pre-compiled pattern
+// Efficace : utilise le pattern précompilé
 public class EmailValidator {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -172,7 +170,7 @@ import java.util.regex.Pattern;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PatternCache {
-    // A thread-safe cache for compiled patterns
+    // Un cache thread-safe pour les patterns compilés
     private static final ConcurrentHashMap<String, Pattern> CACHE = new ConcurrentHashMap<>();
 
     /**
@@ -181,7 +179,7 @@ public class PatternCache {
      * @return The compiled Pattern object.
      */
     public static Pattern compile(String regex) {
-        // computeIfAbsent is an atomic operation. It gets the value or computes it if absent.
+        // computeIfAbsent est une opération atomique. Elle récupère la valeur ou la calcule si absente.
         return CACHE.computeIfAbsent(regex, Pattern::compile);
     }
 }
@@ -189,7 +187,7 @@ public class PatternCache {
 // Usage:
 public class DynamicRegexService {
     public void validateInput(String input, String regex) {
-        Pattern pattern = PatternCache.compile(regex); // Get from cache or compile
+        Pattern pattern = PatternCache.compile(regex); // Récupère depuis le cache ou compile
         if (pattern.matcher(input).matches()) {
             System.out.println("Input matches the dynamic regex!");
         }
@@ -235,7 +233,7 @@ Pattern.compile("(\\d+)-(\\w+)");
 Pattern.compile("(?:\\d+)-(?:\\w+)");
 ```
 
-**Bonnes pratiques :** Utilisez `(?:...)` comme constructeur de groupement par défaut. Il communique l'intention même quand la différence de performance est faible.
+Bonnes pratiques : Utilisez `(?:...)` comme constructeur de groupement par défaut. Il communique l'intention même quand la différence de performance est faible.
 
 ### Groupes capturants nommés `(?<name>...)`
 
@@ -277,9 +275,9 @@ Pattern.compile("(\\w+)-\\1");
 
 Bien que puissantes, les rétroréférences :
 
-- **Forcent le backtracking** : le moteur regex de Java est basé sur NFA et inclut normalement des optimisations de mémorisation (JDK-6328855)<sup><a href="#ref4">[4]</a></sup> pour atténuer le temps exponentiel. Ces optimisations sont **explicitement désactivées** en présence de rétroréférences, car elles ne peuvent pas être modélisées dans un DFA.
-- **Peuvent déclencher un catastrophique backtracking** : surtout lorsqu'elles sont imbriquées ou combinées avec des quantificateurs.
-- **Désactivent certaines optimisations** : les patterns avec rétroréférences ne peuvent pas être accélérés avec `Pattern.LITERAL` ou certaines approches basées sur DFA.
+- Forcent le backtracking : le moteur regex de Java est basé sur NFA et inclut normalement des optimisations de mémorisation (JDK-6328855)<sup><a href="#ref4">[4]</a></sup> pour atténuer le temps exponentiel. Ces optimisations sont explicitement désactivées en présence de rétroréférences, car elles ne peuvent pas être modélisées dans un DFA.
+- Peuvent déclencher un catastrophique backtracking : surtout lorsqu'elles sont imbriquées ou combinées avec des quantificateurs.
+- Désactivent certaines optimisations : les patterns avec rétroréférences ne peuvent pas être accélérés avec `Pattern.LITERAL` ou certaines approches basées sur DFA.
 
 Utilisez les rétroréférences avec parcimonie et uniquement dans les chemins non critiques. Lorsqu'elles sont utilisées dans des patterns dynamiques (chargés depuis une configuration), validez la longueur et la complexité de la regex pour éviter les risques de ReDoS.
 
@@ -359,7 +357,7 @@ Avec une entrée comme `"aaaaaaaaac"`, le moteur essaie toutes les façons possi
 
 Le JDK moderne inclut des optimisations de mémorisation (JDK-6328855)<sup><a href="#ref4">[4]</a></sup> qui atténuent les cas simples, mais l'écart croît de façon exponentielle avec la longueur de l'entrée. À partir de 30 caractères, la différence devient astronomique. Et lorsque des rétroréférences sont présentes, les atténuations sont complètement désactivées.
 
-**Comment se protéger :**
+Comment se protéger :
 
 - Utilisez les quantificateurs possessifs `++` et les groupes atomiques `(?>...)` pour éliminer les branches de backtracking.
 - Gardez les patterns simples dans les chemins critiques.
@@ -385,14 +383,14 @@ Pattern pattern = Pattern.compile(".*" + Pattern.quote(userInput) + ".*");
 
 `Pattern.quote()` encapsule l'entrée dans `\Q...\E`, ce qui indique au moteur regex de traiter tout ce qui se trouve à l'intérieur comme des caractères littéraux. Il gère également un cas limite subtil : si l'entrée elle-même contient `\E`, il échappe les séquences `\E` intégrées pour éviter une terminaison prématurée du marqueur<sup><a href="#ref5">[5]</a></sup>. Échappez toujours le contenu dynamique avant de l'intégrer dans une regex.
 
-**Mais cela a-t-il un coût ?** Les benchmarks disent : pratiquement aucun. Le surcoût de compilation du marquage est minime, et à l'exécution il n'y a **aucune différence mesurable** :
+Mais cela a-t-il un coût ? Les benchmarks disent : pratiquement aucun. Le surcoût de compilation du marquage est minime, et à l'exécution il n'y a aucune différence mesurable :
 
 | Benchmark                                            | Score    | Différence         |
 | ---------------------------------------------------- | -------- | ------------------ |
 | `PatternQuoteBenchmark.compileWithoutQuoteSafeInput` | 55 ns/op | référence          |
 | `PatternQuoteBenchmark.compileWithQuoteSafeInput`    | 77 ns/op | +22 ns compilation |
 | `PatternQuoteBenchmark.unquotedSafeMatchingMatch`    | 65 ns/op | référence          |
-| `PatternQuoteBenchmark.quotedSafeMatchingMatch`      | 65 ns/op | **identique**      |
+| `PatternQuoteBenchmark.quotedSafeMatchingMatch`      | 65 ns/op | identique          |
 
 Il n'y a aucune raison de performance pour sauter `Pattern.quote()`. Le bénéfice en sécurité l'emporte largement sur le minuscule coût de compilation.
 
@@ -406,11 +404,11 @@ String result = text.replaceAll(userInput, "REDACTED");
 String result = text.replaceAll(Pattern.quote(userInput), "REDACTED");
 ```
 
-**Remarque :** Cela complète la section sur le cache ci-dessus. Si vous mettez en cache des patterns dynamiques qui incluent des entrées utilisateur, échappez l'entrée _avant_ de compiler et de mettre en cache.
+Remarque : Cela complète la section sur le cache ci-dessus. Si vous mettez en cache des patterns dynamiques qui incluent des entrées utilisateur, échappez l'entrée _avant_ de compiler et de mettre en cache.
 
 ## API moderne de Pattern : des méthodes que vous avez peut-être manquées
 
-Java 8 et les versions ultérieures ont ajouté plusieurs méthodes pratiques à `Pattern` qui réduisent le code standard et s'intègrent mieux avec les idiomes Java modernes. Note : ce sont \*\*des méthodes de commodité, pas des optimisations de performance, les benchmarks montrent qu'elles sont à peu près équivalentes (ou légèrement plus lentes) que le code manuel équivalent.
+Java 8 et les versions ultérieures ont ajouté plusieurs méthodes pratiques à `Pattern` qui réduisent le code standard et s'intègrent mieux avec les idiomes Java modernes. Note : ce sont des méthodes de commodité, pas des optimisations de performance, les benchmarks montrent qu'elles sont à peu près équivalentes (ou légèrement plus lentes) que le code manuel équivalent.
 
 ### `splitAsStream(CharSequence)`
 
@@ -436,7 +434,7 @@ Stream<String> tokens = COMMA.splitAsStream(input);
 | `ModernPatternAPIBenchmark.splitThenArrayStream` | 11 477 ns/op | alloue String[]           |
 | `ModernPatternAPIBenchmark.splitToStream`        | 13 409 ns/op | paresseux, pas de tableau |
 
-Lors de la consommation de **tous** les jetons, `splitAsStream()` est ~19% plus lent que `split()`, la surcharge d'abstraction du flux dépasse l'allocation économisée. La méthode brille lorsque vous traitez seulement les **premiers** jetons de manière paresseuse, en ignorant le reste sans les générer.
+Lors de la consommation de tous les jetons, `splitAsStream()` est ~19% plus lent que `split()`, la surcharge d'abstraction du flux dépasse l'allocation économisée. La méthode brille lorsque vous traitez seulement les premiers jetons de manière paresseuse, en ignorant le reste sans les générer.
 
 ### `asPredicate()` et `asMatchPredicate()`
 
@@ -462,12 +460,12 @@ List<String> containsDigits = strings.stream()
 | `ModernPatternAPIBenchmark.asMatchPredicate` | 9 780 ns/op  | +13%                         |
 | `ModernPatternAPIBenchmark.asPredicateFind`  | 14 392 ns/op | +66% (sémantique différente) |
 
-`asMatchPredicate()` est légèrement plus lent qu'une lambda brute en raison de l'abstraction du prédicat. Utilisez-le pour la **lisibilité**, pas pour la vitesse. `asPredicate()` est notablement plus lent car la sémantique `find()` correspond plus agressivement que `matches()`.
+`asMatchPredicate()` est légèrement plus lent qu'une lambda brute en raison de l'abstraction du prédicat. Utilisez-le pour la lisibilité, pas pour la vitesse. `asPredicate()` est notablement plus lent car la sémantique `find()` correspond plus agressivement que `matches()`.
 
-**Différence sémantique importante :**
+Différence sémantique importante :
 
-- `asPredicate()` utilise `Matcher.find()` : vrai si **une sous-chaîne** correspond.
-- `asMatchPredicate()` utilise `Matcher.matches()` : vrai seulement si la **totalité** de la chaîne correspond.
+- `asPredicate()` utilise `Matcher.find()` : vrai si une sous-chaîne correspond.
+- `asMatchPredicate()` utilise `Matcher.matches()` : vrai seulement si la totalité de la chaîne correspond.
 
 ```java
 Pattern DIGITS = Pattern.compile("\\d+");
@@ -492,9 +490,9 @@ C'est utile pour les scénarios d'analyse où vous devez préserver ou transform
 
 ## Au-delà des regex : quand utiliser le globbing
 
-Toute correspondance de motif n'a pas besoin de regex. Java fournit une syntaxe **glob** séparée pour la correspondance de noms de fichiers et de chemins. Les globs utilisent une syntaxe générique plus simple et sont souvent plus lisibles pour les motifs orientés fichiers.
+Toute correspondance de motif n'a pas besoin de regex. Java fournit une syntaxe glob séparée pour la correspondance de noms de fichiers et de chemins. Les globs utilisent une syntaxe générique plus simple et sont souvent plus lisibles pour les motifs orientés fichiers.
 
-### Glob vs Regex
+### Glob vs regex
 
 | Aspect      | Regex                                    | Glob                                                                                                      |
 | ----------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -505,7 +503,7 @@ Toute correspondance de motif n'a pas besoin de regex. Java fournit une syntaxe 
 | `**`        | (nécessite un pattern personnalisé)      | Zéro ou plusieurs caractères traversant les limites de répertoire (récursif)                              |
 | Cas d'usage | Validation de texte, analyse, extraction | Filtrage de fichiers/répertoires, correspondance de chemins                                               |
 
-### Performance : Glob vs Regex via `PathMatcher`
+### Performance : glob vs regex via `PathMatcher`
 
 `FileSystem.getPathMatcher()` supporte à la fois les préfixes `glob:` et `regex:`. Les benchmarks sur 1 000 chemins montrent une différence claire :
 
@@ -516,7 +514,7 @@ Toute correspondance de motif n'a pas besoin de regex. Java fournit une syntaxe 
 
 Les patterns glob sont plus lents car ils doivent d'abord être convertis en une représentation regex interne. La conversion a lieu une fois à la création du `PathMatcher`, mais la correspondance elle-même supporte également la surcharge de la couche d'adaptation.
 
-**Choisissez glob pour la lisibilité, regex pour la vitesse** avec `PathMatcher`.
+Choisissez glob pour la lisibilité, regex pour la vitesse avec `PathMatcher`.
 
 ### Utiliser `PathMatcher` avec les globs
 
@@ -555,25 +553,25 @@ PathMatcher matcher = FileSystems.getDefault()
 
 ### Quand choisir quoi
 
-- **Utilisez glob** pour filtrer des fichiers, répertoires ou chemins, c'est l'API Java idiomatique, plus simple, et plus difficile à mal utiliser.
-- **Utilisez regex** avec `PathMatcher` lorsque vous avez besoin de performance supplémentaire, ou si vous avez déjà un pattern regex.
-- **Utilisez `java.util.regex.Pattern`** pour la validation de texte, l'extraction, les conditions complexes, ou les lookahead/lookbehind en dehors de la correspondance de fichiers.
+- Utilisez glob pour filtrer des fichiers, répertoires ou chemins, c'est l'API Java idiomatique, plus simple, et plus difficile à mal utiliser.
+- Utilisez regex avec `PathMatcher` lorsque vous avez besoin de performance supplémentaire, ou si vous avez déjà un pattern regex.
+- Utilisez `java.util.regex.Pattern` pour la validation de texte, l'extraction, les conditions complexes, ou les lookahead/lookbehind en dehors de la correspondance de fichiers.
 
 ## Conclusion
 
 Maîtriser la classe `java.util.regex.Pattern` est un moyen simple mais efficace d'améliorer les performances et la robustesse de vos applications Java. En suivant ces recommandations, vous éviterez les pièges courants et produirez un code à la fois propre et performant.
 
-- **Compiler une fois :** Toujours utiliser `Pattern.compile()` pour créer un objet `Pattern` réutilisable.
-- **Stocker en `static final` :** Pour les patterns regex statiques utilisés fréquemment, les stocker dans un champ `private static final`.
-- **Se méfier des méthodes de `String` :** Éviter `String.matches()`, `String.split()`, etc., dans le code critique en termes de performance. Ces méthodes recompilent la regex à chaque appel.
-- **Mettre en cache les patterns dynamiques :** Pour les regex inconnues au moment de la compilation, utiliser un cache (comme `ConcurrentHashMap`) pour stocker les patterns compilés.
-- **Préférer les groupes non capturants :** Utilisez `(?:...)` par défaut pour signaler l'intention ; passez à `(?<name>...)` pour une extraction lisible dans les chemins non critiques.
-- **Couper le backtracking avec les quantificateurs possessifs :** Utilisez `*+`, `++`, `?+` pour échouer rapidement et éviter le catastrophique backtracking.
-- **Échapper les entrées utilisateur :** Utilisez toujours `Pattern.quote()` lors de l'intégration de chaînes non fiables dans une regex, le surcoût est négligeable.
-- **Utiliser les méthodes stream-ready :** Préférez `splitAsStream()` et `asMatchPredicate()` pour la lisibilité et l'intégration avec le Java moderne.
-- **Correspondre correctement :** Utilisez `asMatchPredicate()` (Java 11) pour les correspondances sur toute la chaîne, `asPredicate()` pour les recherches de sous-chaînes.
-- **Considérer les API plus récentes :** `splitWithDelimiters()` (Java 21) préserve les délimiteurs avec le contenu.
-- **Choisir glob pour les chemins de fichiers :** Utilisez `FileSystem.getPathMatcher("glob:...")` pour la lisibilité ; utilisez le préfixe `regex:` si la performance compte.
+- Compiler une fois : Toujours utiliser `Pattern.compile()` pour créer un objet `Pattern` réutilisable.
+- Stocker en `static final` : Pour les patterns regex statiques utilisés fréquemment, les stocker dans un champ `private static final`.
+- Se méfier des méthodes de `String` : Éviter `String.matches()`, `String.split()`, etc., dans le code critique en termes de performance. Ces méthodes recompilent la regex à chaque appel.
+- Mettre en cache les patterns dynamiques : Pour les regex inconnues au moment de la compilation, utiliser un cache (comme `ConcurrentHashMap`) pour stocker les patterns compilés.
+- Préférer les groupes non capturants : Utilisez `(?:...)` par défaut pour signaler l'intention ; passez à `(?<name>...)` pour une extraction lisible dans les chemins non critiques.
+- Couper le backtracking avec les quantificateurs possessifs : Utilisez `*+`, `++`, `?+` pour échouer rapidement et éviter le catastrophique backtracking.
+- Échapper les entrées utilisateur : Utilisez toujours `Pattern.quote()` lors de l'intégration de chaînes non fiables dans une regex, le surcoût est négligeable.
+- Utiliser les méthodes stream-ready : Préférez `splitAsStream()` et `asMatchPredicate()` pour la lisibilité et l'intégration avec le Java moderne.
+- Correspondre correctement : Utilisez `asMatchPredicate()` (Java 11) pour les correspondances sur toute la chaîne, `asPredicate()` pour les recherches de sous-chaînes.
+- Considérer les API plus récentes : `splitWithDelimiters()` (Java 21) préserve les délimiteurs avec le contenu.
+- Choisir glob pour les chemins de fichiers : Utilisez `FileSystem.getPathMatcher("glob:...")` pour la lisibilité ; utilisez le préfixe `regex:` si la performance compte.
 
 En appliquant ces quelques ajustements, vous vous assurez que vos expressions régulières sont non seulement puissantes, mais aussi performantes et prêtes pour la production.
 
@@ -581,13 +579,13 @@ En appliquant ces quelques ajustements, vous vous assurez que vos expressions r�
 
 ## Références
 
-1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
-1. <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
-1. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
-1. <a id="ref4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://bugs.openjdk.org/browse/JDK-6328855)
-1. <a id="ref5"></a>[Pattern.java : implémentation de Pattern.quote() dans OpenJDK](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java)
-1. <a id="ref6"></a>[Pattern.asMatchPredicate() : documentation API Java 11+](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
-1. <a id="ref7"></a>[JDK-8305486 : ajout de splitWithDelimiters à Pattern et String](https://bugs.openjdk.org/browse/JDK-8305486)
+- <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
+- <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+- <a id="ref4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://bugs.openjdk.org/browse/JDK-6328855)
+- <a id="ref5"></a>[Pattern.java : implémentation de Pattern.quote() dans OpenJDK](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java)
+- <a id="ref6"></a>[Pattern.asMatchPredicate() : documentation API Java 11+](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
+- <a id="ref7"></a>[JDK-8305486 : ajout de splitWithDelimiters à Pattern et String](https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
 

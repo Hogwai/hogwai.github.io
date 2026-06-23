@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import mermaid from "astro-mermaid";
 import { remarkReadingTime } from "./src/plugins/remarkReadingTime.mjs";
 
 function getContentDates() {
@@ -52,6 +53,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [
+    mermaid(),
     react(),
     mdx(),
     sitemap({

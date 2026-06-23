@@ -56,12 +56,12 @@ Ce mode de lecture consomme 2 RCU pour un élément jusqu'à 4 Ko.
 
 ## Le défi du batch (BatchGetItem)
 
-Pour vérifier plusieurs éléments en une seule fois, on peut utiliser `BatchGetItem` plutôt que de faire des vérifications individuels successives.
+Pour vérifier plusieurs éléments en une seule fois, on peut utiliser `BatchGetItem` plutôt que de faire des vérifications individuelles successives.
 
 Deux comportements à gérer :
 
-1. Les éléments absents sont simplement omis de la réponse, ils ne sont pas retournés comme `null`.
-2. Clés non traitées : sous forte charge, la réponse peut être partielle.
+- Les éléments absents sont simplement omis de la réponse, ils ne sont pas retournés comme `null`.
+- Clés non traitées : sous forte charge, la réponse peut être partielle.
 
 Implémentation avec mécanisme de retry :
 
@@ -158,7 +158,7 @@ public boolean hasKeywordsByGetItem(String subreddit, String id) {
 
 ### Utiliser `Query` avec `FilterExpression`
 
-L'approche par `Query` reste utile lorsque l'on doit récupérer un ensemble d'éléments partageant la même clé de partition, puis affiner localement les résultats.
+L'approche par `Query` reste utile lorsque l'on doit récupérer un ensemble d'éléments partageant la même clé de partition, puis affiner côté serveur les résultats.
 DynamoDB lit d'abord tous les éléments correspondant à la condition de partition/sort key, consomme les RCU pour chacun d'eux, puis seulement applique le filtre en mémoire. Les éléments écartés par le filtre ont quand même été facturés.
 
 ```java
@@ -199,17 +199,17 @@ public boolean hasKeywords(String subreddit, String id) {
 
 Pour une vérification d'existence standard :
 
-1. `projectionExpression` : réduit le transfert réseau.
-2. `consistentRead(false)` : divise le coût en RCU par deux.
-3. Gérer les `UnprocessedKeys` dans les opérations par batch.
-4. Pour les éléments > 40 Ko, envisager un GSI en KEYS_ONLY pour réduire le coût de 90 %.
+- `projectionExpression` : réduit le transfert réseau.
+- `consistentRead(false)` : divise le coût en RCU par deux.
+- Gérer les `UnprocessedKeys` dans les opérations par batch.
+- Pour les éléments > 40 Ko, envisager un GSI en KEYS_ONLY pour réduire le coût de 90 %.
 
 ## Références
 
-1. <a id="ref1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
-2. <a id="ref2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
-3. <a id="ref3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
-4. <a id="ref4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
+- <a id="ref1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
+- <a id="ref2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
+- <a id="ref3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
+- <a id="ref4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
 
 ## Démo
 

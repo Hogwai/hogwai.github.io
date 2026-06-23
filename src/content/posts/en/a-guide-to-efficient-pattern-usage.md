@@ -50,7 +50,7 @@ public class RegexExample {
 }
 ```
 
-**Key takeaway:** The `Pattern` is the blueprint; the `Matcher` is the worker. You create the blueprint once and use it to create as many workers as you need.
+Key takeaway: The `Pattern` is the blueprint; the `Matcher` is the worker. You create the blueprint once and use it to create as many workers as you need.
 
 ## The performance trap: why you should never re-compile
 
@@ -62,7 +62,7 @@ Calling `Pattern.compile()` has a multi-dimensional performance cost:
 - Memory: A compiled Pattern is one of the most memory-intensive Java objects<sup><a href="#ref1">[1]</a></sup>.
 - Garbage Collection: Frequently creating and discarding Pattern instances increases pressure on the garbage collector, as these heavy objects must be reclaimed, potentially triggering more frequent or longer GC cycles.
 
-### The wrong way (inefficient)
+### The wrong way
 
 ```java
 public void processLines(List<String> lines) {
@@ -235,7 +235,7 @@ Pattern.compile("(\\d+)-(\\w+)");
 Pattern.compile("(?:\\d+)-(?:\\w+)");
 ```
 
-**Best practice:** Use `(?:...)` as your default grouping construct. It communicates intent even when the performance difference is small.
+Best practice: Use `(?:...)` as your default grouping construct. It communicates intent even when the performance difference is small.
 
 ### Named capturing groups `(?<name>...)`
 
@@ -406,7 +406,7 @@ String result = text.replaceAll(userInput, "REDACTED");
 String result = text.replaceAll(Pattern.quote(userInput), "REDACTED");
 ```
 
-**Note:** This complements the caching section above. If you're caching dynamic patterns that include user input, escape the input _before_ compiling and caching.
+Note: This complements the caching section above. If you're caching dynamic patterns that include user input, escape the input _before_ compiling and caching.
 
 ## Modern Pattern API: methods you might have missed
 
@@ -563,17 +563,17 @@ PathMatcher matcher = FileSystems.getDefault()
 
 Mastering the `java.util.regex.Pattern` class is a simple yet effective way to improve the performance and robustness of Java applications. By following these guidelines, one can avoid common traps and write code that is both clean and fast.
 
-- **Compile Once:** Always use `Pattern.compile()` to create a reusable `Pattern` object.
-- **Store as `static final`:** For frequently used, static regex patterns, store them in a `private static final` field.
-- **Beware of `String` Methods:** Avoid `String.matches()`, `String.split()`, etc., in performance-critical code. They recompile the regex on every call.
-- **Cache Dynamic Patterns:** For regexes that are not known at compile time, use a cache (like `ConcurrentHashMap`) to store compiled patterns.
-- **Prefer Non-Capturing Groups:** Use `(?:...)` by default to signal intent; switch to `(?<name>...)` for readable extraction in non-hot paths.
-- **Cut Backtracking with Possessive Quantifiers:** Use `*+`, `++`, `?+` to fail fast and avoid catastrophic backtracking.
-- **Escape User Input:** Always use `Pattern.quote()` when embedding untrusted strings into a regex, the overhead is negligible.
-- **Use Stream-Ready Methods:** Prefer `splitAsStream()` and `asMatchPredicate()` for readability and integration with modern Java.
-- **Match the Right Way:** Use `asMatchPredicate()` (Java 11) for full-string matches, `asPredicate()` for substring searches.
-- **Consider Newer APIs:** `splitWithDelimiters()` (Java 21) preserves delimiters alongside content.
-- **Choose Glob for File Paths:** Use `FileSystem.getPathMatcher("glob:...")` for readability; use the `regex:` prefix if performance matters.
+- Compile Once: Always use `Pattern.compile()` to create a reusable `Pattern` object.
+- Store as `static final`: For frequently used, static regex patterns, store them in a `private static final` field.
+- Beware of `String` Methods: Avoid `String.matches()`, `String.split()`, etc., in performance-critical code. They recompile the regex on every call.
+- Cache Dynamic Patterns: For regexes that are not known at compile time, use a cache (like `ConcurrentHashMap`) to store compiled patterns.
+- Prefer Non-Capturing Groups: Use `(?:...)` by default to signal intent; switch to `(?<name>...)` for readable extraction in non-hot paths.
+- Cut Backtracking with Possessive Quantifiers: Use `*+`, `++`, `?+` to fail fast and avoid catastrophic backtracking.
+- Escape User Input: Always use `Pattern.quote()` when embedding untrusted strings into a regex, the overhead is negligible.
+- Use Stream-Ready Methods: Prefer `splitAsStream()` and `asMatchPredicate()` for readability and integration with modern Java.
+- Match the Right Way: Use `asMatchPredicate()` (Java 11) for full-string matches, `asPredicate()` for substring searches.
+- Consider Newer APIs: `splitWithDelimiters()` (Java 21) preserves delimiters alongside content.
+- Choose Glob for File Paths: Use `FileSystem.getPathMatcher("glob:...")` for readability; use the `regex:` prefix if performance matters.
 
 By making these small changes, you ensure your regular expressions are not only powerful but also performant and ready for production.
 
@@ -581,13 +581,13 @@ By making these small changes, you ensure your regular expressions are not only 
 
 ## References
 
-1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
-1. <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
-1. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
-1. <a id="ref4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)
-1. <a id="ref5"></a>[Pattern.java: OpenJDK Pattern.quote() implementation](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java#L1500)
-1. <a id="ref6"></a>[Pattern.asMatchPredicate(): Java 11+ API docs](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
-1. <a id="ref7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://bugs.openjdk.org/browse/JDK-8305486)
+- <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
+- <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+- <a id="ref4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)
+- <a id="ref5"></a>[Pattern.java: OpenJDK Pattern.quote() implementation](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java#L1500)
+- <a id="ref6"></a>[Pattern.asMatchPredicate(): Java 11+ API docs](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
+- <a id="ref7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
 
