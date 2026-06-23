@@ -12,18 +12,68 @@ import MavenGoalsSearch from "../../../components/MavenGoalsSearch.tsx";
 
 ---
 
-## Understanding Goal Chains
+## Understanding goal chains
 
 When you run a Maven command like `mvn package`, Maven doesn't only execute that goal, it runs every phase leading up to it, in sequence.
 
-| Command       | Implicit Phases (executed in order)                           |
-| ------------- | ------------------------------------------------------------- |
-| `mvn compile` | `validate -> compile`                                         |
-| `mvn test`    | `validate -> compile -> test`                                 |
-| `mvn package` | `validate -> compile -> test -> package`                      |
-| `mvn install` | `validate -> compile -> test -> package -> install`           |
-| `mvn deploy`  | `validate -> compile -> test -> package -> install -> deploy` |
-| `mvn verify`  | `validate -> compile -> test -> verify`                       |
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Phases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>mvn compile</code>
+      </td>
+      <td>
+        <code>validate -> compile</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn test</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn package</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> package</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn install</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> package -> install</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn deploy</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> package -> install -> deploy</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn verify</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> verify</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 Each phase is bound by default to one or more plugin goals.  
 Example:  
@@ -32,19 +82,68 @@ Example:
 
 ---
 
-## Diagnostic & Helper Commands
+## Diagnostic & helper commands
 
-| Command                               | Description                                                         | Example Output                             |
-| ------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------ |
-| `mvn help:effective-pom`              | Displays the full merged POM (parent + profiles + defaults).        | Useful to debug inheritance issues         |
-| `mvn help:describe -Dcmd=compile`     | Shows which plugin and goal are bound to `compile`.                 | Reveals `compiler:compile` mapping         |
-| `mvn help:describe -Dplugin=compiler` | Lists all available goals for a given plugin.                       | `compiler:compile`, `compiler:testCompile` |
-| `mvn dependency:tree`                 | Displays dependency hierarchy and conflicts.                        | `A:1.0 -> B:2.0 -> C:3.1`                  |
-| `mvn -X`                              | Runs in debug mode, showing plugin binding and lifecycle execution. | Great for build troubleshooting            |
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+      <th>Example Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>mvn help:effective-pom</code>
+      </td>
+      <td>Displays the full merged POM (parent + profiles + defaults).</td>
+      <td>Useful to debug inheritance issues</td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn help:describe -Dcmd=compile</code>
+      </td>
+      <td>
+        Shows which plugin and goal are bound to <code>compile</code>.
+      </td>
+      <td>
+        Reveals <code>compiler:compile</code> mapping
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn help:describe -Dplugin=compiler</code>
+      </td>
+      <td>Lists all available goals for a given plugin.</td>
+      <td>
+        <code>compiler:compile</code>, <code>compiler:testCompile</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn dependency:tree</code>
+      </td>
+      <td>Displays dependency hierarchy and conflicts.</td>
+      <td>
+        <code>A:1.0 -> B:2.0 -> C:3.1</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn -X</code>
+      </td>
+      <td>
+        Runs in debug mode, showing plugin binding and lifecycle execution.
+      </td>
+      <td>Great for build troubleshooting</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-## Custom Goal Bindings
+## Custom goal bindings
 
 You can attach plugin goals to different phases in your `pom.xml`:
 

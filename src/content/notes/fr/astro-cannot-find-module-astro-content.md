@@ -5,7 +5,7 @@ pubDate: 2025-10-18
 tags: ["astro", "setup", "error", "typescript"]
 ---
 
-Le module `astro:content` est un module virtuel dont les types sont **générés par Astro** à partir de vos fichiers de contenu et de `config.ts`. S'il n'existe aucun contenu, TypeScript n'a rien à analyser.
+Le module `astro:content` est un module virtuel dont les types sont générés par Astro à partir de vos fichiers de contenu et de `config.ts`. S'il n'existe aucun contenu, TypeScript n'a rien à analyser.
 
 ## Correction
 
@@ -13,7 +13,7 @@ Le module `astro:content` est un module virtuel dont les types sont **générés
 
 Astro a besoin d'au moins un fichier dans la collection :
 
-**`src/content/blog/hello-world.md`**
+`src/content/blog/hello-world.md`
 
 ```markdown
 ---
@@ -27,7 +27,7 @@ Outstanding post
 
 ### Définir le schéma de la collection
 
-**`src/content/config.ts`**
+`src/content/config.ts`
 
 ```ts
 import { defineCollection, z } from "astro:content";
@@ -59,5 +59,5 @@ Dans VS Code : `Ctrl+Shift+P` -> `TypeScript: Restart TS Server`.
 
 ## Références
 
-1. [Issue sur le dépôt GitHub d'Astro](https://github.com/withastro/astro/issues/5711)
-2. [Commentaire sur l'issue](https://github.com/withastro/astro/issues/5711#issuecomment-1374022020)
+- [Issue sur le dépôt GitHub d'Astro](https://github.com/withastro/astro/issues/5711)
+- [Commentaire sur l'issue](https://github.com/withastro/astro/issues/5711#issuecomment-1374022020)

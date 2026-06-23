@@ -52,7 +52,7 @@ public List<Item> getItemsByCategory(String categoryCode) {
 }
 ```
 
-## Pattern 1 : gestion des paramètres nommés
+## Pattern 1: gestion des paramètres nommés
 
 Premier constat : JDBC ne gère que les paramètres positionnels (`?`), ce qui en termes de lisibilité n'est pas optimal.
 
@@ -163,7 +163,7 @@ public List<Item> getItems(ItemCriteria criteria) {
 
 La construction de la requête SQL est externalisée. Le reste est du JDBC standard : try-with-resources, index manuel, boucle sur le ResultSet.
 
-## Pattern 2 : JdbcExecutor
+## Pattern 2: JdbcExecutor
 
 Le try-with-resources a simplifié la fermeture, mais l'ouverture du `PreparedStatement` et la boucle sur le `ResultSet` sont encore dans la méthode.
 `JdbcExecutor` les prend en charge :
@@ -233,7 +233,7 @@ public List<Item> getItemsWithExecutor(ItemCriteria criteria) {
 
 Les fermetures du `PreparedStatement` et du `ResultSet` sont gérées et ne sont plus dans le code appelant.
 
-## Pattern 3 : extraction en méthodes
+## Pattern 3: extraction en méthodes
 
 Les lambdas sont pratiques mais deviennent rapidement verbeuses quand le binding ou le mapping est complexe. On les extrait en méthodes statiques :
 
@@ -282,7 +282,7 @@ public List<Item> getItemsCompact(ItemCriteria criteria) {
 }
 ```
 
-## Pattern 4 : ParamBinder
+## Pattern 4: ParamBinder
 
 Le `SimpleBinder` impose encore l'index manuel : `ps.setString(1, ...)`, `SqlUtil.bindListAsString(ps, 2, ...)`. Un oubli de mise à jour et les paramètres sont décalés.
 
@@ -361,7 +361,7 @@ public List<Item> getItemsWithIndexedBinder(ItemCriteria criteria) {
 }
 ```
 
-## Pattern 5 : RowMapper et DataSource-level
+## Pattern 5: RowMapper et DataSource-level
 
 Dernière couche : déplacer la connexion dans l'executor. `RowMapper<T>` et `toList` :
 
@@ -445,13 +445,15 @@ Ici on obtient une méthode plus légère avec du code déclaratif, des responsa
 
 ## Ce que ces patterns changent
 
-| Pattern | Connection   | Statement    | Paramètres   | Mapping      |
-| ------- | ------------ | ------------ | ------------ | ------------ |
-| 1       | appelant     | appelant     | index manuel | appelant     |
-| 2       | appelant     | JdbcExecutor | index manuel | lambda       |
-| 3       | appelant     | JdbcExecutor | index manuel | ref. méthode |
-| 4       | appelant     | JdbcExecutor | ParamBinder  | ref. méthode |
-| 5       | JdbcExecutor | JdbcExecutor | ParamBinder  | RowMapper    |
+```mermaid
+graph LR
+    P1["Pattern 1 (Appelant : tout)"]
+    P2["Pattern 2 (Statement -> JdbcExecutor)"]
+    P3["Pattern 3 (Mapping -> ref. méthode)"]
+    P4["Pattern 4 (Params -> ParamBinder)"]
+    P5["Pattern 5 (Connection -> JdbcExecutor)"]
+    P1 --> P2 --> P3 --> P4 --> P5
+```
 
 ## Conclusion
 

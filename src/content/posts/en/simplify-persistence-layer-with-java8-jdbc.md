@@ -445,13 +445,15 @@ The result is a lighter method with declarative code, well-defined responsibilit
 
 ## What these patterns change
 
-| Pattern | Connection   | Statement    | Parameters   | Mapping    |
-| ------- | ------------ | ------------ | ------------ | ---------- |
-| 1       | caller       | caller       | manual index | caller     |
-| 2       | caller       | JdbcExecutor | manual index | lambda     |
-| 3       | caller       | JdbcExecutor | manual index | method ref |
-| 4       | caller       | JdbcExecutor | ParamBinder  | method ref |
-| 5       | JdbcExecutor | JdbcExecutor | ParamBinder  | RowMapper  |
+```mermaid
+graph LR
+    P1["Pattern 1 (Caller: everything)"]
+    P2["Pattern 2 (Statement -> JdbcExecutor)"]
+    P3["Pattern 3 (Mapping -> method ref)"]
+    P4["Pattern 4 (Params -> ParamBinder)"]
+    P5["Pattern 5 (Connection -> JdbcExecutor)"]
+    P1 --> P2 --> P3 --> P4 --> P5
+```
 
 ## Conclusion
 

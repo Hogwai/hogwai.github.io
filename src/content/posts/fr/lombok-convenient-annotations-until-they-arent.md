@@ -91,7 +91,7 @@ Sur les classes annotées `@Entity`, les problèmes proviennent souvent des inte
 
 ### `@ToString`
 
-#### Problème 1 : Stack overflow sur les relations bidirectionnelles
+#### Problème 1 : stack overflow sur les relations bidirectionnelles
 
 C'est le problème le plus classique. Imaginons une relation bidirectionnelle standard : un `User` possède plusieurs `Post`s, et chaque `Post` appartient à un `User`.
 
@@ -140,7 +140,7 @@ Cela crée une référence circulaire : appeler `user.toString()` déclenche `po
 Il s'ensuit une récursion infinie : user -> posts -> post -> user -> ...
 La pile d'appels finit par déborder, provoquant une `StackOverflowError`.
 
-#### Problème 2 : Chargement paresseux
+#### Problème 2 : chargement paresseux
 
 Même sans bidirectionnalité, `@ToString` peut engendrer de sérieux problèmes de performance. Le chargement paresseux de JPA signifie que les associations ne sont récupérées qu'au moment où on y accède. La méthode `toString()` de Lombok accède à _tous_ les champs, déclenchant des chargements inattendus.
 
@@ -164,9 +164,9 @@ Si `posts` contient des milliers de `Post`, ils seront tous chargés.
 
 Cela entraîne :
 
-1. **Des requêtes en base inattendues :** Un simple log peut déclencher une requête SQL.
-2. **Le problème des N+1 requêtes :** Dans une boucle, cela génère un grand nombre de requêtes supplémentaires.
-3. **Une `LazyInitializationException` :** Peut être levée si la session est déjà fermée.
+- Des requêtes en base inattendues : Un simple log peut déclencher une requête SQL.
+- Le problème des N+1 requêtes : Dans une boucle, cela génère un grand nombre de requêtes supplémentaires.
+- Une `LazyInitializationException` : Peut être levée si la session est déjà fermée.
 
 #### Solutions
 
@@ -192,7 +192,7 @@ public class User {
 public class Post {
     // ...
     @ManyToOne
-    @ToString.Exclude // Prevents back-reference recursion
+    @ToString.Exclude // Évite la récursion due aux références arrière
     private User user;
 }
 ```
@@ -234,7 +234,7 @@ Dans la plupart des cas, vous n'en avez pas besoin, et même quand c'est nécess
 
 ```java
 @Entity
-@Data // Includes @ToString and @EqualsAndHashCode
+@Data // Inclut @ToString et @EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -256,7 +256,7 @@ Sur une entité, il vaut mieux être explicite :
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "posts") // Explicit about toString
+@ToString(exclude = "posts") // Explicite sur toString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -334,13 +334,13 @@ public class UserService {
 
 Avantages :
 
-1. **Sécurité :** La frontière entre dépendances et attributs de valeur est clairement définie.
-2. **Immutabilité :** Favorise une bonne conception et la sécurité des threads.
-3. **Compatibilité Spring :** Fonctionne parfaitement avec l'injection par constructeur recommandée.
+- Sécurité : La frontière entre dépendances et attributs de valeur est clairement définie.
+- Immutabilité : Favorise une bonne conception et la sécurité des threads.
+- Compatibilité Spring : Fonctionne parfaitement avec l'injection par constructeur recommandée.
 
 ## En résumé
 
-**Règle d'or** : Comprendre ce que font les annotations Lombok sous le capot avant de les apposer sur vos classes.
+Règle d'or : Comprendre ce que font les annotations Lombok sous le capot avant de les apposer sur vos classes.
 
 | Annotation                 | Adapté pour                               | Risques potentiels                    | Alternative / Recommandation         |
 | -------------------------- | ----------------------------------------- | ------------------------------------- | ------------------------------------ |
@@ -354,6 +354,6 @@ Avantages :
 
 ## Références
 
-1. <a id="ref1"></a>[Documentation Lombok pour @Data](https://projectlombok.org/features/Data)
-2. [Documentation Lombok](https://projectlombok.org/features/)
-3. [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)
+- <a id="ref1"></a>[Documentation Lombok pour @Data](https://projectlombok.org/features/Data)
+- [Documentation Lombok](https://projectlombok.org/features/)
+- [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)

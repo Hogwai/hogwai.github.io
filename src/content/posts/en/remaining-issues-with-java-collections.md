@@ -17,7 +17,7 @@ Let's take a look at what these issues are and how to mitigate them.
 
 When you initialize an `ArrayList`, it will create an array (`Object[]`) as backing structure to store the elements<sup><a href="#ref1">[1]</a></sup>.
 
-The array is used for every operation: `indexOf`, `contains`, `get` etc...
+The array is used for every operation: `indexOf`, `contains`, `get` etc.
 
 ### Using `contains(Object o)`
 
@@ -68,7 +68,7 @@ It's negligible if the collection is small, but what if it's huge?
 
 ### Using `containsAll(Collection<?> c)`
 
-The same logic applies to `containsAll(Collection<?> c)` but with a O(n\*m) time complexity since every element of the given collection has to be checked against the elements of the other one.
+The same logic applies to `containsAll(Collection<?> c)` but with an O(n\*m) time complexity since every element of the given collection has to be checked against the elements of the other one.
 
 In addition, IntelliJ issues a [warning](https://www.jetbrains.com/help/inspectopedia/SlowListContainsAll.html) about this.
 
@@ -104,7 +104,7 @@ public boolean contains(Object o) {
 
 So, if we have a large collection and/or a collection that is frequently looked up (contains, remove), `HashSet` is definitely a more efficient choice.
 
-#### Converting the Collection
+#### Converting the collection
 
 It is not always possible (or desirable) to replace all `ArrayLists` with `HashSets`.
 
@@ -140,7 +140,7 @@ if (CollectionUtils.fastContains(list, "element")) {
 }
 ```
 
-##### Utility method (Java 8+)
+##### Utility method (java 8+)
 
 ```java
 public static <T> Predicate<T> fastContains(Collection<T> collection) {
@@ -182,7 +182,7 @@ collection.stream()
           .toList();
 ```
 
-When we call stream()<sup><a href="#ref4">[4]</a></sup> on a collection, certain objects are initialized to prepare the execution of the pipeline: ReferencePipeline, Spliterator etc...
+When we call stream()<sup><a href="#ref4">[4]</a></sup> on a collection, certain objects are initialized to prepare the execution of the pipeline: ReferencePipeline, Spliterator etc.
 
 The problem is that this happens regardless of whether the given collection is empty or not.
 
@@ -194,7 +194,7 @@ Heinz Kabutz wrote an excellent [article](https://www.javaspecialists.eu/archive
 
 #### Adding a guard
 
-The most straightforward solution is to simply adding a check on the emptiness of a collection:
+The most straightforward solution is to simply add a check on the emptiness of a collection:
 
 ```java
 if (collection != null && !collection.isEmpty()) {
@@ -205,9 +205,9 @@ if (collection != null && !collection.isEmpty()) {
 }
 ```
 
-#### Using Java 8
+#### Using java 8
 
-It can also be done in more functional way:
+It can also be done in a more functional way:
 
 ```java
 List<String> formattedList = Optional.ofNullable(collection)
@@ -228,10 +228,10 @@ To sum things up:
 
 ## References
 
-1. <a id="ref1"></a>[ArrayList.java#L139: elementData](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L139)
-2. <a id="ref2"></a>[ArrayList.java#L275: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L275)
-3. <a id="ref3"></a>[HashSet.java#L213: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/HashSet.java#L213)
-4. <a id="ref4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
+- <a id="ref1"></a>[ArrayList.java#L139: elementData](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L139)
+- <a id="ref2"></a>[ArrayList.java#L275: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L275)
+- <a id="ref3"></a>[HashSet.java#L213: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/HashSet.java#L213)
+- <a id="ref4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
 
 ## Demo
 

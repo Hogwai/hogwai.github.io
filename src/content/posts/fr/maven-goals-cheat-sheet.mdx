@@ -16,14 +16,69 @@ import MavenGoalsSearch from "../../../components/MavenGoalsSearch.tsx";
 
 Quand vous lancez une commande Maven comme `mvn package`, Maven n'exécute pas uniquement ce goal : il parcourt toutes les phases qui le précèdent, dans l'ordre.
 
-| Commande      | Phases implicites (exécutées dans l'ordre)                    |
-| ------------- | ------------------------------------------------------------- |
-| `mvn compile` | `validate -> compile`                                         |
-| `mvn test`    | `validate -> compile -> test`                                 |
-| `mvn package` | `validate -> compile -> test -> package`                      |
-| `mvn install` | `validate -> compile -> test -> package -> install`           |
-| `mvn deploy`  | `validate -> compile -> test -> package -> install -> deploy` |
-| `mvn verify`  | `validate -> compile -> test -> verify`                       |
+<table>
+  <thead>
+    <tr>
+      <th>Commande</th>
+      <th>Phases implicites (exécutées dans l'ordre)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>mvn compile</code>
+      </td>
+      <td>
+        <code>validate -> compile</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn test</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn package</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> package</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn install</code>
+      </td>
+      <td>
+        <code>
+          validate -> compile -> test -> package -> install
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn deploy</code>
+      </td>
+      <td>
+        <code>
+          validate -> compile -> test -> package -> install
+          -> deploy
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn verify</code>
+      </td>
+      <td>
+        <code>validate -> compile -> test -> verify</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 Chaque phase est associée par défaut à un ou plusieurs goals de plugin.
 Exemple :
@@ -34,13 +89,65 @@ Exemple :
 
 ## Commandes de diagnostic et d'aide
 
-| Commande                              | Description                                                                       | Exemple de sortie                            |
-| ------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------- |
-| `mvn help:effective-pom`              | Affiche le POM fusionné complet (parent + profils + valeurs par défaut).          | Utile pour déboguer les problèmes d'héritage |
-| `mvn help:describe -Dcmd=compile`     | Indique quel plugin et quel goal sont liés à `compile`.                           | Révèle le mapping `compiler:compile`         |
-| `mvn help:describe -Dplugin=compiler` | Liste tous les goals disponibles pour un plugin donné.                            | `compiler:compile`, `compiler:testCompile`   |
-| `mvn dependency:tree`                 | Affiche la hiérarchie des dépendances et les éventuels conflits.                  | `A:1.0 -> B:2.0 -> C:3.1`                    |
-| `mvn -X`                              | Exécute le build en mode debug, avec les détails des bindings et du cycle de vie. | Idéal pour diagnostiquer un build            |
+<table>
+  <thead>
+    <tr>
+      <th>Commande</th>
+      <th>Description</th>
+      <th>Exemple de sortie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>mvn help:effective-pom</code>
+      </td>
+      <td>
+        Affiche le POM fusionné complet (parent + profils + valeurs par défaut).
+      </td>
+      <td>Utile pour déboguer les problèmes d'héritage</td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn help:describe -Dcmd=compile</code>
+      </td>
+      <td>
+        Indique quel plugin et quel goal sont liés à <code>compile</code>.
+      </td>
+      <td>
+        Révèle le mapping <code>compiler:compile</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn help:describe -Dplugin=compiler</code>
+      </td>
+      <td>Liste tous les goals disponibles pour un plugin donné.</td>
+      <td>
+        <code>compiler:compile</code>, <code>compiler:testCompile</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn dependency:tree</code>
+      </td>
+      <td>Affiche la hiérarchie des dépendances et les éventuels conflits.</td>
+      <td>
+        <code>A:1.0 -> B:2.0 -> C:3.1</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mvn -X</code>
+      </td>
+      <td>
+        Exécute le build en mode debug, avec les détails des bindings et du
+        cycle de vie.
+      </td>
+      <td>Idéal pour diagnostiquer un build</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

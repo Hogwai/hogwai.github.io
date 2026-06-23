@@ -39,7 +39,7 @@ Cela fonctionne jusqu'à ce que l'on est besoin de :
 
 Chacun de ces changements signifie : modifier le code, compiler, exécuter les tests, déployer et espérer que rien n'a cassé.
 
-Il y a une meilleure facon : stocker la topologie de la pipeline dans la base de données.
+Il y a une meilleure façon : stocker la topologie de la pipeline dans la base de données.
 
 ---
 
@@ -47,12 +47,15 @@ Il y a une meilleure facon : stocker la topologie de la pipeline dans la base de
 
 L'idée centrale est une hiérarchie d'entités à cinq niveaux :
 
-```text
-Chain                 =  Un workflow logique (ex. "ORDER_PROCESSING")
-  └── ChainConfiguration  =  Une variante de pipeline nommée (ex. "premium-order")
-        └── ChainStep     =  Un liant d'step avec règles de routage
-              └── Step    =  Une unité de traitement réutilisable (ex. "validateOrder")
-                    └── ChainStatus = référence de statut (ACTIVE, SUSPENDED, ...)
+```mermaid
+graph TD
+    Chain["Chain: Un workflow logique (ex. ORDER_PROCESSING)"]
+    ChainConfig["ChainConfiguration: Une variante de pipeline nommée (ex. premium-order)"]
+    ChainStep["ChainStep: Un liant d'étape avec règles de routage"]
+    Step["Step: Une unité de traitement réutilisable (ex. validateOrder)"]
+    Chain --> ChainConfig
+    ChainConfig --> ChainStep
+    ChainStep --> Step
 ```
 
 Chaque `ChainStep` stocke deux cibles de routage (une pour le succès, une pour l'échec), créant un graphe conditionnel au niveau de la base de données.
@@ -186,17 +189,28 @@ public class Step {
 
 Prenons une chaîne d'exécution `ORDER_PROCESSING` avec trois configurations. Chaque configuration est un ensemble de lignes dans `ts_chain_step` :
 
-| Configuration  | Step 1        | Step 2         | Step 3         | Step 4        | Step 5       | Step 6           | Step 7           | Step 8           | Step 9       |
-| -------------- | ------------- | -------------- | -------------- | ------------- | ------------ | ---------------- | ---------------- | ---------------- | ------------ |
-| standard-order | validateOrder | checkInventory | processPayment | calculateTax  | fulfillOrder | sendConfirmation | updateAccounting | archiveOrder     |              |
-| premium-order  | validateOrder | checkInventory | processPayment | applyDiscount | calculateTax | fulfillOrder     | sendConfirmation | updateAccounting | archiveOrder |
-| flagged-order  | validateOrder | checkInventory | escalateOrder  | archiveOrder  |              |                  |                  |                  |              |
+```mermaid
+graph TD
+    Start((Start)) --> vo[validateOrder]
+    vo --> ci[checkInventory]
+    ci -->|standard/premium| pp[processPayment]
+    ci -->|flagged| eo[escalateOrder]
+    pp -->|standard| ct[calculateTax]
+    pp -->|premium| ad[applyDiscount]
+    ad --> ct
+    ct --> fo[fulfillOrder]
+    eo --> ao[archiveOrder]
+    fo --> sc[sendConfirmation]
+    sc --> ua[updateAccounting]
+    ua --> ao
+    ao --> End((End))
+```
 
-Rien n'est codé en dur : ajouter une nouvelle variante de pipeline est une simple instruction `INSERT`.
+Rien n'est codé en dur : ajouter une nouvelle variante de pipeline est un simple `INSERT`.
 
 ---
 
-## Le Décideur : Rendre Spring Batch Dynamique
+## Le décideur : rendre Spring Batch dynamique
 
 La "magie" opère dans un `JobExecutionDecider`. Après chaque step, Spring Batch consulte le décideur pour déterminer le prochain step.
 
@@ -394,33 +408,32 @@ public class ChainInformationTasklet implements Tasklet {
 
 ### Déroulement à l'exécution
 
-```text
-1. Appel REST : GET /chain-config/invoke?config=premium-order&orderId=ORD_001
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant J as Spring Batch Job
+    participant D as ChainStepDecider
+    participant DB as Base de données
 
-2. Le job démarre, chainInformationStep enregistre le nom de la config
+    C->>+J: GET /chain-config/invoke
+    J->>+D: decide()
+    D->>+DB: findFirstStepByConfigName()
+    DB-->>-D: validateOrder
+    D-->>-J: FlowExecutionStatus("validateOrder")
+    J->>J: dispatch validateOrderStep
 
-3. Le décideur s'exécute (première fois : stepExecution=null) :
-   - Lit "chainConfigName" = "premium-order" depuis JobParameters
-   - Appelle findFirstStepByConfigName("premium-order")
-   - Retourne FlowExecutionStatus("validateOrder")
+    J->>+D: decide() (après l'étape)
+    D->>+DB: findByStepAndConfiguration()
+    DB-->>-D: nextStepOnSuccess / nextStepOnFailure
+    D-->>-J: FlowExecutionStatus(nextStep)
+    J->>J: dispatch étape suivante
 
-4. Spring Batch fait correspondre "validateOrder"
-   et dispatche vers le bean validateOrderStep
-
-5. Après la fin de validateOrder, le décideur s'exécute à nouveau :
-   - Lit StepExecution.getStepName() = "validateOrder"
-   - Interroge la BD : findByStepAndConfiguration("validateOrder",
-       "premium-order")
-   - Si COMPLETED : retourne nextStepOnSuccess = "checkInventory"
-   - Si FAILED : retourne nextStepOnFailure = "escalateOrder"
-
-6. Continuer jusqu'à ce qu'une étape retourne null comme nextStepOnSuccess
-   (Spring Batch traite un FlowExecutionStatus non reconnu comme une terminaison)
+    Note over J,DB: Répéter jusqu'à nextStep = null
 ```
 
 ---
 
-## L'API REST : Gérer les configurations
+## L'API REST : gérer les configurations
 
 La puissance réelle devient visible quand on ajoute une API CRUD. Les configurations de chaînes peuvent être créées, lues, mises à jour et invoquées sans toucher à l'application.
 
@@ -561,9 +574,9 @@ GET /chain-config/invoke?config=premium-order&orderId=ORD_001
 
 ---
 
-## Validation : Échec Rapide à la Création
+## Validation : échec rapide à la création
 
-La couche service valide que toutes les étapes référencées existent avant d'enregistrer une configuration. Cela capture les fautes de frappe et les étapes manquantes au moment de la conception, pas a 3 heures du matin quand le job batch rencontre une cible de routage manquante.
+La couche service valide que toutes les étapes référencées existent avant d'enregistrer une configuration. Cela capture les fautes de frappe et les étapes manquantes au moment de la conception, pas à 3 heures du matin quand le job batch rencontre une cible de routage manquante.
 
 ```java
 @Service
@@ -732,20 +745,28 @@ public class ProcessCompletionListener implements JobExecutionListener {
 
 ---
 
-## Résumé : Quels avantages ?
+## Résumé : quels avantages ?
 
-| Avant (en mémoire)                                         | Après (en base de données)                            |
-| ---------------------------------------------------------- | ----------------------------------------------------- |
-| Les changements de pipeline nécessitent code + déploiement | Les changements de pipeline nécessitent INSERT/UPDATE |
-| N pipelines = N beans de job                               | 1 bean de job + N lignes de configuration             |
-| Gestion d'erreur definie en Java                           | Routage d'erreur defini par étape dans la BD          |
-| Nouveau client = nouveau code                              | Nouveau client = nouvelle configuration               |
-| Risque de régression au déploiement                        | Changement de configuration sans déploiement          |
-| Les utilisateurs métier ont besoin du support dev          | L'exploitation peut configurer via API ou SQL         |
+```mermaid
+graph TD
+    subgraph "Avant (en mémoire)"
+        direction LR
+        A1[Modification code] --> B1[Build] --> C1[Test] --> D1[Déploiement]
+        D1 --> E1[N pipelines = N beans job]
+        E1 --> F1[Risque de régression]
+    end
+    subgraph "Après (en base de données)"
+        direction LR
+        A2[INSERT/UPDATE config] --> B2[(Base de données)]
+        B2 --> C2[1 bean job]
+        C2 --> D2[Changement sans déploiement]
+        C2 --> E2[Routage d'erreurs par étape]
+    end
+```
 
 ### Le coût
 
-- Une requête `ChainStepDecider` pour chaque transition d'étape.
+- Une requête `ChainStepDecider` pour chaque transition d'étape
 - Un service de configuration pour valider et gérer les configurations de chaînes
 - Plus de tables de base de données à maintenir
 - Les tests doivent couvrir la logique du décideur et les données de configuration
@@ -754,7 +775,7 @@ public class ProcessCompletionListener implements JobExecutionListener {
 
 - Multiples sources de données avec des besoins de traitement différents
 - Variantes de pipelines spécifiques à un client
-- Environnements ou les changements de configuration sans déploiement sont importants
+- Environnements où les changements de configuration sans déploiement sont importants
 - Exigences réglementaires ou d'audit nécessitant le versionnement des pipelines
 
 ---

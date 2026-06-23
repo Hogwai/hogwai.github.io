@@ -6,14 +6,14 @@ tags: ["java", "spring-batch", "spring-boot", "workflow", "database"]
 draft: false
 ---
 
-Generally speaking, Spring Batch jobs are quite rigid: `stepA => stepB => stepC`. You can, of course, use flows but everything stays in memory.
+Generally speaking, Spring Batch jobs are quite rigid: `stepA -> stepB -> stepC`. You can, of course, use flows but everything stays in memory.
 This is not a problem as long as the steps and execution order don't change. But what happens when different data sources need different processing pipelines? When one client's files need validation and enrichment while another's go straight to load? When you need to add, remove, or reorder steps without touching the code?
 
 This article shows how to set up a workflow engine driven from the database instead of in-memory configuration.
 
 ---
 
-## The Problem with Classic Pipelines
+## The problem with classic pipelines
 
 Consider a data import system. Your typical Spring Batch job looks like this:
 
@@ -43,21 +43,24 @@ There is a better way: store the pipeline topology in the database.
 
 ---
 
-## The Data Model: Pipeline as Data
+## The data model: pipeline as data
 
 The core idea is a five-level entity hierarchy:
 
-```text
-Chain                 =  A logical workflow (e.g., "ORDER_PROCESSING")
-  └── ChainConfiguration  =  A named pipeline variant (e.g., "premium-order")
-        └── ChainStep     =  A step binding with routing rules
-              └── Step    =  A reusable processing unit (e.g., "validateOrder")
-                    └── ChainStatus = status reference (ACTIVE, SUSPENDED, ...)
+```mermaid
+graph TD
+    Chain["Chain: A logical workflow (e.g. ORDER_PROCESSING)"]
+    ChainConfig["ChainConfiguration: A named pipeline variant (e.g. premium-order)"]
+    ChainStep["ChainStep: A step binding with routing rules"]
+    Step["Step: A reusable processing unit (e.g. validateOrder)"]
+    Chain --> ChainConfig
+    ChainConfig --> ChainStep
+    ChainStep --> Step
 ```
 
 Each `ChainStep` stores two routing targets (one for success, one for failure), creating a branching directed graph at the database level.
 
-### The Entities
+### The entities
 
 ```java
 @Entity
@@ -182,21 +185,32 @@ public class Step {
 }
 ```
 
-### How Data Drives the Pipeline
+### How data drives the pipeline
 
 Let's take an execution chain `ORDER_PROCESSING` with three configurations. Each configuration is a set of rows in `ts_chain_step`:
 
-| Configuration  | Step 1        | Step 2         | Step 3         | Step 4        | Step 5       | Step 6           | Step 7           | Step 8           | Step 9       |
-| -------------- | ------------- | -------------- | -------------- | ------------- | ------------ | ---------------- | ---------------- | ---------------- | ------------ |
-| standard-order | validateOrder | checkInventory | processPayment | calculateTax  | fulfillOrder | sendConfirmation | updateAccounting | archiveOrder     |              |
-| premium-order  | validateOrder | checkInventory | processPayment | applyDiscount | calculateTax | fulfillOrder     | sendConfirmation | updateAccounting | archiveOrder |
-| flagged-order  | validateOrder | checkInventory | escalateOrder  | archiveOrder  |              |                  |                  |                  |              |
+```mermaid
+graph TD
+    Start((Start)) --> vo[validateOrder]
+    vo --> ci[checkInventory]
+    ci -->|standard/premium| pp[processPayment]
+    ci -->|flagged| eo[escalateOrder]
+    pp -->|standard| ct[calculateTax]
+    pp -->|premium| ad[applyDiscount]
+    ad --> ct
+    ct --> fo[fulfillOrder]
+    eo --> ao[archiveOrder]
+    fo --> sc[sendConfirmation]
+    sc --> ua[updateAccounting]
+    ua --> ao
+    ao --> End((End))
+```
 
 Nothing is hardcoded: adding a new pipeline variant is a simple `INSERT` statement.
 
 ---
 
-## The Decider: Making Spring Batch Dynamic
+## The decider: making Spring Batch dynamic
 
 The "magic" happens in a `JobExecutionDecider`. After each step, Spring Batch consults the decider to determine the next step.
 
@@ -392,35 +406,34 @@ public class ChainInformationTasklet implements Tasklet {
 }
 ```
 
-### How the Flow Works at Runtime
+### How the flow works at runtime
 
-```text
-1. REST call: GET /chain-config/invoke?config=premium-order&orderId=ORD_001
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant J as Spring Batch Job
+    participant D as ChainStepDecider
+    participant DB as Database
 
-2. Job starts, chainInformationStep logs the config name
+    C->>+J: GET /chain-config/invoke
+    J->>+D: decide()
+    D->>+DB: findFirstStepByConfigName()
+    DB-->>-D: validateOrder
+    D-->>-J: FlowExecutionStatus("validateOrder")
+    J->>J: dispatch validateOrderStep
 
-3. Decider runs (first time: stepExecution=null):
-   - Reads "chainConfigName" = "premium-order" from JobParameters
-   - Calls findFirstStepByConfigName("premium-order")
-   - Returns FlowExecutionStatus("validateOrder")
+    J->>+D: decide() (after step)
+    D->>+DB: findByStepAndConfiguration()
+    DB-->>-D: nextStepOnSuccess / nextStepOnFailure
+    D-->>-J: FlowExecutionStatus(nextStep)
+    J->>J: dispatch next step
 
-4. Spring Batch matches "validateOrder"
-   and dispatches to validateOrderStep bean
-
-5. After validateOrder completes, Decider runs again:
-   - Reads StepExecution.getStepName() = "validateOrder"
-   - Queries DB: findByStepAndConfiguration("validateOrder",
-       "premium-order")
-   - If COMPLETED: returns nextStepOnSuccess = "checkInventory"
-   - If FAILED: returns nextStepOnFailure = "escalateOrder"
-
-6. Continue until a step returns null as nextStepOnSuccess
-   (Spring Batch treats unmatched FlowExecutionStatus as termination)
+    Note over J,DB: Repeats until nextStep is null
 ```
 
 ---
 
-## The REST API: Managing Configurations
+## The REST API: managing configurations
 
 The real power becomes visible when you add a CRUD API. Chain configurations can be created, read, updated, and invoked without touching the application.
 
@@ -513,7 +526,7 @@ public class ChainConfigurationController {
 }
 ```
 
-### Creating a New Chain
+### Creating a new chain
 
 ```bash
 POST /chain-config/create
@@ -553,7 +566,7 @@ POST /chain-config/create
 }
 ```
 
-### Invoking the Chain
+### Invoking the chain
 
 ```bash
 GET /chain-config/invoke?config=premium-order&orderId=ORD_001
@@ -563,7 +576,7 @@ That is a full pipeline run, configured entirely via data.
 
 ---
 
-## Validation: Fail Fast at Creation
+## Validation: fail fast at creation
 
 The service layer validates that all referenced steps exist before saving a configuration. This catches typos and missing steps at design time, not at 3 AM when the batch job hits a missing routing target.
 
@@ -699,7 +712,7 @@ public enum StepEnum {
 
 ---
 
-## Execution Tracking
+## Execution tracking
 
 A `ProcessCompletionListener` logs the outcome of each job execution:
 
@@ -734,25 +747,33 @@ public class ProcessCompletionListener implements JobExecutionListener {
 
 ---
 
-## Summary: What Benefits?
+## Summary: what benefits?
 
-| Before (in memory)                     | After (in database)                    |
-| -------------------------------------- | -------------------------------------- |
-| Pipeline changes require code + deploy | Pipeline changes require INSERT/UPDATE |
-| N pipelines = N job beans              | 1 job bean + N config rows             |
-| Error handling defined in Java         | Error routing defined per-step in DB   |
-| New client = new code                  | New client = new configuration         |
-| Risk of deployment regression          | Zero-deployment configuration change   |
-| Business users need dev support        | Ops can configure via API or SQL       |
+```mermaid
+graph TD
+    subgraph "In-Memory"
+        direction LR
+        A1[Code change] --> B1[Build] --> C1[Test] --> D1[Deploy]
+        D1 --> E1[N pipelines = N job beans]
+        E1 --> F1[Regression risk]
+    end
+    subgraph "Database-Driven"
+        direction LR
+        A2[INSERT/UPDATE config] --> B2[(Database)]
+        B2 --> C2[1 job bean]
+        C2 --> D2[Zero-deploy change]
+        C2 --> E2[Per-step error routing]
+    end
+```
 
-### The Cost
+### The cost
 
 - A `ChainStepDecider` query for every step transition
 - A configuration service to validate and manage chain configs
 - More database tables to maintain
 - Testing needs to cover the decider logic + the configuration data
 
-### When to Use This Pattern
+### When to use this pattern
 
 - Multiple data sources with different processing needs
 - Client/customer-specific pipeline variants

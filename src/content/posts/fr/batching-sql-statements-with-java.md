@@ -42,7 +42,7 @@ Propriétés : hibernate.jdbc.batch_size, hibernate.order_inserts/updates
 @BatchSize sur entités/collections
 session.flush()/clear() obligatoire
 
-#### Blaze Persistence
+#### Blaze persistence
 
 ## Pièges et bonnes pratiques
 
@@ -58,9 +58,9 @@ Comparaison : JDBC > DSL > ORM pour les performances brutes ; ORM pour la simpli
 
 ## Références
 
-1. <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
-1. <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
-1. <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+- <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
+- <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 
 ## Démo
 
