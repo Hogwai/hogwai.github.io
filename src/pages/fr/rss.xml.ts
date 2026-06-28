@@ -38,7 +38,7 @@ export async function GET(context: APIContext) {
     title: "Heap of Hogwai",
     description:
       "Reflexions, tutoriels et articles techniques sur Java (principalement)",
-    site: context.site || "https://hogwai.github.io/",
+    site: context.site || "https://hogwai.dev/",
     items: allItems,
     customData: `<language>fr</language>`,
   });

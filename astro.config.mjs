@@ -47,7 +47,7 @@ function getContentDates() {
 const contentDates = getContentDates();
 
 export default defineConfig({
-  site: "https://hogwai.github.io",
+  site: "https://hogwai.dev",
   base: "/",
   vite: {
     plugins: [tailwindcss()],
