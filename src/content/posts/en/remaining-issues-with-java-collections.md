@@ -15,7 +15,7 @@ Let's take a look at what these issues are and how to mitigate them.
 
 ## `ArrayList<E>`
 
-When you initialize an `ArrayList`, it will create an array (`Object[]`) as backing structure to store the elements<sup><a href="#ref1">[1]</a></sup>.
+When you initialize an `ArrayList`, it will create an array (`Object[]`) as backing structure to store the elements<sup><a href="#fn1">[1]</a></sup>.
 
 The array is used for every operation: `indexOf`, `contains`, `get` etc.
 
@@ -26,7 +26,7 @@ Now here's the first problem.
 An array only knows two things about the elements it stores: their order and their respective indexes.
 This means that for each operation, the work can only be done using these two pieces of information.
 
-Let's look at the implementation of `contains`<sup><a href="#ref2">[2]</a></sup>:
+Let's look at the implementation of `contains`<sup><a href="#fn2">[2]</a></sup>:
 
 ```java
 public boolean contains(Object o) {
@@ -88,7 +88,7 @@ It is based on a hash table to provide consistent average-time performance for b
 
 #### Using a HashSet
 
-Let's see the implementation<sup><a href="#ref3">[3]</a></sup>:
+Let's see the implementation<sup><a href="#fn3">[3]</a></sup>:
 
 ```java
 transient HashMap<E,Object> map;
@@ -182,7 +182,7 @@ collection.stream()
           .toList();
 ```
 
-When we call stream()<sup><a href="#ref4">[4]</a></sup> on a collection, certain objects are initialized to prepare the execution of the pipeline: ReferencePipeline, Spliterator etc.
+When we call stream()<sup><a href="#fn4">[4]</a></sup> on a collection, certain objects are initialized to prepare the execution of the pipeline: ReferencePipeline, Spliterator etc.
 
 The problem is that this happens regardless of whether the given collection is empty or not.
 
@@ -228,10 +228,10 @@ To sum things up:
 
 ## References
 
-- <a id="ref1"></a>[ArrayList.java#L139: elementData](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L139)
-- <a id="ref2"></a>[ArrayList.java#L275: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L275)
-- <a id="ref3"></a>[HashSet.java#L213: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/HashSet.java#L213)
-- <a id="ref4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
+- <a id="fn1"></a>[ArrayList.java#L139: elementData](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L139)
+- <a id="fn2"></a>[ArrayList.java#L275: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/ArrayList.java#L275)
+- <a id="fn3"></a>[HashSet.java#L213: contains(Object o)](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/HashSet.java#L213)
+- <a id="fn4"></a>[Collection.java#L747: stream()](https://github.com/openjdk/jdk/blob/a0e70c4e9489fc3d8f35c3aec9423fe0839ed0bd/src/java.base/share/classes/java/util/Collection.java#L747)
 
 ## Demo
 

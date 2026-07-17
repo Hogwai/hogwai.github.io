@@ -246,7 +246,7 @@ public class User {
 }
 ```
 
-Comme indiqué dans la documentation de Lombok, `@Data` est principalement conçu pour les POJOs simples<sup><a href="#ref1">[1]</a></sup> (c'est-à-dire pour les DTOs et les objets-valeur).
+Comme indiqué dans la documentation de Lombok, `@Data` est principalement conçu pour les POJOs simples<sup><a href="#fn1">[1]</a></sup> (c'est-à-dire pour les DTOs et les objets-valeur).
 
 Sur une entité, il vaut mieux être explicite :
 
@@ -354,6 +354,6 @@ Règle d'or : Comprendre ce que font les annotations Lombok sous le capot avant 
 
 ## Références
 
-- <a id="ref1"></a>[Documentation Lombok pour @Data](https://projectlombok.org/features/Data)
+- <a id="fn1"></a>[Documentation Lombok pour @Data](https://projectlombok.org/features/Data)
 - [Documentation Lombok](https://projectlombok.org/features/)
 - [Lombok and JPA: What may go wrong?](https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/)

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The purpose of this [blog](https://hogwai.github.io/) is to gather my ideas, thoughts and tips in a standard, readable format, mainly on Java.
+The purpose of this [blog](https://hogwai.dev/) is to gather my ideas, thoughts and tips in a standard, readable format, mainly on Java.
 
 The blog has a [side project](https://github.com/Hogwai/hogwai.github.io-content) with content related to the posts (implementations, tests, examples).
 

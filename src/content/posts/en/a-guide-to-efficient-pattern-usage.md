@@ -59,7 +59,7 @@ The most common mistake is putting `Pattern.compile()` inside a loop or a freque
 Calling `Pattern.compile()` has a multi-dimensional performance cost:
 
 - CPU: Compiling a regular expression (e.g. translating a textual regular expression into an internal bytecode structure) is computationally expensive and may consume significant CPU resources, especially if the regex is complex.
-- Memory: A compiled Pattern is one of the most memory-intensive Java objects<sup><a href="#ref1">[1]</a></sup>.
+- Memory: A compiled Pattern is one of the most memory-intensive Java objects<sup><a href="#fn1">[1]</a></sup>.
 - Garbage Collection: Frequently creating and discarding Pattern instances increases pressure on the garbage collector, as these heavy objects must be reclaimed, potentially triggering more frequent or longer GC cycles.
 
 ### The wrong way
@@ -111,7 +111,7 @@ The Java `String` class provides several convenient methods that accept a regex 
 
 While they are tempting for their simplicity, they hide a dirty secret: every single one of these methods recompiles the regex pattern internally.
 
-As stated in the javadoc<sup><a href="#ref2">[2]</a></sup>:
+As stated in the javadoc<sup><a href="#fn2">[2]</a></sup>:
 
 > An invocation of this method of the form str.matches(regex) yields exactly the same result as the expression
 > Pattern.matches(regex, str)
@@ -157,7 +157,7 @@ public class EmailValidator {
 
 The issue is also present in the Apache Commons Lang package:
 
-- `RegExUtils.java`<sup><a href="#ref3">[3]</a></sup>: Utility class providing methods like `replaceFirst` or `replaceAll`
+- `RegExUtils.java`<sup><a href="#fn3">[3]</a></sup>: Utility class providing methods like `replaceFirst` or `replaceAll`
 
 ## Advanced tip
 
@@ -277,7 +277,7 @@ Pattern.compile("(\\w+)-\\1");
 
 While powerful, backreferences:
 
-- Force backtracking: Java's regex engine is NFA-based and normally includes memoization optimizations (JDK-6328855)<sup><a href="#ref4">[4]</a></sup> to mitigate exponential runtime. These optimizations are explicitly disabled when backreferences are present, because backreferences cannot be modeled in a DFA at all.
+- Force backtracking: Java's regex engine is NFA-based and normally includes memoization optimizations (JDK-6328855)<sup><a href="#fn4">[4]</a></sup> to mitigate exponential runtime. These optimizations are explicitly disabled when backreferences are present, because backreferences cannot be modeled in a DFA at all.
 - Can trigger catastrophic backtracking: especially when nested or combined with quantifiers.
 - Disable certain optimizations: patterns with backreferences cannot be accelerated with `Pattern.LITERAL` or certain DFA-based approaches.
 
@@ -357,7 +357,7 @@ Given input like `"aaaaaaaaac"`, the engine tries every possible way to partitio
 | `PossessiveQuantifierBenchmark.atomicGroupFix`           | 23 ns/op    | baseline |
 | `PossessiveQuantifierBenchmark.possessiveFix`            | 28 ns/op    | baseline |
 
-Modern JDK includes memoization optimizations (JDK-6328855)<sup><a href="#ref4">[4]</a></sup> that mitigate simple cases, but the gap grows exponentially with input length. At 30+ characters, the difference becomes astronomical. And when backreferences are present, the mitigations are disabled entirely.
+Modern JDK includes memoization optimizations (JDK-6328855)<sup><a href="#fn4">[4]</a></sup> that mitigate simple cases, but the gap grows exponentially with input length. At 30+ characters, the difference becomes astronomical. And when backreferences are present, the mitigations are disabled entirely.
 
 How to protect yourself:
 
@@ -383,7 +383,7 @@ String userInput = getSearchTerm();
 Pattern pattern = Pattern.compile(".*" + Pattern.quote(userInput) + ".*");
 ```
 
-`Pattern.quote()` wraps the input in `\Q...\E`, which tells the regex engine to treat everything inside as literal characters. It also handles a subtle edge case: if the input itself contains `\E`, it escapes embedded `\E` sequences to prevent premature quote termination<sup><a href="#ref5">[5]</a></sup>. Always escape dynamic content before embedding it in a regex.
+`Pattern.quote()` wraps the input in `\Q...\E`, which tells the regex engine to treat everything inside as literal characters. It also handles a subtle edge case: if the input itself contains `\E`, it escapes embedded `\E` sequences to prevent premature quote termination<sup><a href="#fn5">[5]</a></sup>. Always escape dynamic content before embedding it in a regex.
 
 But does it cost anything? The benchmarks say: essentially no. The compile-time overhead of quoting is small, and at runtime there is zero measurable difference:
 
@@ -440,7 +440,7 @@ When consuming all tokens, `splitAsStream()` is ~19% slower than `split()`, the 
 
 ### `asPredicate()` and `asMatchPredicate()`
 
-When you need to test many strings against the same pattern, these methods work with the collections/streams API without wrapping in a lambda<sup><a href="#ref6">[6]</a></sup>:
+When you need to test many strings against the same pattern, these methods work with the collections/streams API without wrapping in a lambda<sup><a href="#fn6">[6]</a></sup>:
 
 ```java
 Pattern DIGITS = Pattern.compile("\\d+");
@@ -480,7 +480,7 @@ This removes a common subtle bug where `asPredicate()` returns true for partial 
 
 ### `splitWithDelimiters()` (Java 21)
 
-Java 21 introduced `Pattern.splitWithDelimiters()`<sup><a href="#ref7">[7]</a></sup> and its `String` counterpart. Unlike `split()`, which discards the delimiters, this method returns both the substrings and the delimiters interleaved:
+Java 21 introduced `Pattern.splitWithDelimiters()`<sup><a href="#fn7">[7]</a></sup> and its `String` counterpart. Unlike `split()`, which discards the delimiters, this method returns both the substrings and the delimiters interleaved:
 
 ```java
 Pattern COMMA = Pattern.compile(",");
@@ -581,13 +581,13 @@ By making these small changes, you ensure your regular expressions are not only 
 
 ## References
 
-- <a id="ref1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
-- <a id="ref2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
-- <a id="ref3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
-- <a id="ref4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)
-- <a id="ref5"></a>[Pattern.java: OpenJDK Pattern.quote() implementation](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java#L1500)
-- <a id="ref6"></a>[Pattern.asMatchPredicate(): Java 11+ API docs](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
-- <a id="ref7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://bugs.openjdk.org/browse/JDK-8305486)
+- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
+- <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
+- <a id="fn4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)
+- <a id="fn5"></a>[Pattern.java: OpenJDK Pattern.quote() implementation](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java#L1500)
+- <a id="fn6"></a>[Pattern.asMatchPredicate(): Java 11+ API docs](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
+- <a id="fn7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
 

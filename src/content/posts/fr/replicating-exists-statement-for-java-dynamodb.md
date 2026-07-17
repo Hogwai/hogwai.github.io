@@ -206,10 +206,10 @@ Pour une vérification d'existence standard :
 
 ## Références
 
-- <a id="ref1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
-- <a id="ref2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
-- <a id="ref3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
-- <a id="ref4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
+- <a id="fn1"></a>[DynamoDB GetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html)
+- <a id="fn2"></a>[DynamoDB BatchGetItem API Reference](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
+- <a id="fn3"></a>[DynamoDB Read Consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)
+- <a id="fn4"></a>[DynamoDB Projection Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html)
 
 ## Démo
 
