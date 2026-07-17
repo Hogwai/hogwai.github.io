@@ -51,6 +51,11 @@ export default defineConfig({
   base: "/",
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
   },
   integrations: [
     mermaid(),

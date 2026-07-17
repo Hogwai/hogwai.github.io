@@ -129,6 +129,30 @@ const siteJsonLd = {
         />
       )
     }
+    <script is:inline>
+      (function () {
+        var CITE_PREFIX = "ref-src-";
+        document.querySelectorAll('sup > a[href^="#"]').forEach(function (link) {
+          var href = link.getAttribute("href");
+          if (!href || href === "#") return;
+          var targetId = href.slice(1);
+          var target = document.getElementById(targetId);
+          if (!target) return;
+          var sup = link.closest("sup");
+          if (!sup || sup.id) return;
+          sup.id = CITE_PREFIX + targetId;
+          var li = target.closest("li");
+          if (!li) return;
+          if (li.querySelector(".ref-back")) return;
+          var backLink = document.createElement("a");
+          backLink.href = "#" + CITE_PREFIX + targetId;
+          backLink.className = "ref-back";
+          backLink.textContent = "\u21A9";
+          backLink.setAttribute("aria-label", "Return to citation");
+          li.appendChild(backLink);
+        });
+      })();
+    </script>
 
     <style is:global>
       html {
