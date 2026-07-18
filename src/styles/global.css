@@ -250,3 +250,9 @@ body {
 .ref-back:hover {
   opacity: 1;
 }
+
+/* ===== MERMAID LIGHTBOX ===== */
+pre.mermaid[data-processed] {
+  cursor: zoom-in;
+}
+
