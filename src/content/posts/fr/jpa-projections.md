@@ -68,7 +68,7 @@ public class Actor {
 }
 ```
 
-Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release*year, genre), attachée au contexte de persistence, suivie pour les modifications (\_dirty checking*), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
+Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release_year, genre), attachée au contexte de persistance, suivie pour les modifications (_dirty checking_), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
 
 Avec les collections imbriquées, le problème s'aggrave. Retourner les films avec leurs acteurs sans instructions de chargement explicites déclenche N+1 requêtes : une pour les films, puis une par film pour charger les acteurs depuis la table de jointure.
 
@@ -81,7 +81,7 @@ Une projection limite les colonnes retournées par une requête à ce dont le co
 **Bénéfices** :
 
 - **Moins de données sur le réseau** : un `SELECT` SQL plus étroit signifie moins d'octets de la base vers l'application
-- **Pas de surcharge du contexte de persistence** : les projections ne sont pas attachées à l'`EntityManager`, donc pas de dirty checking ni de maintenance de snapshots
+- **Pas de surcharge du contexte de persistance** : les projections ne sont pas attachées à l'`EntityManager`, donc pas de dirty checking ni de maintenance de snapshots
 - **Contrats explicites** : le type de projection déclare clairement quelles données le consommateur reçoit
 
 Il existe deux catégories :
@@ -114,7 +114,7 @@ Spring Data réécrit la requête SQL pour ne sélectionner que `id` et `title` 
 SELECT m.id, m.title FROM movies m WHERE m.genre = ?
 ```
 
-Le résultat est un proxy dynamique adossé à un `Tuple`. Aucune entité n'est chargée, aucun contexte de persistence n'est impliqué.
+Le résultat est un proxy dynamique adossé à un `Tuple`. Aucune entité n'est chargée, aucun contexte de persistance n'est impliqué.
 
 **Quand l'utiliser** : listes simples en lecture seule où la réponse est un sous-ensemble plat des colonnes de l'entité. Zéro boilerplate.
 
@@ -601,7 +601,7 @@ public MovieDetailDto getMovieDetail(Long movieId) {
 
 #### Alternative à deux requêtes
 
-Quand vous voulez éviter le N+1 qui résulterait du chargement paresseux de la collection d'acteurs sur chaque entité :
+Quand vous voulez éviter le N+1 qui résulterait du chargement paresseux de la collection de films sur chaque entité :
 
 ```java
 public ActorWithMoviesDto getActorWithMovies(Long actorId) {
@@ -635,7 +635,7 @@ Spring Data utilise deux stratégies selon le type de projection :
 
 Le flag compilateur `-parameters` est nécessaire pour les DTO basés sur des classes afin de préserver les noms des paramètres du constructeur. Pour les Records, c'est moins critique car la JVM préserve les noms des composants via `Class.getRecordComponents()`. Spring Boot active ce flag par défaut dans son POM parent.
 
-## Anti-patrons à éviter
+## Anti-patterns à éviter
 
 | Anti-patron                                           | Pourquoi                                                                           | À la place                                              |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -643,7 +643,7 @@ Le flag compilateur `-parameters` est nécessaire pour les DTO basés sur des cl
 | Interface imbriquée sans `JOIN FETCH`                 | Requêtes N+1 pour chaque entité racine                                             | `@Query` avec `JOIN FETCH` ou `@EntityGraph`            |
 | Projection par interface pour des batchs              | Proxy indirect, surcharge d'allocation due aux proxys, pas de sémantique de valeur | Record DTO avec expression constructeur                 |
 | SQL natif pour des requêtes JPQL simples              | Perd la réécriture de requête et la portabilité                                    | JPQL `@Query`                                           |
-| Chargement d'entité complète pour 1-2 champs          | Surcharge du contexte de persistence, plus de données sur le réseau                | Projection par interface fermée ou Record               |
+| Chargement d'entité complète pour 1-2 champs          | Surcharge du contexte de persistance, plus de données sur le réseau                | Projection par interface fermée ou Record               |
 | Type brut sur accesseur nullable                      | Colonne nullable retourne `null`, oblige à vérifier partout                        | `Optional<T>` comme type de retour                      |
 | Paramètre constructeur primitif pour colonne nullable | NULL en base mappé sur `long`/`int` primitif provoque une NPE à la construction    | Type boxé `Long`/`Integer` à la place                   |
 | DTO avec plusieurs constructeurs                      | Spring Data ne peut pas déterminer lequel utiliser                                 | `@PersistenceCreator` sur le constructeur de projection |

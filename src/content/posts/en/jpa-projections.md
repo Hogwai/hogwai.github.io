@@ -19,7 +19,7 @@ draft: false
 
 Consider a REST endpoint that returns movie titles by genre:
 
-```json
+```text
 GET /api/movies?genre=Sci-Fi
 [{"id": 1, "title": "The Matrix"}, {"id": 2, "title": "Inception"}]
 ```
