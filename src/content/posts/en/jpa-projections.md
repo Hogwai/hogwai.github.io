@@ -198,7 +198,7 @@ List<MovieTitleDto> findMoviesReleasedAfter(@Param("year") int year);
 
 Spring Data also supports automatic rewriting: you can write `SELECT m` and it rewrites to the constructor expression at runtime.
 
-If you use `Page<T>` with an explicit `@Query` that returns a constructor expression, you typically need a `countQuery` parameter — otherwise Spring Data tries to derive a count from the JPQL expression, which can produce wrong SQL with `GROUP BY` or `JOIN FETCH`.
+If you use `Page<T>` with an explicit `@Query` that returns a constructor expression, you typically need a `countQuery` parameter. Otherwise Spring Data tries to derive a count from the JPQL expression, which can produce wrong SQL with `GROUP BY` or `JOIN FETCH`.
 
 **When to use**: complex WHERE clauses, cross-entity joins, or any query that derived method names cannot handle.
 
