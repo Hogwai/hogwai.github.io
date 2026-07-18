@@ -160,7 +160,10 @@
     "précompilé",
     "aujourd'hui",
     "désérialisation",
-    "binfmt"
+    "binfmt",
+    "JPQL",
+    "ILIKE",
+    "jpaprojections"
   ],
   "flagWords": []
 }
