@@ -68,7 +68,7 @@ public class Actor {
 }
 ```
 
-Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release_year, genre), attachée au contexte de persistance, suivie pour les modifications (_dirty checking_), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
+Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release*year, genre), attachée au contexte de persistance, suivie pour les modifications (\_dirty checking*), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
 
 Avec les collections imbriquées, le problème s'aggrave. Retourner les films avec leurs acteurs sans instructions de chargement explicites déclenche N+1 requêtes : une pour les films, puis une par film pour charger les acteurs depuis la table de jointure.
 
@@ -142,7 +142,7 @@ public interface MovieTitleView {
 }
 ```
 
-Spring Data enveloppe automatiquement la valeur de la colonne dans un `Optional`, éliminant les vérifications de null dans le code consommateur. Cela fonctionne avec n'importe quel accesseur dans une projection fermée : la requête reste optimisée et le SELECT se réduit aux accesseurs déclarés.
+Spring Data enveloppe automatiquement la valeur de la colonne dans un `Optional`, éliminant les vérifications de null dans le code appelant. Cela fonctionne avec n'importe quel accesseur dans une projection fermée : la requête reste optimisée et le SELECT se réduit aux accesseurs déclarés.
 
 **Quand l'utiliser** : toute colonne nullable où le consommateur devrait gérer explicitement l'absence.
 
@@ -301,7 +301,7 @@ List<MovieTitleDto>  dtos  = repo.findByGenre("Sci-Fi", MovieTitleDto.class);
 List<Movie>          movies = repo.findByGenre("Sci-Fi", Movie.class);
 ```
 
-Le paramètre `Class<T>` est routé vers la même logique d'optimisation que les types de retour statiques, mais la décision est déferrée à l'exécution.
+Le paramètre `Class<T>` est routé vers la même logique d'optimisation que les types de retour statiques, mais la décision est différée à l'exécution.
 
 **Limite** : la sûreté à la compilation est limitée, n'importe quelle `Class` peut être passée.
 
@@ -354,7 +354,7 @@ List<MovieTitleDto> results = movieRepository
         .findBy(spec, q -> q.as(MovieTitleDto.class).all());
 ```
 
-**Limite** : le rétrécissement de colonnes via `.as(Projection.class)` est limité comparé aux projections par requêtes dérivées. Le mécanisme sous-jacent charge l'entité puis la convertit en projection, donc vous avez toujours le SELECT complet de l'entité. Utilisez cette approche pour la dynamique des prédicats, pas pour l'optimisation des colonnes.
+**Limite** : la sélection de colonnes via `.as(Projection.class)` est limitée comparée aux projections par requête dérivée. Le mécanisme sous-jacent charge l'entité puis la convertit en projection, donc vous avez toujours le SELECT complet de l'entité. Utilisez cette approche pour la dynamique des prédicats, pas pour l'optimisation des colonnes.
 
 **Quand l'utiliser** : endpoints de recherche avec filtres dynamiques, panneaux d'administration, ou toute requête dont les critères de filtrage ne sont pas connus à la compilation.
 
@@ -529,7 +529,7 @@ JOIN actors a1_1 ON a1_1.id = a1_0.actor_id
 WHERE m1_0.genre = ?
 ```
 
-Limitation : avec `@Query("SELECT m ...")` l'entité `Movie` complète est sélectionnée ; le rétrécissement de colonnes ne s'applique pas sur l'entité racine. Les colonnes imbriquées `ActorView` sont aussi sélectionnées complètement.
+Limitation : avec `@Query("SELECT m ...")` l'entité `Movie` complète est sélectionnée ; l'optimisation du SELECT ne s'applique pas sur l'entité racine. Les colonnes imbriquées `ActorView` sont aussi sélectionnées complètement.
 
 #### @EntityGraph
 
@@ -615,7 +615,7 @@ public ActorWithMoviesDto getActorWithMovies(Long actorId) {
 }
 ```
 
-Deux requêtes indépendantes : la première charge l'entité `Actor` complète (incontournable pour la racine), la seconde récupère la collection de films sous forme de projection légère. L'avantage clé est d'éviter le chargement complet de l'entité pour le côté _collection_.
+Deux requêtes indépendantes : la première charge l'entité `Actor` complète (inévitable pour l'entité racine), la seconde récupère la collection de films sous forme de projection légère. L'avantage clé est d'éviter le chargement complet de l'entité pour le côté _collection_.
 
 ```mermaid
 flowchart TD
@@ -637,7 +637,7 @@ Le flag compilateur `-parameters` est nécessaire pour les DTO basés sur des cl
 
 ## Anti-patterns à éviter
 
-| Anti-patron                                           | Pourquoi                                                                           | À la place                                              |
+| Anti-pattern                                          | Pourquoi                                                                           | À la place                                              |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | `@Value("#{target.x + target.y}")`                    | Projection ouverte : désactive l'optimisation du SELECT                            | Méthode `default` sur l'interface                       |
 | Interface imbriquée sans `JOIN FETCH`                 | Requêtes N+1 pour chaque entité racine                                             | `@Query` avec `JOIN FETCH` ou `@EntityGraph`            |
