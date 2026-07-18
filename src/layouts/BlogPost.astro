@@ -179,4 +179,42 @@ const breadcrumbJsonLd = {
 
   <BackToTop client:idle />
   <Footer lang={lang} />
+
+  <script is:inline>
+    document.addEventListener('click', function (e) {
+      const mermaid = e.target.closest('pre.mermaid[data-processed]');
+      if (!mermaid) return;
+
+      const svg = mermaid.querySelector('svg');
+      if (!svg) return;
+
+      const clone = svg.cloneNode(true);
+      const overlay = document.createElement('div');
+      overlay.style.cssText =
+        'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);' +
+        'display:flex;align-items:center;justify-content:center;cursor:zoom-out;' +
+        'opacity:0;transition:opacity .2s ease';
+
+      clone.style.cssText =
+        'max-width:92vw;max-height:92vh;width:auto;height:auto;' +
+        'border-radius:.5rem;box-shadow:0 8px 32px rgba(0,0,0,.3);' +
+        'background:var(--color-surface,#fff);padding:1rem';
+
+      overlay.appendChild(clone);
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(function () { overlay.style.opacity = '1'; });
+
+      function close() {
+        overlay.style.opacity = '0';
+        setTimeout(function () { overlay.remove(); }, 200);
+      }
+
+      overlay.addEventListener('click', close);
+
+      document.addEventListener('keydown', function handler(ev) {
+        if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', handler); }
+      });
+    });
+  </script>
 </BaseLayout>

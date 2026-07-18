@@ -251,24 +251,8 @@ body {
   opacity: 1;
 }
 
-/* ===== MERMAID HOVER ZOOM ===== */
-pre.mermaid {
+/* ===== MERMAID LIGHTBOX ===== */
+pre.mermaid[data-processed] {
   cursor: zoom-in;
 }
 
-pre.mermaid svg {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-pre.mermaid:hover {
-  overflow: visible;
-  position: relative;
-  z-index: 50;
-}
-
-pre.mermaid:hover svg {
-  transform: scale(1.8);
-  transform-origin: top left;
-  max-width: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
