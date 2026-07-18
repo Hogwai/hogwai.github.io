@@ -1,6 +1,6 @@
 ---
-title: "Spring Data JPA projections"
-description: "Reference for all JPA projections"
+title: "The Spring Data JPA projections handbook"
+description: "All JPA projections techniques with examples, use-cases and trade-offs"
 pubDate: 2026-07-18
 tags:
   [
