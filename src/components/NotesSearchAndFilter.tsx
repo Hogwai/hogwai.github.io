@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import NoteCard from "./NoteCard";
 import { defaultLang, type Lang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
@@ -28,33 +28,29 @@ export default function NotesSearchAndFilter({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const t = useTranslations(lang);
 
-  const allTags = useMemo(() => {
+  const allTags = (() => {
     const tagSet = new Set<string>();
     notes.forEach((note) => note.data.tags.forEach((tag) => tagSet.add(tag)));
     return Array.from(tagSet).sort();
-  }, [notes]);
+  })();
 
-  const filteredNotes = useMemo(() => {
-    return notes.filter((note) => {
-      const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredNotes = notes.filter((note) => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
 
-      const matchesSearch =
-        searchQuery === "" ||
-        note.data.title.toLowerCase().includes(normalizedSearch) ||
-        (note.data.description ?? "")
-          .toLowerCase()
-          .includes(normalizedSearch) ||
-        note.data.tags.some((tag) =>
-          tag.toLowerCase().includes(normalizedSearch),
-        );
+    const matchesSearch =
+      searchQuery === "" ||
+      note.data.title.toLowerCase().includes(normalizedSearch) ||
+      (note.data.description ?? "").toLowerCase().includes(normalizedSearch) ||
+      note.data.tags.some((tag) =>
+        tag.toLowerCase().includes(normalizedSearch),
+      );
 
-      const matchesTags =
-        selectedTags.length === 0 ||
-        selectedTags.every((tag) => note.data.tags.includes(tag));
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.every((tag) => note.data.tags.includes(tag));
 
-      return matchesSearch && matchesTags;
-    });
-  }, [notes, searchQuery, selectedTags]);
+    return matchesSearch && matchesTags;
+  });
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>

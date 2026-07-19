@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from 'astro:transitions';
 import { getLocalePath, getAlternateUrl, getOtherLang, type Lang } from "../i18n/utils";
 import { defaultLang } from "../i18n/ui";
 
@@ -129,6 +130,8 @@ const siteJsonLd = {
         />
       )
     }
+
+    <ClientRouter />
 
     <style is:global>
       html {

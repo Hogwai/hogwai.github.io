@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import BlogCard from "./BlogCard";
 import { defaultLang, type Lang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
@@ -25,33 +25,31 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const t = useTranslations(lang);
 
-  const allTags = useMemo(() => {
+  const allTags = (() => {
     const tagSet = new Set<string>();
     posts.forEach((post) => {
       post.data.tags.forEach((tag) => tagSet.add(tag));
     });
     return Array.from(tagSet).sort();
-  }, [posts]);
+  })();
 
-  const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredPosts = posts.filter((post) => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
 
-      const matchesSearch =
-        searchQuery === "" ||
-        post.data.title.toLowerCase().includes(normalizedSearch) ||
-        post.data.description.toLowerCase().includes(normalizedSearch) ||
-        post.data.tags.some((tag) =>
-          tag.toLowerCase().includes(normalizedSearch),
-        );
+    const matchesSearch =
+      searchQuery === "" ||
+      post.data.title.toLowerCase().includes(normalizedSearch) ||
+      post.data.description.toLowerCase().includes(normalizedSearch) ||
+      post.data.tags.some((tag) =>
+        tag.toLowerCase().includes(normalizedSearch),
+      );
 
-      const matchesTags =
-        selectedTags.length === 0 ||
-        selectedTags.every((tag) => post.data.tags.includes(tag));
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.every((tag) => post.data.tags.includes(tag));
 
-      return matchesSearch && matchesTags;
-    });
-  }, [posts, searchQuery, selectedTags]);
+    return matchesSearch && matchesTags;
+  });
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>

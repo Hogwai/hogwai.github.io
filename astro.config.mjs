@@ -59,7 +59,11 @@ export default defineConfig({
   },
   integrations: [
     mermaid(),
-    react(),
+    react({
+      babel: {
+        plugins: ["babel-plugin-react-compiler"],
+      },
+    }),
     mdx(),
     sitemap({
       serialize(item) {
