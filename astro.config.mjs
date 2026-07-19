@@ -53,7 +53,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     server: {
       watch: {
-        usePolling: true,
+        usePolling: process.env.FORCE_POLLING === "true",
       },
     },
   },
@@ -83,7 +83,19 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime],
     shikiConfig: {
       theme: "github-dark-dimmed",
-      langs: ["java", "typescript", "javascript", "bash", "json", "yaml"],
+      langs: [
+        "java",
+        "typescript",
+        "javascript",
+        "bash",
+        "json",
+        "yaml",
+        "sql",
+        "xml",
+        "shell",
+        "powershell",
+        "ini",
+      ],
       wrap: true,
     },
   },

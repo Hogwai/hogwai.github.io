@@ -22,7 +22,7 @@ const recentNotes = (await getCollection('notes'))
 ---
 
 <BaseLayout title="Heap of Hogwai" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem." lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:load />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
 
   <main id="main-content" class="flex-grow">
     <div class="container-custom pt-8 pb-6 border-b border-edge">
@@ -45,7 +45,6 @@ const recentNotes = (await getCollection('notes'))
             slug={getSlugWithoutLang(post.id)}
             tags={post.data.tags}
             lang={lang}
-            client:idle
           />
         ))}
       </div>
@@ -68,7 +67,6 @@ const recentNotes = (await getCollection('notes'))
               slug={getSlugWithoutLang(note.id)}
               tags={note.data.tags}
               lang={lang}
-              client:idle
             />
           ))}
         </div>

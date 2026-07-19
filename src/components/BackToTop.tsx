@@ -6,14 +6,14 @@ export default function BackToTop() {
   useEffect(() => {
     const toggleVisibility = () => {
       // Display after a bit of scrolling
-      if (window.pageYOffset > 500) {
+      if (window.scrollY > 500) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
 
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);

@@ -78,7 +78,6 @@ const { posts, notes } = Astro.props;
                 tags={post.data.tags}
                 lang={itemLang}
                 langBadge={badge}
-                client:idle
               />
             ))}
           </div>
@@ -98,7 +97,6 @@ const { posts, notes } = Astro.props;
                 tags={note.data.tags}
                 lang={itemLang}
                 langBadge={badge}
-                client:idle
               />
             ))}
           </div>

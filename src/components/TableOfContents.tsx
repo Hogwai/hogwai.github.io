@@ -56,7 +56,7 @@ export default function TableOfContents({ headings }: Props) {
       <div className="p-4 border-b border-edge">
         <h3 className="text-lg font-bold text-ink">Table of contents</h3>
       </div>
-      <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
+      <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500">
         <ul className="space-y-2 text-sm">
           {headings.map((heading) => (
             <li

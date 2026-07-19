@@ -71,18 +71,23 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       : t("posts.found_other").replace("{count}", String(resultCount));
 
   return (
-    <div>
+    <div role="search" aria-label={t("posts.title")}>
       {/* Search bar */}
       <div className="mb-6">
         <div className="relative">
+          <label htmlFor="post-search" className="sr-only">
+            {t("posts.searchPlaceholder")}
+          </label>
           <input
-            type="text"
+            id="post-search"
+            type="search"
             placeholder={t("posts.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 pl-12 rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
           />
           <svg
+            aria-hidden="true"
             className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
             fill="none"
             stroke="currentColor"
@@ -118,6 +123,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
+              aria-pressed={selectedTags.includes(tag)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
                 selectedTags.includes(tag)
                   ? "bg-accent-600 text-white"
@@ -131,7 +137,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       </div>
 
       {/* Results */}
-      <div className="mb-4">
+      <div className="mb-4" role="status" aria-live="polite">
         <p className="text-sm text-ink">{resultText}</p>
       </div>
 
@@ -154,6 +160,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       ) : (
         <div className="text-center py-12">
           <svg
+            aria-hidden="true"
             className="w-16 h-16 mx-auto mb-4 text-ink-muted"
             fill="none"
             stroke="currentColor"
