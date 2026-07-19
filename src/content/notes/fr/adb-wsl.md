@@ -39,7 +39,7 @@ adb devices
 
 ## Note
 
-- L'interopérabilité WSL/Windows (binfmt_misc) doit être activée. Voir la note [WSL : Activer l'interopérabilité Windows](/notes/fr/wsl-windows-interop).
+- L'interopérabilité WSL/Windows (binfmt_misc) doit être activée. Voir la note [WSL : Activer l'interopérabilité Windows](/fr/notes/wsl-windows-interop/).
 
 ## Références
 
