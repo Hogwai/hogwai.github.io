@@ -66,6 +66,13 @@ export default defineConfig({
     }),
     mdx(),
     sitemap({
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en-US",
+          fr: "fr-FR",
+        },
+      },
       serialize(item) {
         const pathname = new URL(item.url).pathname;
         const lastmod = contentDates.get(pathname);

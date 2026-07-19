@@ -235,6 +235,9 @@ const breadcrumbJsonLd = {
 
       const clone = svg.cloneNode(true);
       const overlay = document.createElement("div");
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-label", "Mermaid diagram — press Escape to close");
+      overlay.setAttribute("tabindex", "-1");
       overlay.style.cssText =
         "position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);" +
         "display:flex;align-items:center;justify-content:center;cursor:zoom-out;" +
@@ -248,6 +251,9 @@ const breadcrumbJsonLd = {
       overlay.appendChild(clone);
       document.body.appendChild(overlay);
 
+      var previousFocus = document.activeElement;
+      overlay.focus();
+
       requestAnimationFrame(function () {
         overlay.style.opacity = "1";
       });
@@ -256,6 +262,9 @@ const breadcrumbJsonLd = {
         overlay.style.opacity = "0";
         setTimeout(function () {
           overlay.remove();
+          if (previousFocus && typeof previousFocus.focus === 'function') {
+            previousFocus.focus();
+          }
         }, 200);
       }
 

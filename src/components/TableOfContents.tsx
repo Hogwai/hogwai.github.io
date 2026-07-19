@@ -33,22 +33,6 @@ export default function TableOfContents({ headings }: Props) {
     return () => observer.disconnect();
   }, [headings]);
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
-    e.preventDefault();
-    const element = document.getElementById(slug);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      history.pushState(null, "", `#${slug}`);
-    }
-  };
-
   if (headings.length === 0) return null;
 
   return (
@@ -65,7 +49,6 @@ export default function TableOfContents({ headings }: Props) {
             >
               <a
                 href={`#${heading.slug}`}
-                onClick={(e) => handleClick(e, heading.slug)}
                 className={`hover:text-link transition block ${
                   activeId === heading.slug
                     ? "text-link font-medium"

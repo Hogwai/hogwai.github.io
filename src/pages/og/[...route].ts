@@ -1,5 +1,6 @@
 import { OGImageRoute } from "astro-og-canvas";
 import { getCollection } from "astro:content";
+import { getLocaleFromId } from "../../i18n/content";
 import { resolve } from "node:path";
 
 const posts = await getCollection("posts");
@@ -11,7 +12,7 @@ const pages: Record<string, PageData> = {};
 
 // Content pages — match URL paths
 for (const post of posts) {
-  const lang = post.id.startsWith("en/") ? "en" : "fr";
+  const lang = getLocaleFromId(post.id);
   const slug = post.id.slice(3);
   const key = lang === "en" ? `posts/${slug}` : `fr/posts/${slug}`;
   pages[key] = {
@@ -21,7 +22,7 @@ for (const post of posts) {
 }
 
 for (const note of notes) {
-  const lang = note.id.startsWith("en/") ? "en" : "fr";
+  const lang = getLocaleFromId(note.id);
   const slug = note.id.slice(3);
   const key = lang === "en" ? `notes/${slug}` : `fr/notes/${slug}`;
   pages[key] = {
