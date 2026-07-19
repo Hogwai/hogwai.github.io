@@ -163,7 +163,8 @@
     "binfmt",
     "JPQL",
     "ILIKE",
-    "jpaprojections"
+    "jpaprojections",
+    "LOCALAPPDATA"
   ],
   "flagWords": []
 }

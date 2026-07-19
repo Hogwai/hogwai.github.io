@@ -5,5 +5,11 @@
   "fallbackRetryDelay": "5s",
   "ignorePatterns": [
     { "pattern": "^#" }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/",
+      "replacement": "https://hogwai.dev/"
+    }
   ]
 }
