@@ -41,7 +41,7 @@ export default function LanguageSwitcher({ lang, currentPath }: Props) {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="p-2 rounded-lg bg-muted hover:bg-soft transition text-lg leading-none"
+        className="inline-flex items-center justify-center p-2 min-h-[44px] min-w-[44px] rounded-lg bg-muted hover:bg-soft transition text-lg leading-none"
         aria-label="Change language"
         aria-expanded={open}
       >
@@ -59,7 +59,7 @@ export default function LanguageSwitcher({ lang, currentPath }: Props) {
                   localStorage.setItem("preferred-lang", code);
                 } catch {}
               }}
-              className={`flex items-center gap-2 px-3 py-2 text-sm transition ${
+              className={`flex items-center gap-2 px-3 py-2 min-h-[44px] text-sm transition ${
                 code === lang
                   ? "text-link font-medium bg-muted"
                   : "text-ink hover:bg-soft"

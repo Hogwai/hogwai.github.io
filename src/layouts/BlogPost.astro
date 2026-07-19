@@ -49,9 +49,14 @@ const jsonLd = {
   "@type": "BlogPosting",
   headline: title,
   description: description,
+  inLanguage: lang === "fr" ? "fr-FR" : "en-GB",
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
   ...(imageURL && { image: imageURL }),
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["h1", ".description"],
+  },
   url: canonicalURL.href,
   author: {
     "@type": "Person",

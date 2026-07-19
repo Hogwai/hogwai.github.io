@@ -36,6 +36,7 @@ const jsonLd = {
   "@type": "TechArticle",
   headline: title,
   description: noteDescription,
+  inLanguage: lang === "fr" ? "fr-FR" : "en-GB",
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
   url: canonicalURL.href,

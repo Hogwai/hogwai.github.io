@@ -1,8 +1,12 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
+import MarkdownIt from "markdown-it";
+import sanitizeHtml from "sanitize-html";
 import { filterByLocale } from "../../i18n/content";
 import { getSlugWithoutLang } from "../../i18n/utils";
+
+const md = new MarkdownIt();
 
 export async function GET(context: APIContext) {
   const posts = await getCollection("posts");
@@ -15,6 +19,13 @@ export async function GET(context: APIContext) {
     link: `/fr/posts/${getSlugWithoutLang(post.id)}/`,
     categories: post.data.tags,
     author: "Hogwai",
+    content: sanitizeHtml(md.render(post.body || ""), {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+        "img",
+        "code",
+        "pre",
+      ]),
+    }),
   }));
 
   const noteItems = filterByLocale(notes, "fr").map((note) => ({
@@ -25,6 +36,13 @@ export async function GET(context: APIContext) {
     link: `/fr/notes/${getSlugWithoutLang(note.id)}/`,
     categories: note.data.tags,
     author: "Hogwai",
+    content: sanitizeHtml(md.render(note.body || ""), {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+        "img",
+        "code",
+        "pre",
+      ]),
+    }),
   }));
 
   const allItems = [...postItems, ...noteItems].sort(

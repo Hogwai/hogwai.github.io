@@ -122,7 +122,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
               key={tag}
               onClick={() => toggleTag(tag)}
               aria-pressed={selectedTags.includes(tag)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
+              className={`inline-flex items-center px-3 py-1.5 min-h-[36px] rounded-full text-sm font-medium transition ${
                 selectedTags.includes(tag)
                   ? "bg-accent-600 text-white"
                   : "bg-muted text-ink hover:bg-soft"
