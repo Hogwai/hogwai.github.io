@@ -1,2 +1,3 @@
 #!/bin/sh
-wsl -e bash -c '. ~/.nvm/nvm.sh && cd /mnt/c/Users/Lilian/sandbox/hogwai.github.io && npx --no-install lint-staged'
+ROOT=$(wsl wslpath -u "$(pwd)" 2>/dev/null)
+wsl -e bash -c ". ~/.nvm/nvm.sh && cd '$ROOT' && npx --no-install lint-staged"
