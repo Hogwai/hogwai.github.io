@@ -51,7 +51,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: "Heap of Hogwai",
-    description: "Thoughts, tutorials and technical posts about Java (mainly)",
+    description: "Thoughts, tutorials and technical posts, mainly about Java",
     site: context.site || "https://hogwai.dev/",
     items: allItems,
     customData: `<language>en</language>`,

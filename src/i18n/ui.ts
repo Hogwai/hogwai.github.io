@@ -23,7 +23,7 @@ export const ui = {
     "nav.about": "About",
     // Homepage
     "home.subtitle":
-      "Thoughts, tutorials and technical posts about Java (mainly)",
+      "Thoughts, tutorials and technical posts, mainly about Java",
     "home.latestPosts": "Latest posts",
     "home.recentNotes": "Recent notes",
     "home.seeAllPosts": "See all posts",
