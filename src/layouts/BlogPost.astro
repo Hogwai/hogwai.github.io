@@ -125,24 +125,15 @@ const breadcrumbJsonLd = {
       is:inline
     />
   </Fragment>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <article class="container-custom py-12">
       <div class="mb-8">
-        <a href={`${prefix}/posts`} class="hover:text-link transition">
+        <a href={`${prefix}/posts`} class="block hover:text-link transition mb-2">
           &larr; {t("posts.backLink")}
         </a>
-        <span>&bull;</span>
-        <time datetime={pubDate.toISOString()}>
-          {
-            pubDate.toLocaleDateString(locale, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          }
-        </time>
+
         {
           heroImage && (
             <img
@@ -171,7 +162,24 @@ const breadcrumbJsonLd = {
 
         <h1 class="text-4xl md:text-5xl font-bold mb-4 text-ink">{title}</h1>
 
-        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink">
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink-muted">
+          <time datetime={pubDate.toISOString()}>
+            {
+              pubDate.toLocaleDateString(locale, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </time>
+          {
+            minutesRead && (
+              <>
+                <span>&bull;</span>
+                <span>{minutesRead}</span>
+              </>
+            )
+          }
           {
             updatedDate && (
               <>
@@ -187,15 +195,9 @@ const breadcrumbJsonLd = {
               </>
             )
           }
-          {
-            minutesRead && (
-              <>
-                <span>&bull;</span>
-                <span>{minutesRead}</span>
-              </>
-            )
-          }
         </div>
+
+        <p class="description text-lg text-ink-muted mb-6">{description}</p>
 
         {
           tags.length > 0 && (

@@ -42,7 +42,7 @@ const recentNotes = [
 ---
 
 <BaseLayout title="Heap of Hogwai" description="Reflexions, tutoriels et articles techniques sur Java et l'ecosysteme JVM." lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow">
     <div class="container-custom pt-8 pb-6 border-b border-edge">

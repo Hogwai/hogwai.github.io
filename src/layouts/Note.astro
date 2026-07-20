@@ -90,16 +90,28 @@ const breadcrumbJsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} is:inline />
   </Fragment>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <article class="container-custom py-12 max-w-3xl">
       <div class="mb-8">
-        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink">
-          <a href={`${prefix}/notes`} class="hover:text-link transition">
-            &larr; {t("notes.backLink")}
+        <a href={`${prefix}/notes`} class="block hover:text-link transition mb-2">
+          &larr; {t("notes.backLink")}
+        </a>
+
+        {translationUrl && (
+          <a
+            href={translationUrl}
+            onclick={`try{localStorage.setItem('preferred-lang','${otherLang}')}catch(e){}`}
+            class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
+          >
+            {flags[otherLang]} {tOther("lang.switchLabel")}
           </a>
-          <span>&bull;</span>
+        )}
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-ink">{title}</h1>
+
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink-muted">
           <time datetime={pubDate.toISOString()}>
             {pubDate.toLocaleDateString(locale, {
               year: 'numeric',
@@ -119,19 +131,13 @@ const breadcrumbJsonLd = {
               </time>
             </>
           )}
+          {source && (
+            <>
+              <span>&bull;</span>
+              <a href={source} class="text-link hover:underline" target="_blank" rel="noopener noreferrer">{t("common.source")}</a>
+            </>
+          )}
         </div>
-
-        {translationUrl && (
-          <a
-            href={translationUrl}
-            onclick={`try{localStorage.setItem('preferred-lang','${otherLang}')}catch(e){}`}
-            class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
-          >
-            {flags[otherLang]} {tOther("lang.switchLabel")}
-          </a>
-        )}
-
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-ink">{title}</h1>
 
         {tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mb-4">
@@ -141,12 +147,6 @@ const breadcrumbJsonLd = {
               </a>
             ))}
           </div>
-        )}
-
-        {source && (
-          <p class="text-sm text-ink-muted">
-            {t("common.source")}: <a href={source} class="text-link hover:underline" target="_blank" rel="noopener noreferrer">{source}</a>
-          </p>
         )}
       </div>
 

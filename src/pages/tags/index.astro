@@ -33,7 +33,7 @@ const tags = Object.entries(tagCounts).sort(([a], [b]) =>
 ---
 
 <BaseLayout title={t("tags.title")} description={t("tags.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">

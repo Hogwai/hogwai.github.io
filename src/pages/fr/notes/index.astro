@@ -29,7 +29,7 @@ const notes = [
 ---
 
 <BaseLayout title={t("notes.title")} description={t("notes.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
@@ -38,7 +38,7 @@ const notes = [
         <p class="text-ink">{t("notes.subtitle")}</p>
       </div>
 
-      <NotesSearchAndFilter notes={notes} lang={lang} client:visible />
+      <NotesSearchAndFilter notes={notes} lang={lang} client:idle />
     </div>
   </main>
 

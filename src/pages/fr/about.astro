@@ -25,7 +25,7 @@ const personJsonLd = {
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} is:inline />
   </Fragment>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">

@@ -53,7 +53,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     server: {
       watch: {
-        usePolling: process.env.FORCE_POLLING === "true",
+        usePolling: true,
       },
     },
   },
