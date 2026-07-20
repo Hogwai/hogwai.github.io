@@ -89,7 +89,6 @@ pages["fr/projects"] = {
 };
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  param: "route",
   pages,
   getImageOptions: (_path, page) => ({
     title: page.title,

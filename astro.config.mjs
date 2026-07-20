@@ -7,6 +7,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import mermaid from "astro-mermaid";
 import { remarkReadingTime } from "./src/plugins/remarkReadingTime.mjs";
+import { unified } from "@astrojs/markdown-remark";
 
 function getContentDates() {
   const contentDir = "./src/content";
@@ -91,7 +92,9 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkReadingTime],
+    processor: unified({
+      remarkPlugins: [remarkReadingTime],
+    }),
     shikiConfig: {
       theme: "github-dark-dimmed",
       langs: [
