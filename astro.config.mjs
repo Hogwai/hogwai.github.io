@@ -59,7 +59,10 @@ export default defineConfig({
     },
   },
   integrations: [
-    mermaid(),
+    mermaid({
+      theme: "default",
+      autoTheme: false,
+    }),
     react({
       babel: {
         plugins: ["babel-plugin-react-compiler"],

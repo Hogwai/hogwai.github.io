@@ -1,2 +1,2 @@
 #!/bin/sh
-npx --no-install lint-staged
+wsl -e bash -c '. ~/.nvm/nvm.sh && cd /mnt/c/Users/Lilian/sandbox/hogwai.github.io && npx --no-install lint-staged'
