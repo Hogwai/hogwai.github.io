@@ -3,7 +3,7 @@ title: "Husky : corriger le hook pre-commit cassé après un npm install depuis 
 description: "Pourquoi un npm install propre depuis WSL casse les hooks pre-commit exécutés par Git for Windows, et comment régénérer les shims .bin."
 pubDate: 2026-07-20
 tags: ["husky", "wsl", "windows", "npm", "git", "lint-staged"]
-draft: false
+draft: true
 ---
 
 Un `rm -rf node_modules && npm install` depuis WSL casse les hooks husky quand les commits passent par Git for Windows (VS Code, Git Bash).

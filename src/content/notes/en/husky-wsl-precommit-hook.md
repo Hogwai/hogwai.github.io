@@ -3,7 +3,7 @@ title: "Husky: fix pre-commit hook broken after npm install from WSL"
 description: "Why a clean npm install from WSL breaks Git for Windows pre-commit hooks, and how to restore the .bin shims."
 pubDate: 2026-07-20
 tags: ["husky", "wsl", "windows", "npm", "git", "lint-staged"]
-draft: false
+draft: true
 ---
 
 A `rm -rf node_modules && npm install` from WSL breaks husky pre-commit hooks when committing from Git for Windows (VS Code, Git Bash).
