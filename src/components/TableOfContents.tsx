@@ -33,22 +33,6 @@ export default function TableOfContents({ headings }: Props) {
     return () => observer.disconnect();
   }, [headings]);
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
-    e.preventDefault();
-    const element = document.getElementById(slug);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      history.pushState(null, "", `#${slug}`);
-    }
-  };
-
   if (headings.length === 0) return null;
 
   return (
@@ -56,7 +40,7 @@ export default function TableOfContents({ headings }: Props) {
       <div className="p-4 border-b border-edge">
         <h3 className="text-lg font-bold text-ink">Table of contents</h3>
       </div>
-      <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
+      <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500">
         <ul className="space-y-2 text-sm">
           {headings.map((heading) => (
             <li
@@ -65,7 +49,6 @@ export default function TableOfContents({ headings }: Props) {
             >
               <a
                 href={`#${heading.slug}`}
-                onClick={(e) => handleClick(e, heading.slug)}
                 className={`hover:text-link transition block ${
                   activeId === heading.slug
                     ? "text-link font-medium"

@@ -5,24 +5,23 @@ import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import NoteCard from '../components/NoteCard';
 import { getCollection } from 'astro:content';
+import { filterByLocale } from '../i18n/content';
 import { useTranslations, getSlugWithoutLang } from '../i18n/utils';
 
 const lang = "en" as const;
 const t = useTranslations(lang);
 
-const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft && post.id.startsWith('en/'))
+const posts = filterByLocale(await getCollection('posts'), "en")
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const recentNotes = (await getCollection('notes'))
-  .filter(note => !note.data.draft && note.id.startsWith('en/'))
+const recentNotes = filterByLocale(await getCollection('notes'), "en")
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 ---
 
 <BaseLayout title="Heap of Hogwai" description="Thoughts, tutorials and technical posts about Java and the JVM ecosystem." lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:load />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow">
     <div class="container-custom pt-8 pb-6 border-b border-edge">
@@ -45,7 +44,6 @@ const recentNotes = (await getCollection('notes'))
             slug={getSlugWithoutLang(post.id)}
             tags={post.data.tags}
             lang={lang}
-            client:idle
           />
         ))}
       </div>
@@ -68,7 +66,6 @@ const recentNotes = (await getCollection('notes'))
               slug={getSlugWithoutLang(note.id)}
               tags={note.data.tags}
               lang={lang}
-              client:idle
             />
           ))}
         </div>

@@ -3,14 +3,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { getCollection } from 'astro:content';
+import { filterByLocale } from '../../i18n/content';
 import { useTranslations, getLocalePath } from '../../i18n/utils';
 
 const lang = "en" as const;
 const t = useTranslations(lang);
 const prefix = getLocalePath(lang);
 
-const posts = (await getCollection('posts')).filter((p) => !p.data.draft && p.id.startsWith('en/'));
-const notes = (await getCollection('notes')).filter((n) => !n.data.draft && n.id.startsWith('en/'));
+const posts = filterByLocale(await getCollection('posts'), "en");
+const notes = filterByLocale(await getCollection('notes'), "en");
 
 const tagCounts: Record<string, number> = {};
 
@@ -32,7 +33,7 @@ const tags = Object.entries(tagCounts).sort(([a], [b]) =>
 ---
 
 <BaseLayout title={t("tags.title")} description={t("tags.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">

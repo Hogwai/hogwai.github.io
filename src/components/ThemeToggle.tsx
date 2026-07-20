@@ -4,7 +4,12 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    let savedTheme: "light" | "dark" | null = null;
+    try {
+      savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    } catch {
+      savedTheme = null;
+    }
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
       .matches
       ? "dark"
@@ -18,15 +23,21 @@ export default function ThemeToggle() {
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    try {
+      localStorage.setItem("theme", newTheme);
+    } catch {
+      // localStorage unavailable (private browsing, storage full, etc.)
+    }
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg bg-muted hover:bg-soft transition"
-      aria-label="Toggle theme"
+      className="inline-flex items-center justify-center p-2 min-h-[44px] min-w-[44px] rounded-lg bg-muted hover:bg-soft transition"
+      aria-label={
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      }
     >
       {theme === "dark" ? (
         <svg

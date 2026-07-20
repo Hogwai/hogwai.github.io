@@ -4,6 +4,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import NotesSearchAndFilter from '../../../components/NotesSearchAndFilter';
 import { getCollection } from 'astro:content';
+import { filterByLocale } from '../../../i18n/content';
 import { useTranslations, getSlugWithoutLang } from '../../../i18n/utils';
 import { flags, type Lang } from '../../../i18n/ui';
 
@@ -11,11 +12,10 @@ const lang: Lang = "fr";
 const t = useTranslations(lang);
 
 const allNotes = (await getCollection('notes')).filter(n => !n.data.draft);
-const frNotes = allNotes
-  .filter(n => n.id.startsWith('fr/'))
+const frNotes = filterByLocale(allNotes, "fr")
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(n => ({ ...n, slug: getSlugWithoutLang(n.id) }));
-const enNotes = allNotes.filter(n => n.id.startsWith('en/'));
+const enNotes = filterByLocale(allNotes, "en");
 const frSlugSet = new Set(frNotes.map(n => n.slug));
 const enOnlyNotes = enNotes
   .filter(n => !frSlugSet.has(getSlugWithoutLang(n.id)))
@@ -29,7 +29,7 @@ const notes = [
 ---
 
 <BaseLayout title={t("notes.title")} description={t("notes.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
@@ -38,7 +38,7 @@ const notes = [
         <p class="text-ink">{t("notes.subtitle")}</p>
       </div>
 
-      <NotesSearchAndFilter notes={notes} lang={lang} client:visible />
+      <NotesSearchAndFilter notes={notes} lang={lang} client:idle />
     </div>
   </main>
 

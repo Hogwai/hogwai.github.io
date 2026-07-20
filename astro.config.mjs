@@ -59,9 +59,20 @@ export default defineConfig({
   },
   integrations: [
     mermaid(),
-    react(),
+    react({
+      babel: {
+        plugins: ["babel-plugin-react-compiler"],
+      },
+    }),
     mdx(),
     sitemap({
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en-US",
+          fr: "fr-FR",
+        },
+      },
       serialize(item) {
         const pathname = new URL(item.url).pathname;
         const lastmod = contentDates.get(pathname);
@@ -83,7 +94,19 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime],
     shikiConfig: {
       theme: "github-dark-dimmed",
-      langs: ["java", "typescript", "javascript", "bash", "json", "yaml"],
+      langs: [
+        "java",
+        "typescript",
+        "javascript",
+        "bash",
+        "json",
+        "yaml",
+        "sql",
+        "xml",
+        "shell",
+        "powershell",
+        "ini",
+      ],
       wrap: true,
     },
   },

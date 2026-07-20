@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import goals from "../data/maven-goals.json";
 
 export default function MavenGoalsSearch() {
@@ -85,9 +85,8 @@ export default function MavenGoalsSearch() {
                   </thead>
                   <tbody className="divide-y divide-edge">
                     {filtered.map((g) => (
-                      <>
+                      <Fragment key={g.goal}>
                         <tr
-                          key={g.goal}
                           className="hover:bg-soft cursor-pointer transition"
                           onClick={() => toggleExpand(g.goal)}
                         >
@@ -212,7 +211,7 @@ export default function MavenGoalsSearch() {
                             </td>
                           </tr>
                         )}
-                      </>
+                      </Fragment>
                     ))}
                   </tbody>
                 </table>

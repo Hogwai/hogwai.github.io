@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import BlogCard from "./BlogCard";
 import { defaultLang, type Lang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
@@ -25,33 +25,31 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const t = useTranslations(lang);
 
-  const allTags = useMemo(() => {
+  const allTags = (() => {
     const tagSet = new Set<string>();
     posts.forEach((post) => {
       post.data.tags.forEach((tag) => tagSet.add(tag));
     });
     return Array.from(tagSet).sort();
-  }, [posts]);
+  })();
 
-  const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredPosts = posts.filter((post) => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
 
-      const matchesSearch =
-        searchQuery === "" ||
-        post.data.title.toLowerCase().includes(normalizedSearch) ||
-        post.data.description.toLowerCase().includes(normalizedSearch) ||
-        post.data.tags.some((tag) =>
-          tag.toLowerCase().includes(normalizedSearch),
-        );
+    const matchesSearch =
+      searchQuery === "" ||
+      post.data.title.toLowerCase().includes(normalizedSearch) ||
+      post.data.description.toLowerCase().includes(normalizedSearch) ||
+      post.data.tags.some((tag) =>
+        tag.toLowerCase().includes(normalizedSearch),
+      );
 
-      const matchesTags =
-        selectedTags.length === 0 ||
-        selectedTags.every((tag) => post.data.tags.includes(tag));
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.every((tag) => post.data.tags.includes(tag));
 
-      return matchesSearch && matchesTags;
-    });
-  }, [posts, searchQuery, selectedTags]);
+    return matchesSearch && matchesTags;
+  });
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -71,18 +69,23 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       : t("posts.found_other").replace("{count}", String(resultCount));
 
   return (
-    <div>
+    <div role="search" aria-label={t("posts.title")}>
       {/* Search bar */}
       <div className="mb-6">
         <div className="relative">
+          <label htmlFor="post-search" className="sr-only">
+            {t("posts.searchPlaceholder")}
+          </label>
           <input
-            type="text"
+            id="post-search"
+            type="search"
             placeholder={t("posts.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 pl-12 rounded-lg border border-edge bg-surface text-ink placeholder-ink-muted focus:outline-none focus:ring-2 focus:ring-link transition"
           />
           <svg
+            aria-hidden="true"
             className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
             fill="none"
             stroke="currentColor"
@@ -118,7 +121,8 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
+              aria-pressed={selectedTags.includes(tag)}
+              className={`inline-flex items-center px-3 py-1.5 min-h-[36px] rounded-full text-sm font-medium transition ${
                 selectedTags.includes(tag)
                   ? "bg-accent-600 text-white"
                   : "bg-muted text-ink hover:bg-soft"
@@ -131,7 +135,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       </div>
 
       {/* Results */}
-      <div className="mb-4">
+      <div className="mb-4" role="status" aria-live="polite">
         <p className="text-sm text-ink">{resultText}</p>
       </div>
 
@@ -154,6 +158,7 @@ export default function SearchAndFilter({ posts, lang = defaultLang }: Props) {
       ) : (
         <div className="text-center py-12">
           <svg
+            aria-hidden="true"
             className="w-16 h-16 mx-auto mb-4 text-ink-muted"
             fill="none"
             stroke="currentColor"

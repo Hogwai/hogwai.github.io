@@ -14,7 +14,7 @@ const projects = projectsData as Project[];
 ---
 
 <BaseLayout title={t("projects.title")} description={t("projects.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
@@ -35,7 +35,6 @@ const projects = projectsData as Project[];
             technologies={project.technologies}
             links={project.links}
             image={project.image}
-            client:visible
           />
         ))}
       </div>

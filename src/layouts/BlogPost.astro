@@ -1,29 +1,39 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import TableOfContents from '../components/TableOfContents';
-import BackToTop from '../components/BackToTop';
-import { type CollectionEntry, getCollection } from 'astro:content';
-import { type Lang } from '../i18n/utils';
-import { defaultLang, flags } from '../i18n/ui';
-import { useTranslations, getLocalePath, getOtherLang } from '../i18n/utils';
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import TableOfContents from "../components/TableOfContents";
+import BackToTop from "../components/BackToTop";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { type Lang } from "../i18n/utils";
+import { defaultLang, flags } from "../i18n/ui";
+import { useTranslations, getLocalePath, getOtherLang } from "../i18n/utils";
 
-type Props = CollectionEntry<'posts'>['data'] & {
+type Props = CollectionEntry<"posts">["data"] & {
   headings?: Array<{ depth: number; slug: string; text: string }>;
   minutesRead?: string;
   lang?: Lang;
 };
 
-const { title, description, pubDate, updatedDate, heroImage, tags, headings = [], minutesRead, lang = defaultLang } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  tags,
+  headings = [],
+  minutesRead,
+  lang = defaultLang,
+} = Astro.props;
 const t = useTranslations(lang);
 const prefix = getLocalePath(lang);
 
 const otherLang = getOtherLang(lang);
-const currentSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || '';
-const allPosts = await getCollection('posts');
+const currentSlug = Astro.url.pathname.split("/").filter(Boolean).pop() || "";
+const allPosts = await getCollection("posts");
 const hasTranslation = allPosts.some(
-  (p) => p.id === `${otherLang}/${currentSlug}`
+  (p) => p.id === `${otherLang}/${currentSlug}`,
 );
 const translationUrl = hasTranslation
   ? `${getLocalePath(otherLang)}/posts/${currentSlug}/`
@@ -39,9 +49,14 @@ const jsonLd = {
   "@type": "BlogPosting",
   headline: title,
   description: description,
+  inLanguage: lang === "fr" ? "fr-FR" : "en-GB",
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
   ...(imageURL && { image: imageURL }),
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["h1", ".description"],
+  },
   url: canonicalURL.href,
   author: {
     "@type": "Person",
@@ -88,79 +103,116 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<BaseLayout title={title} description={description} image={heroImage} ogType="article" publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} tags={tags} lang={lang}>
+<BaseLayout
+  title={title}
+  description={description}
+  image={heroImage}
+  ogType="article"
+  publishedTime={pubDate.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
+  tags={tags}
+  lang={lang}
+>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} is:inline />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+      is:inline
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(breadcrumbJsonLd)}
+      is:inline
+    />
   </Fragment>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <article class="container-custom py-12">
       <div class="mb-8">
-        {heroImage && (
-          <img
-            src={heroImage}
-            alt={title}
-            loading="lazy"
-            decoding="async"
-            class="w-full h-64 object-cover rounded-lg mb-6"
-          />
-        )}
+        <a href={`${prefix}/posts`} class="block hover:text-link transition mb-2">
+          &larr; {t("posts.backLink")}
+        </a>
 
-        {translationUrl && (
-          <a
-            href={translationUrl}
-            onclick={`try{localStorage.setItem('preferred-lang','${otherLang}')}catch(e){}`}
-            class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
-          >
-            {flags[otherLang]} {tOther("lang.switchLabel")}
-          </a>
-        )}
+        {
+          heroImage && (
+            <img
+              src={heroImage}
+              alt={title}
+              width={1200}
+              height={630}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-64 object-cover rounded-lg mb-6"
+            />
+          )
+        }
+
+        {
+          translationUrl && (
+            <a
+              href={translationUrl}
+              onclick={`try{localStorage.setItem('preferred-lang','${otherLang}')}catch(e){}`}
+              class="inline-flex items-center gap-1.5 text-sm text-link hover:underline mb-4"
+            >
+              {flags[otherLang]} {tOther("lang.switchLabel")}
+            </a>
+          )
+        }
 
         <h1 class="text-4xl md:text-5xl font-bold mb-4 text-ink">{title}</h1>
 
-        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink">
-          <a href={`${prefix}/posts`} class="hover:text-link transition">
-            &larr; {t("posts.backLink")}
-          </a>
-          <span>&bull;</span>
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm text-ink-muted">
           <time datetime={pubDate.toISOString()}>
-            {pubDate.toLocaleDateString(locale, {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
+            {
+              pubDate.toLocaleDateString(locale, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
           </time>
-          {updatedDate && (
-            <>
-              <span>&bull;</span>
-              <time datetime={updatedDate.toISOString()}>
-                {t("common.updated")} {updatedDate.toLocaleDateString(locale, {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-            </>
-          )}
-          {minutesRead && (
-            <>
-              <span>&bull;</span>
-              <span>{minutesRead}</span>
-            </>
-          )}
+          {
+            minutesRead && (
+              <>
+                <span>&bull;</span>
+                <span>{minutesRead}</span>
+              </>
+            )
+          }
+          {
+            updatedDate && (
+              <>
+                <span>&bull;</span>
+                <time datetime={updatedDate.toISOString()}>
+                  {t("common.updated")}{" "}
+                  {updatedDate.toLocaleDateString(locale, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </>
+            )
+          }
         </div>
 
-        {tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <a href={`${prefix}/tags/${tag}`} class="px-3 py-1 bg-tag-bg text-tag-text rounded-full text-sm hover:underline">
-                {tag}
-              </a>
-            ))}
-          </div>
-        )}
+        <p class="description text-lg text-ink-muted mb-6">{description}</p>
+
+        {
+          tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <a
+                  href={`${prefix}/tags/${tag}`}
+                  class="px-3 py-1 bg-tag-bg text-tag-text rounded-full text-sm hover:underline"
+                >
+                  {tag}
+                </a>
+              ))}
+            </div>
+          )
+        }
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -181,39 +233,55 @@ const breadcrumbJsonLd = {
   <Footer lang={lang} />
 
   <script is:inline>
-    document.addEventListener('click', function (e) {
-      const mermaid = e.target.closest('pre.mermaid[data-processed]');
+    document.addEventListener("click", function (e) {
+      const mermaid = e.target.closest("pre.mermaid[data-processed]");
       if (!mermaid) return;
 
-      const svg = mermaid.querySelector('svg');
+      const svg = mermaid.querySelector("svg");
       if (!svg) return;
 
       const clone = svg.cloneNode(true);
-      const overlay = document.createElement('div');
+      const overlay = document.createElement("div");
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-label", "Mermaid diagram — press Escape to close");
+      overlay.setAttribute("tabindex", "-1");
       overlay.style.cssText =
-        'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);' +
-        'display:flex;align-items:center;justify-content:center;cursor:zoom-out;' +
-        'opacity:0;transition:opacity .2s ease';
+        "position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);" +
+        "display:flex;align-items:center;justify-content:center;cursor:zoom-out;" +
+        "opacity:0;transition:opacity .2s ease";
 
       clone.style.cssText =
-        'max-width:92vw;max-height:92vh;width:auto;height:auto;' +
-        'border-radius:.5rem;box-shadow:0 8px 32px rgba(0,0,0,.3);' +
-        'background:var(--color-surface,#fff);padding:1rem';
+        "max-width:92vw;max-height:92vh;width:auto;height:auto;" +
+        "border-radius:.5rem;box-shadow:0 8px 32px rgba(0,0,0,.3);" +
+        "background:var(--color-surface,#fff);padding:1rem";
 
       overlay.appendChild(clone);
       document.body.appendChild(overlay);
 
-      requestAnimationFrame(function () { overlay.style.opacity = '1'; });
+      var previousFocus = document.activeElement;
+      overlay.focus();
+
+      requestAnimationFrame(function () {
+        overlay.style.opacity = "1";
+      });
 
       function close() {
-        overlay.style.opacity = '0';
-        setTimeout(function () { overlay.remove(); }, 200);
+        overlay.style.opacity = "0";
+        setTimeout(function () {
+          overlay.remove();
+          if (previousFocus && typeof previousFocus.focus === 'function') {
+            previousFocus.focus();
+          }
+        }, 200);
       }
 
-      overlay.addEventListener('click', close);
+      overlay.addEventListener("click", close);
 
-      document.addEventListener('keydown', function handler(ev) {
-        if (ev.key === 'Escape') { close(); document.removeEventListener('keydown', handler); }
+      document.addEventListener("keydown", function handler(ev) {
+        if (ev.key === "Escape") {
+          close();
+          document.removeEventListener("keydown", handler);
+        }
       });
     });
   </script>

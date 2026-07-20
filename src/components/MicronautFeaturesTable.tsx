@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import featuresData from "../data/micronaut-features.json";
 
 interface Feature {
@@ -21,14 +21,14 @@ export default function MicronautFeaturesTable() {
   const features = featuresData as Feature[];
 
   // Gather types
-  const allTypes = useMemo(() => {
+  const allTypes = (() => {
     const typeSet = new Set<string>();
     features.forEach((f) => typeSet.add(f.type));
     return Array.from(typeSet).sort();
-  }, [features]);
+  })();
 
   // Filter and sort
-  const filteredAndSorted = useMemo(() => {
+  const filteredAndSorted = (() => {
     let result = features;
 
     // Text
@@ -61,7 +61,7 @@ export default function MicronautFeaturesTable() {
     });
 
     return result;
-  }, [features, searchQuery, typeFilter, sortField, sortDirection]);
+  })();
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {

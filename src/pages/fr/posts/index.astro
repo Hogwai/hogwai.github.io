@@ -4,6 +4,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import SearchAndFilter from '../../../components/SearchAndFilter';
 import { getCollection } from 'astro:content';
+import { filterByLocale } from '../../../i18n/content';
 import { useTranslations, getSlugWithoutLang } from '../../../i18n/utils';
 import { flags, type Lang } from '../../../i18n/ui';
 
@@ -11,11 +12,10 @@ const lang: Lang = "fr";
 const t = useTranslations(lang);
 
 const allPosts = (await getCollection('posts')).filter(p => !p.data.draft);
-const frPosts = allPosts
-  .filter(p => p.id.startsWith('fr/'))
+const frPosts = filterByLocale(allPosts, "fr")
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(p => ({ ...p, slug: getSlugWithoutLang(p.id) }));
-const enPosts = allPosts.filter(p => p.id.startsWith('en/'));
+const enPosts = filterByLocale(allPosts, "en");
 const frSlugSet = new Set(frPosts.map(p => p.slug));
 const enOnlyPosts = enPosts
   .filter(p => !frSlugSet.has(getSlugWithoutLang(p.id)))
@@ -29,13 +29,13 @@ const posts = [
 ---
 
 <BaseLayout title={t("posts.title")} description={t("posts.description")} lang={lang}>
-  <Header lang={lang} currentPath={Astro.url.pathname} client:visible />
+  <Header lang={lang} currentPath={Astro.url.pathname} client:idle />
 
   <main id="main-content" class="flex-grow bg-page">
     <div class="container-custom py-12">
       <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">{t("posts.title")}</h1>
 
-      <SearchAndFilter posts={posts} lang={lang} client:visible />
+      <SearchAndFilter posts={posts} lang={lang} client:idle />
     </div>
   </main>
 
