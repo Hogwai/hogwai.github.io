@@ -216,9 +216,15 @@ body {
   opacity: 1;
 }
 
-/* ===== MERMAID LIGHTBOX ===== */
+/* ===== MERMAID ===== */
 pre.mermaid[data-processed] {
   cursor: zoom-in;
+  background-color: #fff !important;
+  border-radius: 0.5rem;
+}
+
+pre.mermaid[data-processed] svg {
+  background-color: #fff !important;
 }
 
 /* Focus-visible ring for interactive elements */
