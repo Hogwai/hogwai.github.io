@@ -70,15 +70,15 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs}": [
-      "node node_modules/prettier/bin/prettier.cjs --write",
-      "node node_modules/eslint/bin/eslint.js --max-warnings=0"
+      "prettier --write",
+      "eslint --max-warnings=0"
     ],
     "*.astro": [
-      "node node_modules/eslint/bin/eslint.js --max-warnings=0"
+      "eslint --max-warnings=0"
     ],
     "*.{md,mdx}": [
-      "node node_modules/markdownlint-cli2/markdownlint-cli2.js",
-      "node node_modules/prettier/bin/prettier.cjs --write"
+      "markdownlint-cli2",
+      "prettier --write"
     ]
   },
   "allowScripts": {
