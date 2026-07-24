@@ -384,7 +384,7 @@ The 2x capacity multiplier adds up quickly. Reserve transactions for cases where
 | 9   | Locking       | Unconditional update | Version condition     | Manual `conditionExpression`                                  | `@DynamoDbVersionAttribute`                | Annotation is simpler; manual gives more control   |
 | 10  | Transactions  | Individual puts      | Batch write           | `TransactWriteItemsRequest` with `TransactWriteItem` builders | `transactWriteItems(...)` with beans       | 2x WCU, 100 items / 4 MB                           |
 
-All metrics in this article come from the [dynamodb-client-patterns](https://github.com/hogwai/dynamodb-client-patterns) showcase project, which implements each pattern with both the low-level and enhanced client, tested end-to-end against DynamoDB Local.
+All metrics in this article come from the [dynamodb-client-patterns](https://github.com/Hogwai/hogwai.github.io-content/tree/main/dynamodb-client-patterns) showcase project, which implements each pattern with both the low-level and enhanced client, tested end-to-end against DynamoDB Local.
 
 ## Key takeaways
 
