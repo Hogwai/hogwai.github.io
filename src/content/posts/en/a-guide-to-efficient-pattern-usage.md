@@ -44,7 +44,7 @@ public class RegexExample {
         // 3. Reuse the SAME Pattern object for the second input
         Matcher matcher2 = pattern.matcher(email2);
         if (!matcher2.matches()) {
-            System.out.println("'" + email2 + "' is NOT a valid email.");
+            System.out.println("'" + email2 + "' is not a valid email.");
         }
     }
 }
@@ -133,7 +133,7 @@ If you call `"12345".matches("\\d+")` in a loop, you are recompiling the `\\d+` 
 ### Rule of thumb
 
 - For one-off, non-performance-critical operations, using `String.matches()` is perfectly fine.
-- For any code in a hot path, a loop, or a frequently called method (like a web request handler), you MUST use a pre-compiled `static final Pattern`.
+- For any code in a hot path, a loop, or a frequently called method (like a web request handler), you must use a pre-compiled `static final Pattern`.
 
 ### Comparison
 

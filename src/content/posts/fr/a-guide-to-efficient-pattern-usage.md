@@ -44,7 +44,7 @@ public class RegexExample {
         // 3. Réutilise le MÊME objet Pattern pour la seconde entrée
         Matcher matcher2 = pattern.matcher(email2);
         if (!matcher2.matches()) {
-            System.out.println("'" + email2 + "' is NOT a valid email.");
+            System.out.println("'" + email2 + "' is not a valid email.");
         }
     }
 }
