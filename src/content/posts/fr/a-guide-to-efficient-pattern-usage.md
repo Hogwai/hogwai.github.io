@@ -582,10 +582,10 @@ En appliquant ces quelques ajustements, vous vous assurez que vos expressions r�
 - <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 - <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 - <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
-- <a id="fn4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://bugs.openjdk.org/browse/JDK-6328855)
+- <a id="fn4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://web.archive.org/web/20240725054850/https://bugs.openjdk.org/browse/JDK-6328855)
 - <a id="fn5"></a>[Pattern.java : implémentation de Pattern.quote() dans OpenJDK](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java)
 - <a id="fn6"></a>[Pattern.asMatchPredicate() : documentation API Java 11+](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
-- <a id="fn7"></a>[JDK-8305486 : ajout de splitWithDelimiters à Pattern et String](https://bugs.openjdk.org/browse/JDK-8305486)
+- <a id="fn7"></a>[JDK-8305486 : ajout de splitWithDelimiters à Pattern et String](https://web.archive.org/web/20240725054850/https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
 
