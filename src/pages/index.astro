@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import NoteCard from '../components/NoteCard';
 import { getCollection } from 'astro:content';
+import { ArrowRight } from 'lucide-react';
 import { filterByLocale } from '../i18n/content';
 import { useTranslations, getSlugWithoutLang } from '../i18n/utils';
 
@@ -32,7 +33,7 @@ const recentNotes = filterByLocale(await getCollection('notes'), "en")
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-ink">{t("home.latestPosts")}</h2>
         <a href="/posts" class="text-sm text-link hover:underline">
-          {t("home.seeAllPosts")} &rarr;
+          {t("home.seeAllPosts")}<ArrowRight size={14} className="ml-1 inline-block align-[-0.125em]" aria-hidden="true" />
         </a>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -54,7 +55,7 @@ const recentNotes = filterByLocale(await getCollection('notes'), "en")
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-ink">{t("home.recentNotes")}</h2>
           <a href="/notes" class="text-sm text-link hover:underline">
-            {t("home.seeAllNotes")} &rarr;
+            {t("home.seeAllNotes")}<ArrowRight size={14} className="ml-1 inline-block align-[-0.125em]" aria-hidden="true" />
           </a>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

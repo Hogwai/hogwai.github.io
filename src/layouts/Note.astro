@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
+import { ArrowLeft } from 'lucide-react';
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { type Lang } from '../i18n/utils';
 import { defaultLang, flags } from '../i18n/ui';
@@ -96,7 +97,7 @@ const breadcrumbJsonLd = {
     <article class="container-custom py-12 max-w-3xl">
       <div class="mb-8">
         <a href={`${prefix}/notes`} class="block hover:text-link transition mb-2">
-          &larr; {t("notes.backLink")}
+          <ArrowLeft size={14} className="mr-1 inline-block align-[-0.125em]" aria-hidden="true" />{t("notes.backLink")}
         </a>
 
         {translationUrl && (

@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import BlogCard from '../../components/BlogCard';
 import NoteCard from '../../components/NoteCard';
+import { ArrowLeft } from 'lucide-react';
 import { getCollection } from 'astro:content';
 import { filterByLocale } from '../../i18n/content';
 import { useTranslations, getSlugWithoutLang, getLocalePath } from '../../i18n/utils';
@@ -44,7 +45,7 @@ const { posts, notes } = Astro.props;
     <div class="container-custom py-12">
       <div class="mb-2 text-sm text-ink-muted">
         <a href={`${prefix}/tags`} class="hover:text-link transition">
-          &larr; {t("tags.backLink")}
+          <ArrowLeft size={14} className="mr-1 inline-block align-[-0.125em]" aria-hidden="true" />{t("tags.backLink")}
         </a>
       </div>
       <h1 class="text-4xl md:text-5xl font-bold mb-8 text-ink">
