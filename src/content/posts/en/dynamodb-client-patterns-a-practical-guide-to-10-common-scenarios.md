@@ -1,24 +1,14 @@
 ---
-title: "DynamoDB client patterns: a practical guide to 10 common scenarios"
-description: "10 DynamoDB access patterns with metrics: Select.COUNT, condition expressions, batch, projection, GSI vs filter, pagination, scan vs query, TTL, optimistic locking, transactions"
-pubDate: 2026-07-23
+title: "DynamoDB client patterns: do's and don'ts"
+description: "DynamoDB access patterns "
+pubDate: 2026-07-24
 tags: ["java", "dynamodb", "aws", "nosql", "patterns"]
 draft: false
 ---
 
 The AWS SDK for Java v2 offers two levels of DynamoDB client. The low-level `DynamoDbClient` gives you full control over every request parameter but requires manual translation between Java objects and `Map<String, AttributeValue>`. The `DynamoDbEnhancedClient` adds a typed, object-mapping layer on top.
 
-Below the client layer, the SDK also lets you swap the HTTP transport that carries requests and responses:
-
-| HTTP client                              | 1000 GetItem calls | Relative speedup |
-| ---------------------------------------- | ------------------ | ---------------- |
-| `UrlConnectionHttpClient` (JDK built-in) | 2,446 ms           | baseline         |
-| `ApacheHttpClient` (connection pooling)  | 927 ms             | **2.6x faster**  |
-| `AwsCrtHttpClient` (non-blocking I/O)    | 180 ms             | **13.6x faster** |
-
-Same workload, same RCU (500.0). The speedup comes from connection reuse and I/O model, not from reduced capacity consumption.
-
-This article walks through 10 common DynamoDB access patterns, with both the low-level and enhanced client approaches, and concrete metrics for each.
+This article walks through common DynamoDB access patterns, with both the low-level and enhanced client approaches, and concrete metrics for each.
 
 ## Counting items
 
