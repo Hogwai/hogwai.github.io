@@ -44,7 +44,7 @@ public class RegexExample {
         // 3. Reuse the SAME Pattern object for the second input
         Matcher matcher2 = pattern.matcher(email2);
         if (!matcher2.matches()) {
-            System.out.println("'" + email2 + "' is NOT a valid email.");
+            System.out.println("'" + email2 + "' is not a valid email.");
         }
     }
 }
@@ -133,7 +133,7 @@ If you call `"12345".matches("\\d+")` in a loop, you are recompiling the `\\d+` 
 ### Rule of thumb
 
 - For one-off, non-performance-critical operations, using `String.matches()` is perfectly fine.
-- For any code in a hot path, a loop, or a frequently called method (like a web request handler), you MUST use a pre-compiled `static final Pattern`.
+- For any code in a hot path, a loop, or a frequently called method (like a web request handler), you must use a pre-compiled `static final Pattern`.
 
 ### Comparison
 
@@ -584,10 +584,10 @@ By making these small changes, you ensure your regular expressions are not only 
 - <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 - <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 - <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
-- <a id="fn4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)
+- <a id="fn4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://web.archive.org/web/20240725054850/https://bugs.openjdk.org/browse/JDK-6328855)
 - <a id="fn5"></a>[Pattern.java: OpenJDK Pattern.quote() implementation](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/regex/Pattern.java#L1500)
 - <a id="fn6"></a>[Pattern.asMatchPredicate(): Java 11+ API docs](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#asMatchPredicate()>)
-- <a id="fn7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://bugs.openjdk.org/browse/JDK-8305486)
+- <a id="fn7"></a>[JDK-8305486: Add splitWithDelimiters methods to Pattern and String](https://web.archive.org/web/20240725054850/https://bugs.openjdk.org/browse/JDK-8305486)
 
 ## Demo
 

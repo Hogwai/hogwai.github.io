@@ -118,5 +118,28 @@
                 "type": "web"
             }
         ]
+    },
+    {
+        "title": "dynamodb-simplified",
+        "description": "Java library providing a simplified API for DynamoDB operations",
+        "description_fr": "Bibliothèque Java offrant une API simplifiée pour DynamoDB avec un mapping par annotations",
+        "technologies": ["Java", "DynamoDB", "AWS SDK"],
+        "links": [
+            {
+                "label": "Source",
+                "url": "https://github.com/Hogwai/dynamodb-simplified",
+                "type": "github"
+            },
+            {
+                "label": "Docs",
+                "url": "https://hogwai.dev/dynamodb-simplified/",
+                "type": "web"
+            },
+            {
+                "label": "Maven Central",
+                "url": "https://central.sonatype.com/artifact/dev.hogwai/dynamodb-simplified-core",
+                "type": "web"
+            }
+        ]
     }
 ]
