@@ -216,6 +216,13 @@ body {
   opacity: 1;
 }
 
+.ref-back svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
 /* ===== MERMAID ===== */
 pre.mermaid[data-processed] {
   cursor: zoom-in;

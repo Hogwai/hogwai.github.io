@@ -52,6 +52,9 @@ export default defineConfig({
   base: "/",
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ["mermaid"],
+    },
     server: {
       watch: {
         usePolling: true,
