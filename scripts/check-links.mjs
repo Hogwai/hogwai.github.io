@@ -37,7 +37,12 @@ config.aliveStatusCodes = [
   ...new Set([...(config.aliveStatusCodes ?? [200]), ...NEUTRAL_STATUS_CODES]),
 ];
 
-const files = collectMarkdownFiles(CONTENT_DIR);
+// Files passed as arguments (CI diff-only mode) or full content scan.
+const cliFiles = process.argv.slice(2);
+const files =
+  cliFiles.length > 0
+    ? cliFiles.filter((file) => EXTENSIONS.has(path.extname(file)))
+    : collectMarkdownFiles(CONTENT_DIR);
 let deadCount = 0;
 let neutralCount = 0;
 
