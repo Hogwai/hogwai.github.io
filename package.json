@@ -11,7 +11,7 @@
     "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx,md,mdx,mjs}\" --fix && prettier --write \"src/**/*.{js,ts,jsx,tsx,mjs,md,mdx}\"",
     "lint:md": "markdownlint-cli2 \"src/content/**/*.{md,mdx}\"",
     "lint:spell": "cspell \"src/content/**/*.md\"",
-    "check-links": "find src/content -name '*.md' -o -name '*.mdx' | xargs markdown-link-check --config .markdown-link-check.json",
+    "check-links": "node scripts/check-links.mjs",
     "new:post": "node scripts/new-content.js post",
     "new:note": "node scripts/new-content.js note",
     "lint-staged": "node ./node_modules/lint-staged/bin/lint-staged.js",

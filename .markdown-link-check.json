@@ -3,6 +3,7 @@
   "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "5s",
+  "aliveStatusCodes": [200, 403],
   "ignorePatterns": [
     { "pattern": "^#" }
   ],
