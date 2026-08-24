@@ -44,7 +44,7 @@ jobs:
       - name: Check links in changed files
         run: |
           git diff --name-only origin/main...${{ github.event.pull_request.head.sha }} -- '*.md' '*.mdx' | \
-            xargs --no-run-if-empty npx --no-install markdown-link-check --config .markdown-link-check.json
+            xargs --no-run-if-empty node scripts/check-links.mjs
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Astro check
