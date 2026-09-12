@@ -68,9 +68,11 @@ public class Actor {
 }
 ```
 
-Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release*year, genre), attachée au contexte de persistance, suivie pour les modifications (\_dirty checking*), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
+Une approche JPA naïve charge l'entité `Movie` complète : les quatre colonnes (id, title, release, year, genre), attachée au contexte de persistance, suivie pour les modifications (dirty checking), avec maintenance des snapshots. Cette surcharge existe alors que les données sont simplement sérialisées en JSON et envoyées sur le réseau.
 
-Avec les collections imbriquées, le problème s'aggrave. Retourner les films avec leurs acteurs sans instructions de chargement explicites déclenche N+1 requêtes : une pour les films, puis une par film pour charger les acteurs depuis la table de jointure.
+Avec les collections imbriquées, le problème s'aggrave.
+
+Retourner les films avec leurs acteurs sans instructions de chargement explicites déclenche N+1 requêtes : une pour les films, puis une par film pour charger les acteurs depuis la table de jointure.
 
 Les projections résolvent ce problème en limitant le `SELECT` à ce dont l'appelant a besoin.
 

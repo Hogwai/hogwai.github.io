@@ -166,7 +166,22 @@
     "jpaprojections",
     "inotify",
     "Loewen",
-    "LOCALAPPDATA"
+    "LOCALAPPDATA",
+    "JDBI",
+    "Jdbi",
+    "jdbi",
+    "VARCHAR",
+    "openfeign",
+    "querydsl",
+    "blazeprojections",
+    "codegen",
+    "jooqcodegenprojections",
+    "querydslcodegenprojections",
+    "RUNSCRIPT",
+    "aaaaaaaaac",
+    "capturants",
+    "refactoriser",
+    "rétroréférences"
   ],
   "flagWords": []
 }
