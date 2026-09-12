@@ -612,7 +612,7 @@ flowchart TD
 - [JdbcTemplate and NamedParameterJdbcTemplate](https://docs.spring.io/spring-framework/reference/data-access/jdbc/core.html)
 - [JDBI documentation](https://jdbi.org/)
 - [jOOQ manual](https://www.jooq.org/doc/latest/manual/)
-- [QueryDSL reference](https://querydsl.com/static/querydsl/latest/reference/html/)
+- [QueryDSL reference](https://openfeign.github.io/querydsl/)
 - [OpenFeign QueryDSL fork](https://github.com/OpenFeign/querydsl)
 - [Blaze-Persistence entity views](https://persistence.blazebit.com/documentation/1.6/entity-view/manual/en_US/)
 
