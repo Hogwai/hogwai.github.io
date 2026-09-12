@@ -299,8 +299,9 @@ Préférez ReplyingKafkaTemplate quand :
 
 ## Mise en garde
 
-Ces patterns contournent les principes conceptuelle de Kafka. Kafka est fait pour de la messagerie asynchrone de type fire-and-forget, à grande échelle. Chaque appel synchrone requête/réponse maintient un thread en attente. Avec des centaines ou des milliers de requêtes concurrentes, on peut se retrouver avec des threads bloqués sur des futures.
-Résultat : famine CPU, épuisement du pool de threads, et un cluster Kafka quipasse son temps à gérer du transit.
+Ces patterns contournent les principes conceptuelle de Kafka. Kafka est fait pour de la messagerie asynchrone de type fire-and-forget, à grande échelle.
+Chaque appel synchrone requête/réponse maintient un thread en attente. Avec des centaines ou des milliers de requêtes concurrentes, on peut se retrouver avec des threads bloqués sur des futures.
+Résultat : famine CPU, épuisement du pool de threads et un cluster Kafka qui passe son temps à gérer du transit.
 
 Il faut donc utiliser ces patterns avec parcimonie, uniquement là où la logique métier exige vraiment un échange synchrone. Dans la plupart des cas, une architecture "event-driven" est plus adaptée.
 
