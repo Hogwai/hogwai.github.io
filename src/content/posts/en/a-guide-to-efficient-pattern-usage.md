@@ -7,7 +7,8 @@ tags:
 draft: false
 ---
 
-Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings, and perform complex text transformations with just a few lines of code. However, this power comes with a hidden performance cost if not used correctly.
+Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings and perform complex text transformations with just a few lines of code.
+However, this power comes with a hidden performance cost if not used correctly.
 
 The key to unlocking efficient regex in Java lies in understanding the `java.util.regex.Pattern` class. In this post, we'll explore the best practices for using `Pattern`, how to avoid common performance pitfalls, and why you should be wary of the "convenient" regex methods on the `String` class.
 
@@ -32,29 +33,31 @@ public class RegexExample {
         String email1 = "test.user@example.com";
         String email2 = "not-an-email";
 
-        // 1. Compile the regex ONCE
+        // Compile the regex once
         Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
-        // 2. Create a Matcher for the first input
+        // Create a Matcher for the first input
         Matcher matcher1 = pattern.matcher(email1);
         if (matcher1.matches()) {
-            System.out.println("'" + email1 + "' is a valid email.");
+            System.out.println("%s is valid".formatted(email1));
         }
 
-        // 3. Reuse the SAME Pattern object for the second input
+        // Reuse the Pattern object for the second input
         Matcher matcher2 = pattern.matcher(email2);
         if (!matcher2.matches()) {
-            System.out.println("'" + email2 + "' is NOT a valid email.");
+            System.out.println("%s is valid".formatted(email2));
         }
     }
 }
 ```
 
-Key takeaway: The `Pattern` is the blueprint; the `Matcher` is the worker. You create the blueprint once and use it to create as many workers as you need.
+We can think of it like that: the `Pattern` is the blueprint and the `Matcher` is the worker.
+We create the blueprint once and use it to create as many workers as you need.
 
 ## The performance trap: why you should never re-compile
 
-The most common mistake is putting `Pattern.compile()` inside a loop or a frequently called method. This forces the JVM to recompile the same regex over and over again, leading to a significant performance hit.
+The most common mistake is putting `Pattern.compile()` inside a loop or a frequently called method.
+This forces the JVM to recompile the same regex over and over again, leading to a significant performance hit.
 
 Calling `Pattern.compile()` has a multi-dimensional performance cost:
 
@@ -77,7 +80,8 @@ public void processLines(List<String> lines) {
 
 ### The right way
 
-The best practice for regex patterns that are used repeatedly is to compile them once and store them in a `private static final` field. This ensures the pattern is compiled only once when the class is loaded.
+The best practice for regex patterns that are used repeatedly is to compile them once and store them in a `private static final` field.
+This ensures the pattern is compiled only once when the class is loaded.
 
 ```java
 import java.util.regex.Pattern;
@@ -113,8 +117,7 @@ While they are tempting for their simplicity, they hide a dirty secret: every si
 
 As stated in the javadoc<sup><a href="#fn2">[2]</a></sup>:
 
-> An invocation of this method of the form str.matches(regex) yields exactly the same result as the expression
-> Pattern.matches(regex, str)
+> An invocation of this method of the form str.matches(regex) yields exactly the same result as the expression Pattern.matches(regex, str)
 
 For example, this line of code:
 
@@ -128,12 +131,12 @@ is essentially doing this under the hood:
 boolean isNumeric = Pattern.compile("\\d+").matcher("12345").matches();
 ```
 
-If you call `"12345".matches("\\d+")` in a loop, you are recompiling the `\\d+` pattern on every iteration.
+If we call `"12345".matches("\\d+")` in a loop, we are recompiling the `\\d+` pattern on every iteration.
 
 ### Rule of thumb
 
 - For one-off, non-performance-critical operations, using `String.matches()` is perfectly fine.
-- For any code in a hot path, a loop, or a frequently called method (like a web request handler), you MUST use a pre-compiled `static final Pattern`.
+- For any code in a hot path, a loop or a frequently called method (like a web request handler), we must use a pre-compiled `static final Pattern`.
 
 ### Comparison
 
@@ -163,7 +166,8 @@ The issue is also present in the Apache Commons Lang package:
 
 ### Caching dynamic patterns
 
-What if you don't know the regex at compile time? For example, you might be reading regex patterns from a configuration file. In this case, you can't use a `static final` field.
+What if we don't know the regex at compile time? For example, we might be reading regex patterns from a configuration file.
+In this case, we can't use a `static final` field.
 
 The solution is to implement a cache. A `ConcurrentHashMap` is perfect for this, as it's thread-safe.
 
@@ -201,7 +205,7 @@ This approach ensures that each unique regex string is compiled only once, no ma
 
 ## Mind your captures: use groups judiciously
 
-Capturing groups are one of the most useful features of regex, they let you extract the parts of the input that actually matter. But they come with some design pitfalls and, in some cases, a performance cost.
+Capturing groups are one of the most useful features of regex, they let us extract the parts of the input that actually matter. But they come with some design pitfalls and, in some cases, a performance cost.
 
 ### The (surprisingly small) performance cost of capturing
 
@@ -212,7 +216,7 @@ Every time the regex engine encounters `(...)`, it could record the start and en
 | `CapturingGroupsBenchmark.capturingUnused` | 24,314 ns/op | ~2% slower       |
 | `CapturingGroupsBenchmark.nonCapturing`    | 24,858 ns/op | baseline         |
 
-For 1,000 matches on a simple pattern, the difference is within the noise, unused capturing groups have essentially zero overhead on modern JVMs.
+For 1000 matches on a simple pattern, the difference is within the noise, unused capturing groups have essentially zero overhead on modern JVMs.
 
 However, the cost changes dramatically when you do extract groups:
 
@@ -221,17 +225,18 @@ However, the cost changes dramatically when you do extract groups:
 | `CapturingGroupsBenchmark.positionalGroupExtraction` | 33,282 ns/op | +37%        |
 | `CapturingGroupsBenchmark.namedGroupExtraction`      | 64,974 ns/op | +167%       |
 
-The takeaway: captures are fine as long as you use them. The waste is not in unused groups (JIT handles that) but in unnecessary extraction. If you don't need the captured text, don't call `matcher.group()`, or use non-capturing groups as documentation of intent.
+The takeaway: captures are fine as long as we use them. The waste is not in unused groups (JIT handles that) but in unnecessary extraction.
+If we don't need the captured text, don't call `matcher.group()`, or use non-capturing groups as documentation of intent.
 
 ### Non-capturing groups `(?:...)`
 
 The syntax `(?:...)` groups sub-expressions just like `(...)`, but tells the reader: _I only need grouping, not capturing_.
 
 ```java
-// Capturing -> signals intent to extract
+// Capturing: signals intent to extract
 Pattern.compile("(\\d+)-(\\w+)");
 
-// Non-capturing -> signals "just grouping"
+// Non-capturing: signals "just grouping"
 Pattern.compile("(?:\\d+)-(?:\\w+)");
 ```
 
@@ -242,7 +247,7 @@ Best practice: Use `(?:...)` as your default grouping construct. It communicates
 Java 7 introduced named capturing groups. Instead of remembering positional indices:
 
 ```java
-// Positional -> brittle, hard to refactor
+// Positional: brittle, hard to refactor
 Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2})");
 Matcher m = p.matcher("2025-10-18");
 if (m.matches()) {
@@ -254,7 +259,7 @@ if (m.matches()) {
 Use named groups for clarity and maintainability:
 
 ```java
-// Named -> self-documenting, order-independent
+// Named: self-documenting, order-independent
 Pattern p = Pattern.compile("(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})");
 Matcher m = p.matcher("2025-10-18");
 if (m.matches()) {
@@ -268,7 +273,7 @@ But be aware of the trade-off: named group access (`m.group("name")`) is ~2x slo
 
 ### Beware of backreferences
 
-Backreferences (`\1`, `\2`, ... or `\k<name>`) let you match the same text that a previous group captured:
+Backreferences (`\1`, `\2`, ... or `\k<name>`) let us match the same text that a previous group captured:
 
 ```java
 // Matches "foo-foo" but not "foo-bar"
@@ -285,18 +290,20 @@ Use backreferences sparingly and only in non-hot paths. When used in dynamic pat
 
 ## Beyond compilation: matching performance
 
-Compilation efficiency is only half the story. How you _use_ the `Pattern` and `Matcher` for actual matching can also make a big difference, especially on large inputs or tight loops.
+Compilation efficiency is only half the story.
+How we use the `Pattern` and `Matcher` for actual matching can also make a big difference, especially on large inputs or tight loops.
 
 ### Bound the search with `region()`
 
-By default, a `Matcher` operates on the entire input string. If you only need to search within a specific portion, use `region()` to constrain the engine's scanning range:
+By default, a `Matcher` operates on the entire input string.
+If we only need to search within a specific portion, we can use `region()` to constrain the engine's scanning range:
 
 ```java
 String document = // ... potentially very large string
 Pattern pattern = Pattern.compile("error");
 Matcher matcher = pattern.matcher(document);
 
-// Only search the first 10,000 characters
+// Only search the first 10 000 characters
 matcher.region(0, 10_000);
 if (matcher.find()) {
     // found early, avoided scanning the rest
@@ -307,13 +314,15 @@ This is especially useful for log parsing or processing large payloads where the
 
 ### Possessive quantifiers: cut the backtracking
 
-Greedy quantifiers (`*`, `+`, `?`) try to match as much as possible, then backtrack if the rest of the pattern fails. Possessive quantifiers (`*+`, `++`, `?+`) behave similarly but never give back what they matched. If the rest of the pattern fails, it fails immediately, no backtracking.
+Greedy quantifiers (`*`, `+`, `?`) try to match as much as possible, then backtrack if the rest of the pattern fails.
+Possessive quantifiers (`*+`, `++`, `?+`) behave similarly but never give back what they matched.
+If the rest of the pattern fails, it fails immediately with no backtracking.
 
 ```java
-// Greedy -> will backtrack if ".txt" doesn't match
+// Greedy: will backtrack if ".txt" doesn't match
 Pattern.compile(".*\\.txt");
 
-// Possessive -> fails fast, no backtracking
+// Possessive: fails fast, no backtracking
 Pattern.compile(".*+\\.txt");
 ```
 
@@ -331,21 +340,22 @@ On longer strings the gap grows proportionally, the greedy version backtracks ch
 Atomic groups are a more general tool: once the group matches, the engine never backtracks into it.
 
 ```java
-// Without atomic group -> engine may try different ways to match "\\d+"
+// Without atomic group: engine may try different ways to match "\\d+"
 Pattern.compile("(\\d+):\\d+");
 
-// With atomic group -> once digits are consumed, never reconsider
+// With atomic group: once digits are consumed, never reconsider
 Pattern.compile("(?>\\d+):\\d+");
 ```
 
-This is particularly valuable in patterns that would otherwise suffer catastrophic backtracking. Atomic groups act as a circuit breaker.
+This is particularly valuable in patterns that would otherwise suffer catastrophic backtracking.
+Atomic groups act as a circuit breaker.
 
 ### Catastrophic backtracking
 
 Certain patterns can cause exponential runtime due to nested quantifiers and backtracking:
 
 ```java
-// DANGEROUS -> nested quantifiers on overlapping patterns
+// Dangerous: nested quantifiers on overlapping patterns
 Pattern.compile("(a+)+b");
 ```
 
@@ -370,7 +380,7 @@ How to protect yourself:
 When you embed user-provided strings into a regex, you must escape any special characters (`.`, `*`, `+`, `(`, `)`, `[`, `]`, etc.) to prevent unexpected behavior, or worse, injection attacks.
 
 ```java
-// UNSAFE -> user input treated as regex
+// Unsafe: user input treated as regex
 String userInput = getSearchTerm();  // might contain ".*"
 Pattern pattern = Pattern.compile(".*" + userInput + ".*");
 ```
@@ -378,14 +388,15 @@ Pattern pattern = Pattern.compile(".*" + userInput + ".*");
 Use `Pattern.quote()` to treat arbitrary input as literal text:
 
 ```java
-// SAFE -> user input is escaped
+// Safe: user input is escaped
 String userInput = getSearchTerm();
 Pattern pattern = Pattern.compile(".*" + Pattern.quote(userInput) + ".*");
 ```
 
 `Pattern.quote()` wraps the input in `\Q...\E`, which tells the regex engine to treat everything inside as literal characters. It also handles a subtle edge case: if the input itself contains `\E`, it escapes embedded `\E` sequences to prevent premature quote termination<sup><a href="#fn5">[5]</a></sup>. Always escape dynamic content before embedding it in a regex.
 
-But does it cost anything? The benchmarks say: essentially no. The compile-time overhead of quoting is small, and at runtime there is zero measurable difference:
+But does it cost anything ?
+The benchmarks say: essentially no. The compile-time overhead of quoting is small and at runtime there is zero measurable difference:
 
 | Benchmark                                            | Score    | Difference     |
 | ---------------------------------------------------- | -------- | -------------- |
@@ -399,18 +410,16 @@ There is no performance reason to skip `Pattern.quote()`. The safety benefit far
 The same applies to `String` methods:
 
 ```java
-// UNSAFE
+// Unsafe
 String result = text.replaceAll(userInput, "REDACTED");
 
-// SAFE
+// Safe
 String result = text.replaceAll(Pattern.quote(userInput), "REDACTED");
 ```
 
-Note: This complements the caching section above. If you're caching dynamic patterns that include user input, escape the input _before_ compiling and caching.
-
 ## Modern Pattern API: methods you might have missed
 
-Java 8 and later added several convenience methods to `Pattern` that reduce boilerplate and integrate better with modern Java idioms. Note: these are convenience methods, not performance optimizations, the benchmarks show they're roughly on par with (or slightly slower than) the equivalent manual code.
+Java 8 and later added several convenience methods to `Pattern` that reduce boilerplate and integrate better with modern Java idioms. These are convenience methods, not performance optimizations. Benchmarks show they're roughly on par with (or slightly slower than) the equivalent manual code.
 
 ### `splitAsStream(CharSequence)`
 
@@ -425,7 +434,7 @@ Stream<String> tokens = Arrays.stream(COMMA.split(input));
 Use `splitAsStream()` directly (Java 8+):
 
 ```java
-// Direct stream -> lazy, no intermediate array
+// Direct stream: lazy, no intermediate array
 Pattern COMMA = Pattern.compile(",");
 Stream<String> tokens = COMMA.splitAsStream(input);
 ```
@@ -445,12 +454,12 @@ When you need to test many strings against the same pattern, these methods work 
 ```java
 Pattern DIGITS = Pattern.compile("\\d+");
 
-// With asMatchPredicate() -> full-string match (Java 11+)
+// With asMatchPredicate(): full-string match (Java 11+)
 List<String> numbers = strings.stream()
     .filter(DIGITS.asMatchPredicate())
     .toList();
 
-// With asPredicate() -> substring match (Java 8)
+// With asPredicate(): substring match (Java 8)
 List<String> containsDigits = strings.stream()
     .filter(DIGITS.asPredicate())
     .toList();
@@ -462,7 +471,8 @@ List<String> containsDigits = strings.stream()
 | `ModernPatternAPIBenchmark.asMatchPredicate` | 9,780 ns/op  | +13%                       |
 | `ModernPatternAPIBenchmark.asPredicateFind`  | 14,392 ns/op | +66% (different semantics) |
 
-`asMatchPredicate()` is slightly slower than a raw lambda due to the predicate abstraction. Use it for readability, not speed. `asPredicate()` is notably slower because `find()` semantics match more aggressively than `matches()`.
+`asMatchPredicate()` is slightly slower than a raw lambda due to the predicate abstraction.
+`asPredicate()` is notably slower because `find()` semantics match more aggressively than `matches()`.
 
 Important semantic difference:
 
@@ -472,8 +482,8 @@ Important semantic difference:
 ```java
 Pattern DIGITS = Pattern.compile("\\d+");
 
-// asPredicate() -> "a42b" -> true (finds "42")
-// asMatchPredicate() -> "a42b" -> false (not all digits)
+// asPredicate(): "a42b" -> true (finds "42")
+// asMatchPredicate(): "a42b" -> false (not all digits)
 ```
 
 This removes a common subtle bug where `asPredicate()` returns true for partial matches when the developer expected a full match.
@@ -527,8 +537,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 
 // Match all .java files
-PathMatcher matcher = FileSystems.getDefault()
-    .getPathMatcher("glob:*.java");
+PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.java");
 
 boolean result = matcher.matches(Paths.get("Main.java"));   // true
 boolean result2 = matcher.matches(Paths.get("Main.class")); // false
