@@ -23,7 +23,7 @@ Each call is measured against four cases:
 - a stream call
 - a stream call behind an `isEmpty()` guard
 - a plain `for` loop from `com.hogwai.util.Iterables`
-- Eclipse Collections' eager utility on `Iterate`<sup><a href="#fn2">[2]</a></sup>
+- Eclipse Collections' eager utility on `Iterate`
 
 ```java
 @Benchmark
