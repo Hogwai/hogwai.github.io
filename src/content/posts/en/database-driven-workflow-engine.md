@@ -191,7 +191,8 @@ Let's take an execution chain `ORDER_PROCESSING` with three configurations. Each
 
 ```mermaid
 graph TD
-    Start((Start)) --> vo[validateOrder]
+    Start((Start)) --> cis[chainInformationStep]
+    cis --> vo[validateOrder]
     vo --> ci[checkInventory]
     ci -->|standard/premium| pp[processPayment]
     ci -->|flagged| eo[escalateOrder]
@@ -227,25 +228,14 @@ public class ChainStepDecider implements JobExecutionDecider {
     @Override
     public FlowExecutionStatus decide(JobExecution jobExecution,
                                       StepExecution stepExecution) {
-        String config = jobExecution.getJobParameters()
-            .getString("chainConfigName");
-
-        // Special case: chainInformationStep or null stepExecution
-        // look up the first step of this configuration
-        if (stepExecution == null
-                || "chainInformationStep".equals(stepExecution.getStepName())) {
-            var steps = chainStepRepository.findFirstStepByConfigName(
-                config, PageRequest.of(0, 1));
-            String firstStepName = steps.isEmpty()
-                ? null : steps.getFirst().getCurrentStep().getStepName();
-            if (firstStepName != null) {
-                return new FlowExecutionStatus(firstStepName);
-            }
-            return FlowExecutionStatus.FAILED;
+        FlowExecutionStatus executionStatus = FlowExecutionStatus.UNKNOWN;
+        if (stepExecution == null) {
+            return executionStatus;
         }
 
-        // Normal flow: look up the current step's routing
         String stepName = stepExecution.getStepName();
+        String config = jobExecution.getJobParameters()
+            .getString("chainConfigName");
         ChainStep currentStep = chainStepRepository
             .findByStepAndConfiguration(stepName, config).orElse(null);
 
@@ -254,17 +244,18 @@ public class ChainStepDecider implements JobExecutionDecider {
         }
 
         if (stepExecution.getStatus() == BatchStatus.COMPLETED) {
-            return new FlowExecutionStatus(
+            executionStatus = new FlowExecutionStatus(
                 currentStep.getNextStepOnSuccess());
         } else {
-            return new FlowExecutionStatus(
+            executionStatus = new FlowExecutionStatus(
                 currentStep.getNextStepOnFailure());
         }
+        return executionStatus;
     }
 }
 ```
 
-The repository has two queries. The first is a simple name-based lookup for routing after each step. The second finds the initial step for a configuration:
+The repository has a single query used for routing: a name-based lookup that resolves the current step within a configuration. The other methods support the configuration service:
 
 ```java
 @Repository
@@ -280,14 +271,6 @@ public interface ChainStepRepository extends JpaRepository<ChainStep, Integer> {
         @Param("stepName") String stepName,
         @Param("confName") String confName);
 
-    @Query("""
-        SELECT cs FROM ChainStep cs JOIN FETCH cs.currentStep
-        WHERE cs.chainConfiguration.confName = :configName
-        ORDER BY cs.id
-        """)
-    List<ChainStep> findFirstStepByConfigName(
-        @Param("configName") String configName, Pageable pageable);
-
     void deleteAllByChainConfiguration(ChainConfiguration chainConfiguration);
 
     List<ChainStep> findAllByChainConfiguration(
@@ -299,7 +282,7 @@ public interface ChainStepRepository extends JpaRepository<ChainStep, Integer> {
 
 ## Assembly: the job definition
 
-Here is how the job is assembled. Every step transition goes through the decider. The decider returns the name of the next step, and Spring Batch's flow DSL matches it to the corresponding step bean via `StepEnum` constants.
+Here is how the job is assembled. The job starts with `chainInformationStep`, then every transition goes through the decider. The decider returns the name of the next step, and Spring Batch's flow DSL matches it to the corresponding step bean via `StepEnum` constants.
 
 ```java
 @Configuration
@@ -379,7 +362,7 @@ public class ConfigurableChainConfig {
 }
 ```
 
-The `chainInformationStep` is a simple first step that gives information about the chain:
+The `chainInformationStep` is a simple first step that logs the chain configuration and its parameters. It has no hardcoded successor: like every other step, its routing comes from the configuration's `ChainStep` row. A configuration that omits that row cannot start.
 
 ```java
 @Component
@@ -416,9 +399,10 @@ sequenceDiagram
     participant DB as Database
 
     C->>+J: GET /chain-config/invoke
-    J->>+D: decide()
-    D->>+DB: findFirstStepByConfigName()
-    DB-->>-D: validateOrder
+    J->>J: run chainInformationStep
+    J->>+D: decide() (after chainInformationStep)
+    D->>+DB: findByStepAndConfiguration("chainInformationStep")
+    DB-->>-D: nextStepOnSuccess = validateOrder
     D-->>-J: FlowExecutionStatus("validateOrder")
     J->>J: dispatch validateOrderStep
 
@@ -535,6 +519,9 @@ POST /chain-config/create
   "chainConfName": "premium-order",
   "chainConfDescription": "Premium order processing with discounts",
   "chainStepRecords": [
+    { "stepName": "chainInformationStep",
+      "nextStepOnSuccess": "validateOrder",
+      "nextStepOnFailure": null },
     { "stepName": "validateOrder",
       "nextStepOnSuccess": "checkInventory",
       "nextStepOnFailure": "escalateOrder" },
@@ -578,7 +565,7 @@ That is a full pipeline run, configured entirely via data.
 
 ## Validation: fail fast at creation
 
-The service layer validates that all referenced steps exist before saving a configuration. This catches typos and missing steps at design time, not at 3 AM when the batch job hits a missing routing target.
+The service layer validates that all referenced steps exist before saving a configuration. This catches typos and missing steps at design time.
 
 ```java
 @Service
