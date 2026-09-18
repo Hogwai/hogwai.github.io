@@ -191,7 +191,8 @@ Prenons une chaîne d'exécution `ORDER_PROCESSING` avec trois configurations. C
 
 ```mermaid
 graph TD
-    Start((Start)) --> vo[validateOrder]
+    Start((Start)) --> cis[chainInformationStep]
+    cis --> vo[validateOrder]
     vo --> ci[checkInventory]
     ci -->|standard/premium| pp[processPayment]
     ci -->|flagged| eo[escalateOrder]
@@ -227,25 +228,14 @@ public class ChainStepDecider implements JobExecutionDecider {
     @Override
     public FlowExecutionStatus decide(JobExecution jobExecution,
                                       StepExecution stepExecution) {
-        String config = jobExecution.getJobParameters()
-            .getString("chainConfigName");
-
-        // Special case: chainInformationStep or null stepExecution
-        // look up the first step of this configuration
-        if (stepExecution == null
-                || "chainInformationStep".equals(stepExecution.getStepName())) {
-            var steps = chainStepRepository.findFirstStepByConfigName(
-                config, PageRequest.of(0, 1));
-            String firstStepName = steps.isEmpty()
-                ? null : steps.getFirst().getCurrentStep().getStepName();
-            if (firstStepName != null) {
-                return new FlowExecutionStatus(firstStepName);
-            }
-            return FlowExecutionStatus.FAILED;
+        FlowExecutionStatus executionStatus = FlowExecutionStatus.UNKNOWN;
+        if (stepExecution == null) {
+            return executionStatus;
         }
 
-        // Normal flow: look up the current step's routing
         String stepName = stepExecution.getStepName();
+        String config = jobExecution.getJobParameters()
+            .getString("chainConfigName");
         ChainStep currentStep = chainStepRepository
             .findByStepAndConfiguration(stepName, config).orElse(null);
 
@@ -254,17 +244,18 @@ public class ChainStepDecider implements JobExecutionDecider {
         }
 
         if (stepExecution.getStatus() == BatchStatus.COMPLETED) {
-            return new FlowExecutionStatus(
+            executionStatus = new FlowExecutionStatus(
                 currentStep.getNextStepOnSuccess());
         } else {
-            return new FlowExecutionStatus(
+            executionStatus = new FlowExecutionStatus(
                 currentStep.getNextStepOnFailure());
         }
+        return executionStatus;
     }
 }
 ```
 
-Le repository dispose de deux requêtes. La première est une simple recherche par nom pour le routage après chaque step. La seconde trouve le step initial d'une configuration :
+Le repository dispose d'une seule requête utilisée pour le routage : une recherche par nom qui résout le step courant dans une configuration. Les autres méthodes servent au service de configuration :
 
 ```java
 @Repository
@@ -280,14 +271,6 @@ public interface ChainStepRepository extends JpaRepository<ChainStep, Integer> {
         @Param("stepName") String stepName,
         @Param("confName") String confName);
 
-    @Query("""
-        SELECT cs FROM ChainStep cs JOIN FETCH cs.currentStep
-        WHERE cs.chainConfiguration.confName = :configName
-        ORDER BY cs.id
-        """)
-    List<ChainStep> findFirstStepByConfigName(
-        @Param("configName") String configName, Pageable pageable);
-
     void deleteAllByChainConfiguration(ChainConfiguration chainConfiguration);
 
     List<ChainStep> findAllByChainConfiguration(
@@ -299,7 +282,7 @@ public interface ChainStepRepository extends JpaRepository<ChainStep, Integer> {
 
 ## Assemblage : la définition du job
 
-Voici comment le job est assemblé. Chaque transition de step passe par le décideur. Le décideur retourne le nom de la prochaine step, et le DSL de flux de Spring Batch le fait correspondre au bean de step correspondant via les constantes `StepEnum`.
+Voici comment le job est assemblé. Le job démarre avec `chainInformationStep`, puis chaque transition passe par le décideur. Le décideur retourne le nom de la prochaine step, et le DSL de flux de Spring Batch le fait correspondre au bean de step correspondant via les constantes `StepEnum`.
 
 ```java
 @Configuration
@@ -379,7 +362,7 @@ public class ConfigurableChainConfig {
 }
 ```
 
-Le `chainInformationStep` est un premier step simple qui donne des informations sur la chaîne :
+Le `chainInformationStep` est un premier step simple qui journalise la configuration de la chaîne et ses paramètres. Il n'a pas de successeur codé en dur : comme tout autre step, son routage vient de la ligne `ChainStep` de la configuration. Une configuration qui omet cette ligne ne peut pas démarrer.
 
 ```java
 @Component
@@ -416,9 +399,10 @@ sequenceDiagram
     participant DB as Base de données
 
     C->>+J: GET /chain-config/invoke
-    J->>+D: decide()
-    D->>+DB: findFirstStepByConfigName()
-    DB-->>-D: validateOrder
+    J->>J: exécute chainInformationStep
+    J->>+D: decide() (après chainInformationStep)
+    D->>+DB: findByStepAndConfiguration("chainInformationStep")
+    DB-->>-D: nextStepOnSuccess = validateOrder
     D-->>-J: FlowExecutionStatus("validateOrder")
     J->>J: dispatch validateOrderStep
 
@@ -535,6 +519,9 @@ POST /chain-config/create
   "chainConfName": "premium-order",
   "chainConfDescription": "Premium order processing with discounts",
   "chainStepRecords": [
+    { "stepName": "chainInformationStep",
+      "nextStepOnSuccess": "validateOrder",
+      "nextStepOnFailure": null },
     { "stepName": "validateOrder",
       "nextStepOnSuccess": "checkInventory",
       "nextStepOnFailure": "escalateOrder" },
@@ -576,7 +563,7 @@ GET /chain-config/invoke?config=premium-order&orderId=ORD_001
 
 ## Validation : échec rapide à la création
 
-La couche service valide que toutes les étapes référencées existent avant d'enregistrer une configuration. Cela capture les fautes de frappe et les étapes manquantes au moment de la conception, pas à 3 heures du matin quand le job batch rencontre une cible de routage manquante.
+La couche service valide que toutes les étapes référencées existent avant d'enregistrer une configuration. Cela capture les fautes de frappe et les étapes manquantes au moment de la conception.
 
 ```java
 @Service
