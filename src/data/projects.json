@@ -1,7 +1,7 @@
 [
     {
-        "title": "DynamoDB Simplified",
-        "description": "Fluent Java wrapper for the AWS DynamoDB Enhanced Client, with typed builders for queries, updates, transactions and single-table design",
+        "title": "dynamodb-simplified",
+        "description": "Fluent Java wrapper for the AWS DynamoDB Enhanced Client with typed builders for queries, updates, transactions and single-table design",
         "description_fr": "Wrapper Java fluent pour le client DynamoDB Enhanced d'AWS, avec des builders typés pour les requêtes, les mises à jour, les transactions et le single-table design",
         "technologies": ["Java", "AWS DynamoDB", "AWS SDK"],
         "links": [
