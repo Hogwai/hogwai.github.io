@@ -189,7 +189,8 @@
     "annprocess",
     "javac",
     "microbenchmarks",
-    "stdlib"
+    "stdlib",
+    "précompilée"
   ],
   "flagWords": []
 }

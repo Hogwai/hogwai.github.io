@@ -3,7 +3,7 @@ title: "G1 GC: how it works, what to monitor and what not to tune"
 description: "A source-guided tour of G1 regions, collection phases, observability and container-aware operation on JDK 25"
 pubDate: 2026-07-29
 tags: ["java", "jvm", "gc", "g1", "performance", "internal"]
-draft: false
+draft: true
 ---
 
 This article covers G1 at three levels: how it works under the hood, how to observe it with JDK 25 unified logging and JFR and how to operate it in containerised environments without falling into tuning traps.
