@@ -184,7 +184,12 @@
     "capturants",
     "capturante",
     "refactoriser",
-    "rétroréférences"
+    "rétroréférences",
+    "kapt",
+    "annprocess",
+    "javac",
+    "microbenchmarks",
+    "stdlib"
   ],
   "flagWords": []
 }

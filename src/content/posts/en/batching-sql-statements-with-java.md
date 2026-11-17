@@ -6,9 +6,9 @@ tags: ["java", "sql", "batching", "performance", "ORM"]
 draft: true
 ---
 
-Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings, and perform complex text transformations with just a few lines of code. However, this power comes with a hidden performance cost if not used correctly.
+Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings and perform complex text transformations with just a few lines of code. However, this power comes with a hidden performance cost if not used correctly.
 
-The key to unlocking efficient regex in Java lies in understanding the `java.util.regex.Pattern` class. In this post, we'll explore the best practices for using `Pattern`, how to avoid common performance pitfalls, and why you should be wary of the "convenient" regex methods on the `String` class.
+The key to unlocking efficient regex in Java lies in understanding the `java.util.regex.Pattern` class. In this post, we'll explore the best practices for using `Pattern`, how to avoid common performance pitfalls and why you should be wary of the "convenient" regex methods on the `String` class.
 
 ## Using agnostic ways
 
@@ -58,7 +58,7 @@ Comparaison : JDBC > DSL > ORM pour perfs brutes ; ORM pour simplicité avec ent
 
 ## References
 
-- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 - <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 - <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 

@@ -18,7 +18,7 @@ draft: false
 ## Introduction
 
 Lombok has long been and continues to be a gift for Java developers.
-It frees us from the burden of writing tedious, repetitive code, making our classes cleaner, more readable, and easier to maintain.
+It frees us from the burden of writing tedious, repetitive code, making our classes cleaner, more readable and easier to maintain.
 
 But, as with any powerful tool, convenience can sometimes hide subtle pitfalls.
 
@@ -26,7 +26,7 @@ This article aims to help you avoid them by giving you the keys to make thoughtf
 
 ## Lombok on safe ground
 
-Some annotations are simple, direct, and don't interfere with any lifecycle or state.
+Some annotations are simple, direct and don't interfere with any lifecycle or state.
 
 ### `@Getter` and `@Setter`
 
@@ -57,7 +57,7 @@ LOG.info("Email: {}", user.getEmail());
 
 ### `@Builder`
 
-The Builder pattern is fantastic for constructing complex objects, and `@Builder` makes it really easy. It doesn't interfere with persistence lifecycle or entity state.
+The Builder pattern is fantastic for constructing complex objects and `@Builder` makes it really easy. It doesn't interfere with persistence lifecycle or entity state.
 
 ```java
 @Entity
@@ -87,13 +87,13 @@ LOG.info("Description: {}", post.getDescription());
 
 ## Lombok on JPA entities
 
-On `@Entity` classes, issues often stem from interactions with lazy loading, bidirectional relationships, and implicit bundling.
+On `@Entity` classes, issues often stem from interactions with lazy loading, bidirectional relationships and implicit bundling.
 
 ### `@ToString`
 
 #### Problem 1: stack overflow on bidirectional relationships
 
-This is the most classic issue. Imagine a standard bidirectional relationship: a `User` has many `Post`s, and each `Post` belongs to a `User`.
+This is the most classic issue. Imagine a standard bidirectional relationship: a `User` has many `Post`s and each `Post` belongs to a `User`.
 
 ```java
 @Entity
@@ -132,7 +132,7 @@ user.ifPresent(usr -> LOG.info("Posts from user {}: {}", usr.getUsername(), usr.
 You will get a `StackOverflowError`.
 Here's why.
 
-When you use Lombok's `@ToString` on entities with bidirectional relationships (e.g., a User has many Posts, and each Post references its User), logging an entity also logs its relationships.
+When you use Lombok's `@ToString` on entities with bidirectional relationships (e.g., a User has many Posts and each Post references its User), logging an entity also logs its relationships.
 
 Lombok generates a `toString()` method that includes all fields.
 This is a circular reference: calling `user.toString()` triggers `posts.toString()`, which calls each `post.toString()`, which in turn calls `user.toString()` again...
@@ -226,11 +226,11 @@ public String toString() {
 
 The same risks as `@ToString` apply: it accesses all fields, which can trigger lazy loading or cause recursion.
 Avoid using it on entities unless explicitly configured with `@EqualsAndHashCode(onlyExplicitlyIncluded = true)`.
-In most cases, you don’t need it, and even when you do, it’s usually better to implement these methods manually, so you can define equality according to your own rules.
+In most cases, you don’t need it and even when you do, it’s usually better to implement these methods manually, so you can define equality according to your own rules.
 
 ### `@Data`: all-in-one problem
 
-`@Data` bundles `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString`, and `@EqualsAndHashCode`.
+`@Data` bundles `@Getter`, `@Setter`, `@RequiredArgsConstructor`, `@ToString` and `@EqualsAndHashCode`.
 
 ```java
 @Entity

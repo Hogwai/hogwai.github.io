@@ -13,7 +13,7 @@ In a previous job, I had to work on a legacy monolith that was 1 or 2 decades ol
 It had several characteristics that made it difficult to work with:
 
 - Built with Apache Struts 1 (or lower)
-- Stuck on Java 8, due to direct and transitive dependencies, and management's fear of upgrading
+- Stuck on Java 8, due to direct and transitive dependencies and management's fear of upgrading
 - Very inconsistent code quality across files, due to lack of standardization and excessive reliance on contractors
 - No ORM
 - Using Bitronix as the transaction manager
@@ -441,7 +441,7 @@ public List<Item> getItemsWithRowMapper(ItemCriteria criteria) {
 
 The try-with-resources have been encapsulated. The mapping is a reusable constant.
 
-The result is a lighter method with declarative code, well-defined responsibilities, and no side effects.
+The result is a lighter method with declarative code, well-defined responsibilities and no side effects.
 
 ## What these patterns change
 
@@ -457,6 +457,6 @@ graph LR
 
 ## Conclusion
 
-Each abstraction solves a specific problem: `SqlUtil` for named SQL parameters, `JdbcExecutor` for lifecycle management, `ParamBinder` for index tracking, `RowMapper` for row mapping. Combined, they help avoid common anti-patterns, prevent mistakes, and factor out repetitive code without adding a framework or library.
+Each abstraction solves a specific problem: `SqlUtil` for named SQL parameters, `JdbcExecutor` for lifecycle management, `ParamBinder` for index tracking, `RowMapper` for row mapping. Combined, they help avoid common anti-patterns, prevent mistakes and factor out repetitive code without adding a framework or library.
 
 A project implementing these concepts is available here: [legacy-jdbc-abstractor](https://github.com/Hogwai/hogwai.github.io-content/tree/main/legacy-jdbc-abstractor).

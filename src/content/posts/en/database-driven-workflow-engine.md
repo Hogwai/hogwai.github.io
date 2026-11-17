@@ -37,7 +37,7 @@ This works as long as the steps and execution order don't change. But what happe
 - A/B testing new steps: Try a new deduplication step on 10% of traffic
 - Client-specific workflows: Client A needs an extra audit step, Client B does not
 
-Each of these changes means: modify code, build, run tests, deploy, and hope nothing broke.
+Each of these changes means: modify code, build, run tests, deploy and hope nothing broke.
 
 There is a better way: store the pipeline topology in the database.
 
@@ -282,7 +282,7 @@ public interface ChainStepRepository extends JpaRepository<ChainStep, Integer> {
 
 ## Assembly: the job definition
 
-Here is how the job is assembled. The job starts with `chainInformationStep`, then every transition goes through the decider. The decider returns the name of the next step, and Spring Batch's flow DSL matches it to the corresponding step bean via `StepEnum` constants.
+Here is how the job is assembled. The job starts with `chainInformationStep`, then every transition goes through the decider. The decider returns the name of the next step and Spring Batch's flow DSL matches it to the corresponding step bean via `StepEnum` constants.
 
 ```java
 @Configuration
@@ -419,7 +419,7 @@ sequenceDiagram
 
 ## The REST API: managing configurations
 
-The real power becomes visible when you add a CRUD API. Chain configurations can be created, read, updated, and invoked without touching the application.
+The real power becomes visible when you add a CRUD API. Chain configurations can be created, read, updated and invoked without touching the application.
 
 ### DTOs
 

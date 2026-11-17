@@ -155,7 +155,7 @@ public boolean hasKeywordsByGetItem(String subreddit, String id) {
 
 ### Using `Query` with `FilterExpression`
 
-The `Query` approach remains useful when you need to retrieve a set of items sharing the same partition key and then refine the results server-side. DynamoDB first reads all items matching the partition/sort key condition, consumes RCUs for each of them, and only then applies the filter in memory. Items discarded by the filter are still billed.
+The `Query` approach remains useful when you need to retrieve a set of items sharing the same partition key and then refine the results server-side. DynamoDB first reads all items matching the partition/sort key condition, consumes RCUs for each of them and only then applies the filter in memory. Items discarded by the filter are still billed.
 
 ```java
 public boolean hasKeywords(String subreddit, String id) {
@@ -178,7 +178,7 @@ public boolean hasKeywords(String subreddit, String id) {
 }
 ```
 
-`GetItem` should be preferred for single-item checks: it is simpler, avoids query parsing overhead, and makes the intent explicit.
+`GetItem` should be preferred for single-item checks: it is simpler, avoids query parsing overhead and makes the intent explicit.
 
 ## Performance summary
 

@@ -84,7 +84,7 @@ public boolean check(List<String> list, Collection<String> collection) {
 As we saw, `contains` and `containsAll` implementations are not suitable for every collection size.
 
 A better solution is to leverage a more suitable data structure: `HashSet`.
-It is based on a hash table to provide consistent average-time performance for basic operations such as adding, deleting, and searching.
+It is based on a hash table to provide consistent average-time performance for basic operations such as adding, deleting and searching.
 
 #### Using a HashSet
 
