@@ -4,9 +4,10 @@ import markdownLinkCheck from "markdown-link-check";
 
 const CONTENT_DIR = path.resolve("src/content");
 const EXTENSIONS = new Set([".md", ".mdx"]);
-// Statuses where the check could not conclude (bot blocking, rate limiting).
-// Reported as neutral: they do not fail the run.
-const NEUTRAL_STATUS_CODES = new Set([403]);
+// Statuses where the check could not conclude (bot blocking, rate limiting,
+// transient GitHub outages). Reported as neutral: they do not fail the run,
+// while a real 404 still does.
+const NEUTRAL_STATUS_CODES = new Set([403, 429, 503]);
 
 function collectMarkdownFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });

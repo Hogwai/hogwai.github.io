@@ -10,11 +10,11 @@ draft: false
 Regular expressions are a powerful tool in every Java developer's toolkit. They allow us to validate input, parse strings and perform complex text transformations with just a few lines of code.
 However, this power comes with a hidden performance cost if not used correctly.
 
-The key to unlocking efficient regex in Java lies in understanding the `java.util.regex.Pattern` class. In this post, we'll explore the best practices for using `Pattern`, how to avoid common performance pitfalls, and why you should be wary of the "convenient" regex methods on the `String` class.
+The key to unlocking efficient regex in Java lies in understanding the `java.util.regex.Pattern` class. In this post, we'll explore the best practices for using `Pattern`, how to avoid common performance pitfalls and why you should be wary of the "convenient" regex methods on the `String` class.
 
 ## The golden rule: compile once, use many times
 
-The most important concept to grasp is that compiling a regular expression is an expensive operation. When you call `Pattern.compile()`, Java takes your regex string, parses it, and builds an internal representation (often a finite automaton) that it can use for matching. This process consumes CPU cycles.
+The most important concept to grasp is that compiling a regular expression is an expensive operation. When you call `Pattern.compile()`, Java takes your regex string, parses it and builds an internal representation (often a finite automaton) that it can use for matching. This process consumes CPU cycles.
 
 The `Pattern` object itself is an immutable, compiled representation of your regex. It is thread-safe and can be reused indefinitely. The `Matcher`, on the other hand, is a stateful engine that performs the actual match operation on a given input string.
 
@@ -564,7 +564,7 @@ PathMatcher matcher = FileSystems.getDefault()
 
 ### When to choose what
 
-- Use glob when filtering files, directories, or paths, it's the idiomatic Java API, simpler, and harder to get wrong.
+- Use glob when filtering files, directories, or paths, it's the idiomatic Java API, simpler and harder to get wrong.
 - Use regex with `PathMatcher` when you need the extra performance, or when you already have a regex pattern.
 - Use `java.util.regex.Pattern` when you need text validation, extraction, complex conditions, or lookahead/lookbehind outside of file matching.
 
@@ -590,7 +590,7 @@ By making these small changes, you ensure your regular expressions are not only 
 
 ## References
 
-- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 - <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 - <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 - <a id="fn4"></a>[JDK-6328855: Pattern.matches() performance issues with exponential runtime](https://bugs.openjdk.org/browse/JDK-6328855)

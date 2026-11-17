@@ -579,7 +579,7 @@ En appliquant ces quelques ajustements, vous vous assurez que vos expressions r�
 
 ## Références
 
-- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops, and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
+- <a id="fn1"></a>[Demystifying Java Object Sizes: Compact Headers, Compressed Oops and Beyond](https://blog.vanillajava.blog/2024/12/demystifying-java-object-sizes-compact.html) by Peter Lawrey
 - <a id="fn2"></a>[String.matches(String regex)](<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#matches(java.lang.String)>)
 - <a id="fn3"></a>[RegExUtils.java](https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/RegExUtils.java)
 - <a id="fn4"></a>[JDK-6328855 : problèmes de performance de Pattern.matches() avec un temps d'exécution exponentiel](https://bugs.openjdk.org/browse/JDK-6328855)

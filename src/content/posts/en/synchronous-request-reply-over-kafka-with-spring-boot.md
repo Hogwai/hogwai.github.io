@@ -9,9 +9,9 @@ draft: false
 
 ## Some context
 
-Kafka is fundamentally asynchronous. Producers publish messages to topics, consumers read them at their own pace, and no one waits for anyone.
+Kafka is fundamentally asynchronous. Producers publish messages to topics, consumers read them at their own pace and no one waits for anyone.
 
-But real-world workflows often break this model. Consider a service that receives a document processing request via REST, needs to hand it off to a remote worker over Kafka, and must block until the result comes back. Or an orchestration engine where step A triggers step B and waits for confirmation before proceeding. Or a legacy system integration where the calling code expects a blocking RPC-style API.
+But real-world workflows often break this model. Consider a service that receives a document processing request via REST, needs to hand it off to a remote worker over Kafka and must block until the result comes back. Or an orchestration engine where step A triggers step B and waits for confirmation before proceeding. Or a legacy system integration where the calling code expects a blocking RPC-style API.
 
 In all these cases, we need synchronous-looking request/reply semantics on top of an asynchronous transport. Kafka itself does not provide this out of the box, Spring Kafka does, through the `ReplyingKafkaTemplate`. Before we look at that, let us understand what it takes to build it manually.
 
@@ -23,7 +23,7 @@ A synchronous request/reply has three requirements that Kafka's pub/sub model do
 
 - Timeout handling: The caller expects an answer within a bounded time. If the remote service is down or slow, the caller must not block indefinitely.
 
-- Concurrent request management: If ten callers each send a request simultaneously, none of their results should be mixed up, and a slow response for one must not block another.
+- Concurrent request management: If ten callers each send a request simultaneously, none of their results should be mixed up and a slow response for one must not block another.
 
 These three problems, correlation, timeout, concurrency, are the ones we need to solve.
 
@@ -135,7 +135,7 @@ private void sendResponse(ConsumerRecord<String, Request> record, Response respo
 
 The key insight is the `REPLY_TOPIC` header check. When the request was sent via `ReplyingKafkaTemplate`, the template automatically adds this header (and a `CORRELATION_ID`). When it was sent via the custom approach, no such headers exist, so the processor falls back to the fixed `sync-results` topic.
 
-On failure, the processor sends the original request to a DLQ so it is not lost, and returns a `FAILURE` response immediately. This prevents the sender from timing out and wondering what happened.
+On failure, the processor sends the original request to a DLQ so it is not lost and returns a `FAILURE` response immediately. This prevents the sender from timing out and wondering what happened.
 
 ## Approach 1: custom with CompletableFuture
 
@@ -301,7 +301,7 @@ Use ReplyingKafkaTemplate when:
 
 ## A word of caution
 
-These patterns circumvent Kafka's core design principles. Kafka is built for asynchronous, fire-and-forget messaging at scale. Every synchronous request/reply call holds a thread waiting for a response. If you have hundreds or thousands of concurrent requests, that means hundreds or thousands of threads blocked on futures. This can lead to CPU starvation, thread pool exhaustion, and a Kafka cluster that is spending more time managing reply topics than processing actual work.
+These patterns circumvent Kafka's core design principles. Kafka is built for asynchronous, fire-and-forget messaging at scale. Every synchronous request/reply call holds a thread waiting for a response. If you have hundreds or thousands of concurrent requests, that means hundreds or thousands of threads blocked on futures. This can lead to CPU starvation, thread pool exhaustion and a Kafka cluster that is spending more time managing reply topics than processing actual work.
 
 Use these patterns sparingly and only where the business logic genuinely requires a synchronous handshake. For most use cases, a fully asynchronous design with event-driven coordination is a better fit for the architecture.
 

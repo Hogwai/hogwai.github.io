@@ -1,6 +1,6 @@
 ---
 title: "Husky: fix pre-commit hook broken after npm install from WSL"
-description: "Why a clean npm install from WSL breaks Git for Windows pre-commit hooks, and how to restore the .bin shims."
+description: "Why a clean npm install from WSL breaks Git for Windows pre-commit hooks and how to restore the .bin shims."
 pubDate: 2026-07-20
 tags: ["husky", "wsl", "windows", "npm", "git", "lint-staged"]
 draft: true
@@ -10,7 +10,7 @@ A `rm -rf node_modules && npm install` from WSL breaks husky pre-commit hooks wh
 
 ## Cause
 
-npm on Windows creates shim files in `node_modules/.bin/`: a shell script, a `.cmd` batch file, and a `.ps1` PowerShell script for each binary. npm on WSL creates POSIX symlinks only.
+npm on Windows creates shim files in `node_modules/.bin/`: a shell script, a `.cmd` batch file and a `.ps1` PowerShell script for each binary. npm on WSL creates POSIX symlinks only.
 
 The hook runs via Git Bash. lint-staged spawns `prettier`, `eslint`, etc. from `.bin/`. If the entries are WSL symlinks, Windows cannot follow them.
 

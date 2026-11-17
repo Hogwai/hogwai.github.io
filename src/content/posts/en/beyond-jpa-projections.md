@@ -34,7 +34,7 @@ This post tours six alternatives:
 ## The model
 
 Every project uses the same data model.
-`movies` and `actors` hold the data, and `movies_actors` is the many-to-many join table:
+`movies` and `actors` hold the data and `movies_actors` is the many-to-many join table:
 
 ```sql
 CREATE TABLE IF NOT EXISTS movies (
@@ -83,7 +83,7 @@ Those records back four queries:
 Spring Data JDBC keeps the repository programming model of Spring Data but drops the persistence context. There is no first-level cache, no dirty checking and no lazy loading.
 An aggregate is loaded as a whole or not at all, which makes the mapping simpler to reason about.
 
-The `CrudRepository` handles the entity, and the projections are raw SQL behind `@Query`:
+The `CrudRepository` handles the entity and the projections are raw SQL behind `@Query`:
 
 ```java
 public interface MovieRepository extends CrudRepository<Movie, Long> {
@@ -122,7 +122,7 @@ public MovieWithActorsDto getWithActors(Long id) {
 
 **What is nice**: we keep the Spring Data repository conventions (derived queries, pagination, `CrudRepository` methods) without Hibernate underneath. Records map by constructor, so a projection is just a record and a SQL statement. There is no proxy indirection when we read the result.
 
-**What hurts**: two-query assembly is manual, and because aggregates load as a unit, we cannot treat a collection as a lazy association. Column name mapping still depends on the naming strategy (`release_year` to `releaseYear`) and `@Query` SQL is a string with no compile-time checking.
+**What hurts**: two-query assembly is manual and because aggregates load as a unit, we cannot treat a collection as a lazy association. Column name mapping still depends on the naming strategy (`release_year` to `releaseYear`) and `@Query` SQL is a string with no compile-time checking.
 
 **When to use**: read-heavy services that want Spring Data ergonomics but have no use for a JPA persistence context.
 
@@ -211,7 +211,7 @@ ResultSetExtractor<MovieWithActorsDto> extractor = rs -> {
 
 **What is nice**: total control. Any SQL feature works, including database-specific syntax, window functions and CTEs. There is no mapping framework to learn and no hidden query rewriting. For one-off reports or legacy schemas, that directness is a virtue.
 
-**What hurts**: every DTO needs a mapper, dynamic SQL is string assembly, and nested results need a hand-written extractor. Nothing is checked at compile time, and a renamed column breaks at runtime.
+**What hurts**: every DTO needs a mapper, dynamic SQL is string assembly and nested results need a hand-written extractor. Nothing is checked at compile time and a renamed column breaks at runtime.
 
 **When to use**: ad-hoc reporting, legacy databases or any place where the SQL is genuinely unusual and a framework would only get in the way.
 
@@ -276,7 +276,7 @@ The demo uses JDBI 3.47.0. The `jdbi3-spring` integration supplies `@JdbiReposit
 
 ## jOOQ
 
-jOOQ is a type-safe SQL DSL. The usual workflow generates Java from the schema, emits tables, fields and records, and then we write queries against them.
+jOOQ is a type-safe SQL DSL. The usual workflow generates Java from the schema, emits tables, fields and records and then we write queries against them.
 The demo ships two variants of that idea. The first is self-contained and skips code generation: the tables and columns are declared by hand as `Table<?>` and `Field<?>` constants.
 
 ```java
@@ -287,7 +287,7 @@ private static final Field<Integer> MOVIE_RELEASE_YEAR = field("movies.release_y
 private static final Field<String> MOVIE_GENRE = field("movies.genre", String.class);
 ```
 
-A projection selects the columns, aliases them to the record component names, and maps the row straight into the DTO:
+A projection selects the columns, aliases them to the record component names and maps the row straight into the DTO:
 
 ```java
 public MovieTitleDto findTitleById(Long id) {
@@ -306,7 +306,7 @@ Hand-declared fields keep the project self-contained, but they give up part of t
 
 ### jOOQ with code generation
 
-The second variant is the real-world setup. `jooq-codegen-maven` with `jooq-meta-extensions` generates the schema classes at build time, and `DDLDatabase` parses `../schema.sql` directly, so the build needs no live database:
+The second variant is the real-world setup. `jooq-codegen-maven` with `jooq-meta-extensions` generates the schema classes at build time and `DDLDatabase` parses `../schema.sql` directly, so the build needs no live database:
 
 ```xml
 <plugin>
@@ -361,7 +361,7 @@ public MovieTitleDto findTitleById(Long id) {
 }
 ```
 
-**What is nice**: whichever model we pick, queries read like SQL and compose well. Aliasing a column to a record component is enough to map it, and `fetchOneInto` and `fetchInto` remove the row-mapper layer entirely. Dynamic filter lists are natural, and code generation turns the schema into compiler-checked tables and fields.
+**What is nice**: whichever model we pick, queries read like SQL and compose well. Aliasing a column to a record component is enough to map it and `fetchOneInto` and `fetchInto` remove the row-mapper layer entirely. Dynamic filter lists are natural and code generation turns the schema into compiler-checked tables and fields.
 
 **What hurts**: code generation is the real-world setup, so it adds a build-time step and requires regeneration on every schema change. The hand-written variant avoids that step, but its schema model is maintained by hand and only weakly checked by the compiler.
 
@@ -385,7 +385,7 @@ public class QMovie extends RelationalPathBase<QMovie> {
 }
 ```
 
-Projections are `ConstructorExpression` objects built with `Projections.constructor`, which binds typed paths to a DTO constructor, and the query is a fluent chain:
+Projections are `ConstructorExpression` objects built with `Projections.constructor`, which binds typed paths to a DTO constructor and the query is a fluent chain:
 
 ```java
 public static final ConstructorExpression<MovieTitleDto> MOVIE_TITLE_PROJECTION =
@@ -434,7 +434,7 @@ The generated variant uses the QueryDSL Maven plugin from the OpenFeign fork. Th
 </plugin>
 ```
 
-The plugin reads JDBC metadata from an in-memory H2 database in PostgreSQL mode, and `INIT=RUNSCRIPT` loads the shared `../schema.sql`, so the build needs no external database. `schemaPattern=PUBLIC` keeps `INFORMATION_SCHEMA` out of the generated set. The Q-classes land in `com.hogwai.querydslcodegenprojections.generated`, and `build-helper-maven-plugin` adds the output to the source roots. The plugin's default naming does not singularize, so the table names keep their plural form: `QMovies`, `QActors` and `QMoviesActors`.
+The plugin reads JDBC metadata from an in-memory H2 database in PostgreSQL mode and `INIT=RUNSCRIPT` loads the shared `../schema.sql`, so the build needs no external database. `schemaPattern=PUBLIC` keeps `INFORMATION_SCHEMA` out of the generated set. The Q-classes land in `com.hogwai.querydslcodegenprojections.generated` and `build-helper-maven-plugin` adds the output to the source roots. The plugin's default naming does not singularize, so the table names keep their plural form: `QMovies`, `QActors` and `QMoviesActors`.
 
 The repository now uses the generated `QMovies` and `QActors` with `Projections.constructor`:
 
@@ -466,7 +466,7 @@ public SQLQueryFactory queryFactory(DataSource dataSource) {
 
 The demo uses the [OpenFeign fork of QueryDSL 7.1](https://github.com/OpenFeign/querydsl) rather than the original [querydsl](https://github.com/querydsl/querydsl) artifacts.
 
-**What is nice**: the typed paths make joins and predicates readable, and `Projections.constructor` maps straight into records. Two-query assembly for the nested actors looks exactly like the jOOQ version with typed joins instead of string fields. Code generation derives the paths and column metadata from the schema instead of asking us to write them.
+**What is nice**: the typed paths make joins and predicates readable and `Projections.constructor` maps straight into records. Two-query assembly for the nested actors looks exactly like the jOOQ version with typed joins instead of string fields. Code generation derives the paths and column metadata from the schema instead of asking us to write them.
 
 **What hurts**: we need Q-classes. Generated Q-classes are the normal path and add a build plugin, while the hand-written variant removes the build step but means the compiler no longer checks the schema for us. Dynamic queries mutate the builder, which is workable but less tidy than jOOQ's filter list. And the fork situation is a real adoption question.
 
@@ -474,7 +474,7 @@ The demo uses the [OpenFeign fork of QueryDSL 7.1](https://github.com/OpenFeign/
 
 ## Blaze-Persistence
 
-Blaze-Persistence is the one option here that keeps JPA. It adds entity views, an interface layer over real entities, and fetches only the mapped attributes. If we already have a JPA model and do not want to migrate away from it, this is the path that stays put.
+Blaze-Persistence is the one option here that keeps JPA. It adds entity views, an interface layer over real entities and fetches only the mapped attributes. If we already have a JPA model and do not want to migrate away from it, this is the path that stays put.
 
 An entity view is an interface annotated with `@EntityView`. It looks like a JPA projection but it runs on top of the entity model and can fetch nested associations in one query:
 
@@ -570,15 +570,15 @@ return entityManager.createQuery(
 
 The demo uses Blaze-Persistence 1.6.20.
 
-**What is nice**: we keep our entities and our existing JPA setup. Entity views declare exactly which attributes to fetch, nested associations can be fetched without N+1 by design, and there is Spring Data integration for repository-style usage. Dynamic filtering reuses the JPA criteria API we may already know.
+**What is nice**: we keep our entities and our existing JPA setup. Entity views declare exactly which attributes to fetch, nested associations can be fetched without N+1 by design and there is Spring Data integration for repository-style usage. Dynamic filtering reuses the JPA criteria API we may already know.
 
-**What hurts**: it is an extra abstraction and an extra integration layer. We have to match Blaze-Persistence versions to our Hibernate, Spring Data, and Spring versions and the demo pins specific integrations for that reason. Entities still exist and still need managing. Aggregations and anything outside the view shape fall back to JPQL.
+**What hurts**: it is an extra abstraction and an extra integration layer. We have to match Blaze-Persistence versions to our Hibernate, Spring Data and Spring versions and the demo pins specific integrations for that reason. Entities still exist and still need managing. Aggregations and anything outside the view shape fall back to JPQL.
 
 **When to use**: existing JPA applications that want projection control without leaving the entity model, particularly when nested fetches are the main pain point.
 
 ## Choosing between them
 
-The table below summarises the trade-offs. Type safety depends on the variant: both jOOQ and QueryDSL SQL ship in two demo variants, a hand-written schema model, which reads medium, and a generated one, which reads high.
+The table below summarises the trade-offs. Type safety depends on the variant: both jOOQ and QueryDSL SQL ship in two demo variants, a hand-written schema model, which reads medium and a generated one, which reads high.
 
 | Library           | Type safety       | Mapping boilerplate | Dynamic queries           | Requires entities | Setup friction |
 | ----------------- | ----------------- | ------------------- | ------------------------- | ----------------- | -------------- |

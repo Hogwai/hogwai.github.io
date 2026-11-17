@@ -24,7 +24,7 @@ GET /api/movies?genre=Sci-Fi
 [{"id": 1, "title": "The Matrix"}, {"id": 2, "title": "Inception"}]
 ```
 
-Here are the entities behind this endpoint. `Movie` has an id, title, release year, genre, and a many-to-many relationship to `Actor` through a join table `movies_actors`:
+Here are the entities behind this endpoint. `Movie` has an id, title, release year, genre and a many-to-many relationship to `Actor` through a join table `movies_actors`:
 
 ```java
 @Entity

@@ -11,7 +11,7 @@ Les streams sont la manière par défaut d'exprimer la logique de collection en 
 `anyMatch`, `allMatch`, `noneMatch`, `filter(...).findFirst()` et `filter(...).count()` se lisent presque comme la phrase qu'ils implémentent et font le travail en une seule passe.
 Mais cette lisibilité cache un coût : chacun de ces appels construit un petit graphe d'objets avant de toucher le moindre élément et il construit ce graphe que la collection contienne 100 000 éléments ou aucun.
 
-Don Raab a décrit le problème dans son article Medium ["Allocation Hungry Any/All/None, FindFirst, and Count Methods on Java Stream"](https://donraab.medium.com/allocation-hungry-any-all-none-findfirst-and-count-methods-on-java-stream-e3ca6d66b265)<sup><a href="#fn1">[1]</a></sup>.
+Don Raab a décrit le problème dans son article Medium ["Allocation Hungry Any/All/None, FindFirst and Count Methods on Java Stream"](https://donraab.medium.com/allocation-hungry-any-all-none-findfirst-and-count-methods-on-java-stream-e3ca6d66b265)<sup><a href="#fn1">[1]</a></sup>.
 L'affirmation est simple : la machinerie des streams alloue à chaque appel, alors qu'une boucle `for` équivalente ou une utilisation de la librairie `eclipse-collections`<sup><a href="#fn2">[2]</a></sup> reste libre de toute allocation.
 
 Cet article pose des chiffres sur cette affirmation.
@@ -421,7 +421,7 @@ Dans une boucle serrée, dans un callback par élément ou sur une grande collec
 
 ## Références
 
-- <a id="fn1"></a>[Allocation Hungry Any/All/None, FindFirst, and Count Methods on Java Stream](https://donraab.medium.com/allocation-hungry-any-all-none-findfirst-and-count-methods-on-java-stream-e3ca6d66b265?sk=84629376cedf192618276bfc6668e97a), Don Raab
+- <a id="fn1"></a>[Allocation Hungry Any/All/None, FindFirst and Count Methods on Java Stream](https://donraab.medium.com/allocation-hungry-any-all-none-findfirst-and-count-methods-on-java-stream-e3ca6d66b265?sk=84629376cedf192618276bfc6668e97a), Don Raab
 - <a id="fn2"></a>[Eclipse Collections](https://github.com/eclipse-collections/eclipse-collections)
 - <a id="fn3"></a>[Faster Empty Streams](https://www.javaspecialists.eu/archive/Issue295-Faster-Empty-Streams.html), Heinz Kabutz
 - <a id="fn4"></a>[Collection.java: default spliterator()](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/util/Collection.java#L728)
