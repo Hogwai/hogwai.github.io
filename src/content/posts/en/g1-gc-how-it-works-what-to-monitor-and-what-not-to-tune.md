@@ -401,9 +401,6 @@ JDK 25 provides everything needed to diagnose GC behaviour without guessing: uni
 
 ---
 
-See the [project README][g1-demo] for the full documentation.
-
-[g1-demo]: https://github.com/Hogwai/hogwai.github.io-content/tree/main/g1-gc-observability
 [oracle-tuning]: https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-g1-garbage-collector1.html
 [oracle-overview]: https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-garbage-collector-tuning.html
 [oracle-java-cmd]: https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html
